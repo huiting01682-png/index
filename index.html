@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>腦中風 PAC 衛教</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#245F94">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="PAC 衛教">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>:root{color-scheme:light;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>
+/* 版面概念：手機單欄 App——上方固定列（名稱＋字級）、中間內容、下方四個分頁；長輩可讀的大字與大按鍵 */
+:root{
+  --bg:#EEF3F8; --surface:#FFFFFF; --surface-2:#F4F8FB;
+  --ink:#1B2559; --text:#27324A; --muted:#556178; --line:#D3DFEA;
+  --primary:#245F94; --on-primary:#FFFFFF; --primary-soft:#E1EDF8;
+  --ok:#0B7A57; --ok-soft:#DCF2E9;
+  --alert:#B92335; --alert-soft:#FDECEE; --alert-line:#F0B5BC;
+  --speak:#FFF1C2; --weak:#C9590F; --pic-soft:#CFE3F3;
+  --tile-ink:#14213D;
+  --tile-blue:#7FB3D9; --tile-teal:#7ECBC4; --tile-green:#86C5A0; --tile-orange:#EFA97A;
+  --tile-pink:#E793A0; --tile-purple:#B49AD1; --tile-sky:#9CC9E8;
+  --shadow:0 1px 2px rgba(27,37,89,.06),0 6px 18px rgba(27,37,89,.06);
+  --font:"PingFang TC","Microsoft JhengHei","Noto Sans TC","Heiti TC",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1626; --surface:#17223A; --surface-2:#1D2A45;
+    --ink:#EDF3FB; --text:#D6DFEC; --muted:#A3B2C9; --line:#2D3D5C;
+    --primary:#86BDEA; --on-primary:#0E1626; --primary-soft:#1F3352;
+    --ok:#5FD0A6; --ok-soft:#153A31;
+    --alert:#FF9AA5; --alert-soft:#3A1920; --alert-line:#6E2B36;
+    --speak:#4B4012; --weak:#F5A462; --pic-soft:#2A4467;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1626; --surface:#17223A; --surface-2:#1D2A45;
+  --ink:#EDF3FB; --text:#D6DFEC; --muted:#A3B2C9; --line:#2D3D5C;
+  --primary:#86BDEA; --on-primary:#0E1626; --primary-soft:#1F3352;
+  --ok:#5FD0A6; --ok-soft:#153A31;
+  --alert:#FF9AA5; --alert-soft:#3A1920; --alert-line:#6E2B36;
+  --speak:#4B4012; --weak:#F5A462; --pic-soft:#2A4467;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25);
+  color-scheme:dark;
+}
+html{font-size:18px}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:1rem;line-height:1.75;-webkit-text-size-adjust:100%}
+*{box-sizing:border-box}
+button,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--primary);outline-offset:2px;border-radius:6px}
+h1,h2,h3{color:var(--ink);line-height:1.35;margin:0;text-wrap:balance}
+p{margin:0}
+ul{margin:0;padding-left:1.3em}
+li+li{margin-top:.35em}
+a{color:var(--primary)}
+svg.i{width:1.5em;height:1.5em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+.app{max-width:640px;margin-inline:auto}
+
+/* 上方固定列（字級固定，不隨放大而擠壓） */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line);
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;padding:10px 16px}
+.brand{font-size:18px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px;min-width:0}
+.chip{font-size:16px;font-weight:600;color:var(--primary);background:var(--primary-soft);border-radius:999px;padding:0 10px;line-height:1.6;white-space:nowrap}
+.fs{display:flex;align-items:center;gap:6px;font-size:16px}
+.fs span{color:var(--muted)}
+.fs button{min-width:44px;min-height:40px;padding:0 8px;border:1px solid var(--line);background:var(--surface);border-radius:10px;font-size:16px}
+.fs button[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:var(--on-primary);font-weight:700}
+
+main{padding-inline:16px;padding-block:20px calc(110px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:20px;min-width:0}
+main > *{min-width:0}
+
+/* 下方分頁 */
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom,0px)}
+.tabs div{max-width:640px;margin-inline:auto;display:grid;grid-template-columns:repeat(4,1fr)}
+.tabs button{border:0;background:none;padding:8px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:2px;
+  font-size:min(.9rem,20px);color:var(--muted);min-height:64px}
+.tabs button[aria-current="page"]{color:var(--primary);font-weight:700}
+.tabs button[aria-current="page"] svg{stroke-width:2.4}
+
+/* 首頁 */
+.intro h1{font-size:1.55rem}
+.intro .chip{display:inline-block;margin-bottom:8px}
+.intro p{margin-top:8px;color:var(--muted)}
+.today{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--primary);color:var(--on-primary);
+  border:0;border-radius:16px;padding:16px;box-shadow:var(--shadow)}
+.today b{display:block;font-size:1.1rem}
+.today .meter{flex:1;min-width:0}
+.track{height:10px;border-radius:999px;background:color-mix(in srgb,var(--on-primary) 28%,transparent);margin-top:8px;overflow:hidden}
+.track i{display:block;height:100%;background:var(--on-primary);border-radius:999px}
+.sec-h{font-size:1.15rem;margin-bottom:10px}
+.list{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.unit{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;width:100%;text-align:left;
+  background:none;border:0;border-top:1px solid var(--line);padding:14px}
+.unit:first-child{border-top:0}
+.unit:active{background:var(--surface-2)}
+.tile{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;color:var(--tile-ink)}
+.tile svg{width:28px;height:28px}
+.t-blue{background:var(--tile-blue)}.t-teal{background:var(--tile-teal)}.t-green{background:var(--tile-green)}
+.t-orange{background:var(--tile-orange)}.t-pink{background:var(--tile-pink)}.t-purple{background:var(--tile-purple)}.t-sky{background:var(--tile-sky)}
+.unit b{display:block;color:var(--ink);font-size:1.05rem;line-height:1.4}
+.unit small{display:block;color:var(--muted);font-size:.9rem;line-height:1.5;margin-top:2px}
+.unit .go{color:var(--muted)}
+
+/* 警訊區 */
+.sos{background:var(--alert-soft);border:1px solid var(--alert-line);border-radius:16px;padding:16px}
+.sos h2,.sos h3{color:var(--alert);font-size:1.15rem;display:flex;align-items:center;gap:8px}
+.sos ol{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.sos ol li{margin:0;background:var(--surface);border-radius:12px;padding:10px 14px;display:grid;grid-template-columns:3.4rem minmax(0,1fr);gap:12px;align-items:center}
+.sos ol b{display:block;color:var(--ink);font-size:1.1rem}
+.sos ol span{display:block;line-height:1.5;color:var(--text)}
+.sos .call{margin-top:12px;font-weight:700;color:var(--ink)}
+.sos .call em{font-style:normal;color:var(--alert);font-size:1.5rem;font-variant-numeric:tabular-nums;padding-inline:4px}
+
+.about{color:var(--muted);font-size:.9rem;display:flex;flex-direction:column;gap:8px}
+.about h2{font-size:1rem;color:var(--ink)}
+.about ul{display:flex;flex-direction:column;gap:4px}
+.about li+li{margin-top:0}
+
+/* 文章 */
+.back{align-self:flex-start;border:0;background:none;color:var(--primary);font-weight:600;padding:6px 0;min-height:44px;display:flex;align-items:center;gap:4px}
+.art-h{display:flex;flex-direction:column;gap:6px}
+.art-h h1{font-size:1.5rem}
+.art-h p{color:var(--muted);font-size:.9rem}
+.speakbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px}
+.btn{border:1px solid var(--primary);background:var(--primary);color:var(--on-primary);font-weight:700;border-radius:12px;
+  min-height:52px;padding:0 18px;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn.ghost{background:var(--surface);color:var(--primary)}
+.btn[disabled]{opacity:.45;cursor:default}
+.speakbar label{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.9rem}
+.speakbar select{min-height:44px;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:0 10px;font-size:1rem;color:var(--text)}
+.speakbar .note{flex-basis:100%;color:var(--muted);font-size:.9rem}
+.article{display:flex;flex-direction:column;gap:14px;max-width:34em}
+.article h2{font-size:1.2rem;margin-top:10px;padding-top:14px;border-top:1px solid var(--line)}
+.article h2:first-child{margin-top:0;padding-top:0;border-top:0}
+.article .speaking{background:var(--speak);border-radius:6px;box-shadow:0 0 0 6px var(--speak)}
+.key{background:var(--primary-soft);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.key h3{font-size:1.05rem}
+.warn{background:var(--alert-soft);border:1px solid var(--alert-line);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.warn h3{font-size:1.05rem;color:var(--alert)}
+dl.modes{margin:0;display:flex;flex-direction:column;gap:10px}
+dl.modes div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+dl.modes dt{font-weight:700;color:var(--ink)}
+dl.modes dd{margin:2px 0 0}
+
+/* PAC 期程圖：0–12 週，同一比例尺 */
+.weeks{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 16px 12px}
+.weeks .cap{font-weight:700;color:var(--ink);font-size:1rem;margin-bottom:12px}
+.weeks .scale{position:relative;height:22px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);overflow:hidden}
+.weeks .scale i{position:absolute;top:0;bottom:0}
+.weeks .scale .base{left:0;width:50%;background:var(--primary)}
+.weeks .scale .ext{left:50%;width:50%;background:repeating-linear-gradient(135deg,var(--tile-teal) 0 8px,transparent 8px 14px)}
+.weeks .ticks{position:relative;height:3.6em;margin-top:6px;font-size:.9rem;line-height:1.3;font-variant-numeric:tabular-nums}
+.weeks .ticks span{position:absolute;top:0;transform:translateX(-50%);text-align:center;color:var(--text);white-space:nowrap}
+.weeks .ticks span::before{content:"";display:block;width:2px;height:8px;background:var(--muted);margin:0 auto 2px}
+.weeks .ticks span:first-child{transform:none}
+.weeks .ticks span:first-child::before{margin-left:0}
+.weeks .ticks span:last-child{transform:translateX(-100%)}
+.weeks .ticks span:last-child::before{margin-right:0}
+.weeks .legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.9rem;color:var(--text)}
+.weeks .legend span{display:flex;align-items:center;gap:8px}
+.weeks .legend i{width:22px;height:12px;border-radius:4px;flex:none}
+.weeks .legend .l1{background:var(--primary)}
+.weeks .legend .l2{background:repeating-linear-gradient(135deg,var(--tile-teal) 0 5px,transparent 5px 9px);border:1px solid var(--line)}
+
+/* 圖解：象形圖一律用主題色，橘色只代表「無力的那一側」 */
+svg.pg{display:block;width:100%;max-width:5.6rem;height:auto;margin-inline:auto;fill:none;stroke:var(--ink);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+svg.pg .f{fill:var(--ink);stroke:none}
+svg.pg .w{stroke:var(--weak)}
+svg.pg .wf{fill:var(--weak);stroke:none}
+svg.pg .s{stroke:var(--muted);stroke-width:2.5}
+svg.pg .sf{fill:var(--pic-soft);stroke:none}
+svg.pg .g{stroke:var(--ok)}
+svg.pg .r{stroke:var(--alert)}
+svg.pg .p{stroke:var(--primary)}
+svg.pg text{fill:var(--ink);stroke:none;font-size:7.5px;font-weight:700;font-family:var(--font)}
+.pics{display:grid;gap:8px}
+.pics.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.pics.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.pics.c4{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:560px){.pics.c4{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.pics.flow{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:4px}
+.pics.flow > svg.i{color:var(--muted);width:1.1em;height:1.1em}
+.pic{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 6px;display:flex;flex-direction:column;gap:6px;align-items:center;text-align:center;height:100%}
+.pic figcaption{display:flex;flex-direction:column;line-height:1.4;text-wrap:balance}
+.pic b{color:var(--ink);font-size:.95rem}
+.pic span{font-size:.9rem;color:var(--text)}
+.pic.ok{border:2px solid var(--ok)}
+.pic.ok b{color:var(--ok)}
+.pic.no{border:2px solid var(--alert)}
+.pic.no b{color:var(--alert)}
+.fig{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px}
+.fig svg.pg{max-width:22rem;stroke-width:2.2}
+.fig svg.pg .s{stroke-width:1.4}
+.fig figcaption{text-align:center;font-size:.9rem;color:var(--text);margin-top:6px}
+dl.modes dt{display:flex;align-items:center;gap:10px}
+dl.modes dt svg.pg{width:2.6rem;margin:0;flex:none}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+.pager{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+
+/* 清單 */
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:6px}
+.seg button{border:0;background:none;border-radius:10px;min-height:48px;color:var(--muted);font-weight:600}
+.seg button[aria-pressed="true"]{background:var(--primary);color:var(--on-primary)}
+.prog{display:flex;flex-direction:column;gap:8px}
+.prog .row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.prog b{color:var(--ink);font-size:1.15rem;font-variant-numeric:tabular-nums}
+.prog .line{height:12px;border-radius:999px;background:var(--line);overflow:hidden}
+.prog .line i{display:block;height:100%;background:var(--ok);border-radius:999px;transition:width .25s}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{margin:0;border-top:1px solid var(--line)}
+.checks li:first-child{border-top:0}
+.checks label{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center;padding:14px;min-height:60px;cursor:pointer}
+.checks input{appearance:none;-webkit-appearance:none;width:32px;height:32px;border:2px solid var(--muted);border-radius:9px;background:var(--surface);margin:0;display:grid;place-items:center;cursor:pointer}
+.checks input:checked{background:var(--ok);border-color:var(--ok)}
+.checks input:checked::after{content:"";width:9px;height:16px;border:solid var(--surface);border-width:0 3px 3px 0;transform:rotate(45deg) translate(-1px,-2px)}
+.checks input:checked + span{color:var(--muted)}
+.hint{color:var(--muted);font-size:.9rem}
+
+/* 測驗 */
+.quiz{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:16px}
+.quiz .no{color:var(--muted);font-size:.9rem;font-variant-numeric:tabular-nums}
+.quiz .q{font-size:1.2rem;font-weight:700;color:var(--ink);line-height:1.5}
+.ans{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ans button{min-height:64px;border-radius:14px;border:2px solid var(--line);background:var(--surface);font-size:1.15rem;font-weight:700;color:var(--ink)}
+.ans button.pick{border-color:var(--primary);background:var(--primary-soft)}
+.ans button[disabled]{cursor:default}
+.fb{border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.fb.right{background:var(--ok-soft)}
+.fb.wrong{background:var(--primary-soft)}
+.fb b{color:var(--ink)}
+.score{font-size:2.4rem;font-weight:800;color:var(--ink);line-height:1.1;font-variant-numeric:tabular-nums}
+.score small{font-size:1.1rem;font-weight:600;color:var(--muted)}
+.review{display:flex;flex-direction:column;gap:10px}
+.review div{border-top:1px solid var(--line);padding-top:10px}
+.linkbtn{border:0;background:none;color:var(--primary);font-weight:600;padding:6px 0;text-decoration:underline;text-align:left}
+
+@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* 多語言版調整 */
+:root{--font:"PingFang TC","Microsoft JhengHei","Noto Sans TC","Heiti TC","Leelawadee UI","Thonburi","Noto Sans Thai",system-ui,-apple-system,"Segoe UI",sans-serif}
+html:lang(th) body{line-height:1.9}
+.bar{flex-wrap:nowrap}
+.brand{display:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (min-width:560px){.brand{display:block}}
+.lang{display:flex;align-items:center;gap:6px;color:var(--muted);min-width:0}
+.lang select{min-height:40px;min-width:0;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);font-size:16px;padding:0 8px}
+.fs{flex:none}
+.fs button{display:grid;place-items:center;min-width:42px;padding:0 6px}
+.fs button span{color:inherit;line-height:1;font-weight:700}
+.eyebrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:8px;font-weight:700;color:var(--primary)}
+.intro .eyebrow .chip{display:inline-block;margin-bottom:0}
+.unit b,.unit small,.pic b,.pic span,.checks span,.quiz .q{overflow-wrap:anywhere}
+.pic .num{font-style:normal;display:inline-grid;place-items:center;width:1.5em;height:1.5em;border-radius:50%;background:var(--primary);color:var(--on-primary);margin-right:.35em;font-size:.9em;line-height:1}
+.pic.step b{display:flex;flex-direction:column;align-items:center;gap:4px}
+.pic.step .num{margin-right:0}
+.weeks .ticks{height:1.9em}
+.weeks .legend .l3{width:2px;height:12px;background:var(--muted);border-radius:0;margin-inline:10px}
+.tabs button span{text-align:center;line-height:1.25;overflow-wrap:anywhere}
+.seg button{padding:8px 6px;line-height:1.3}
+.today b{overflow-wrap:anywhere}
+.ans button{padding:8px 6px;line-height:1.3}
+.btn{padding:8px 14px;line-height:1.3;text-align:center}
+.pager .btn{min-width:0;overflow-wrap:anywhere}
+.pics.flow{gap:2px}
+.pics.flow .pic{padding:8px 4px}
+.pics.flow .pic b{font-size:.9rem}
+.pics.flow > svg.i{width:.9em;height:.9em}
+.pic b,.pic span{hyphens:auto}
+.pics.flow .pic b{font-size:16px}
+/* 英文、印尼文單字較長：手機上三欄圖卡改為一列一張（圖左字右） */
+@media (max-width:559px){
+  html:lang(en) .pics.c3,html:lang(id) .pics.c3{grid-template-columns:minmax(0,1fr)}
+  html:lang(en) .pics.c3 .pic,html:lang(id) .pics.c3 .pic{flex-direction:row;align-items:center;text-align:left;gap:14px;padding:10px 14px}
+  html:lang(en) .pics.c3 .pic svg.pg,html:lang(id) .pics.c3 .pic svg.pg{width:3.6rem;margin:0;flex:none}
+  html:lang(en) .pics.c3 .pic figcaption,html:lang(id) .pics.c3 .pic figcaption{min-width:0}
+  html:lang(en) .pics.c3 .pic.step b,html:lang(id) .pics.c3 .pic.step b{flex-direction:row;gap:8px}
+}
+
+.sos a.tel{text-decoration:none}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="bar">
+    <div class="brand" id="brand"></div>
+    <label class="lang" for="lang"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg><select id="lang"></select></label>
+    <div class="fs" role="group" id="fs">
+      <button type="button" id="fs-s" data-fs="s"><span style="font-size:14px"></span></button>
+      <button type="button" id="fs-m" data-fs="m"><span style="font-size:18px"></span></button>
+      <button type="button" id="fs-l" data-fs="l"><span style="font-size:22px"></span></button>
+    </div>
+  </header>
+  <main id="view"></main>
+  <nav class="tabs" id="nav"><div id="tabs"></div></nav>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- 圖示 ---------- */
+var ICON={
+  home:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
+  book:'<path d="M2 5h7a3 3 0 013 3v12a2 2 0 00-2-2H2z"/><path d="M22 5h-7a3 3 0 00-3 3v12a2 2 0 012-2h8z"/>',
+  check:'<path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h9"/>',
+  quiz:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 115 0c0 1.7-2.5 2-2.5 4"/><path d="M12 17h.01"/>',
+  cal:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  gym:'<path d="M6 8v8M18 8v8M3 10v4M21 10v4M6 12h12"/>',
+  bowl:'<path d="M4 11h16a8 8 0 01-16 0z"/><path d="M9 4c0 1.5 1.5 1.5 1.5 3M14 4c0 1.5 1.5 1.5 1.5 3"/>',
+  shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  heart:'<path d="M12 20s-7-4.5-7-10a4 4 0 017-2.5A4 4 0 0119 10c0 5.5-7 10-7 10z"/>',
+  chat:'<path d="M4 5h16v11H9l-5 4z"/>',
+  alert:'<path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18h.01"/>',
+  play:'<path d="M7 5l12 7-12 7z"/>',
+  stop:'<rect x="6" y="6" width="12" height="12" rx="1"/>',
+  right:'<path d="M9 6l6 6-6 6"/>',
+  left:'<path d="M15 6l-6 6 6 6"/>'
+};
+function ic(n){return '<svg class="i" viewBox="0 0 24 24" aria-hidden="true">'+ICON[n]+'</svg>';}
+
+
+/* ---------- 象形圖（64 格） ---------- */
+var SEAT='<path class="s" d="M15 22v32M15 44h22v10"/><circle class="f" cx="24" cy="13" r="5"/><path d="M24 20v20h18v14"/>';
+var CAL='<rect x="10" y="14" width="44" height="40" rx="4"/><path d="M10 26h44M21 9v9M43 9v9"/>';
+var BUBBLE='<path d="M10 12h44v28H30L18 52V40h-8z"/>';
+var PIC={
+  bed:'<path class="s" d="M8 28v26M8 44h48v10"/><rect class="sf" x="24" y="33" width="30" height="10" rx="4"/><circle class="f" cx="17" cy="37" r="5"/><path class="p" d="M46 10v12M40 16h12"/>',
+  walkerFig:'<circle class="f" cx="24" cy="12" r="5"/><path d="M24 19l1 19-5 16M24 25l14 7"/><path class="w" d="M25 38l5 16"/><path class="s" d="M38 32v22M38 32l10 2 2 20M38 44h11"/>',
+  house:'<path d="M8 30L32 10l24 20"/><path d="M14 27v27h36V27"/><path d="M27 54V40h10v14"/>',
+  hospital:'<rect x="14" y="14" width="36" height="40" rx="3"/><path class="p" d="M32 21v12M26 27h12"/><path d="M27 54V43h10v11"/>',
+  sun:'<circle cx="32" cy="32" r="9"/><path d="M32 10v6M32 48v6M10 32h6M48 32h6M16.500 16.500l4.200 4.200M43.300 43.300l4.200 4.200M16.500 47.500l4.200-4.200M43.300 20.700l4.200-4.200"/>',
+  visit:'<path d="M8 30L32 10l24 20"/><path d="M14 27v27h36V27"/><circle class="f" cx="32" cy="34" r="4"/><path d="M32 40v9M26 44h12"/>',
+  pt:'<path class="s" d="M10 32h44M13 32v22M51 32v22"/><circle class="f" cx="32" cy="11" r="5"/><path d="M32 18v19l-6 17M32 23l-10 9M32 23l10 9"/><path class="w" d="M32 37l6 17"/>',
+  ot:'<path d="M23 12l-11 7 5 9 5-3v27h20V25l5 3 5-9-11-7c-2 5-16 5-18 0z"/><circle class="f" cx="32" cy="29" r="1.8"/><circle class="f" cx="32" cy="37" r="1.8"/><circle class="f" cx="32" cy="45" r="1.8"/>',
+  st:BUBBLE+'<path class="p" d="M20 22h24M20 30h16"/>',
+  armOk:SEAT+'<rect class="sf" x="28" y="31" width="17" height="7" rx="3.5"/><path class="w" d="M24 24l7 6h10"/>',
+  armNo:SEAT+'<path class="w" d="M24 24l14-9"/><path class="r" d="M43 12l12-7M55 5h-6M55 5l-2.500 5.500"/>',
+  eatOk:SEAT+'<path class="s" d="M38 33h20M54 33v21"/><path class="p" d="M43 26h12a6 6 0 01-12 0z"/><path d="M24 24l8 6 8-4"/>',
+  eatNo:'<path class="s" d="M6 50h52M8 50v7M56 50v7"/><rect class="sf" x="6" y="38" width="16" height="8" rx="4"/><circle class="f" cx="16" cy="33" r="5"/><path d="M22 40l16 5h18M26 41l5-7"/><path class="p" d="M27 26h12a6 6 0 01-12 0z"/>',
+  clock:'<circle cx="32" cy="32" r="20"/><path d="M32 20v12l8 6"/>',
+  brush:'<path d="M10 50l26-20 14-11"/><path class="p" d="M38 22l5 7M43 18l5 7M48 14l5 7"/>',
+  cheek:'<circle cx="32" cy="32" r="20"/><circle class="f" cx="25" cy="27" r="2"/><circle class="f" cx="39" cy="27" r="2"/><path d="M25 41q7 4 14 0"/><circle class="wf" cx="43" cy="37" r="5" opacity=".6"/>',
+  step1:'<path class="s" d="M6 28v28M6 46h52v10"/><circle class="f" cx="20" cy="15" r="5"/><path d="M20 22l2 20h28M20 27l9 10"/>',
+  step2:'<path class="s" d="M6 44h32v12M8 44v12"/><circle class="f" cx="30" cy="13" r="5"/><path d="M30 20v20h14v14M30 25l-6 14"/>',
+  step3:'<path class="s" d="M6 44h24v12M8 44v12"/><circle class="f" cx="42" cy="10" r="5"/><path d="M42 17v20l-4 17M42 37l4 17M42 22l-9 12"/>',
+  rail:'<path class="s" d="M8 16h48"/><path d="M18 16v16M46 16v16"/><path class="p" d="M10 34h44" stroke-width="6"/><path class="s" d="M27 48v-9M32 48v-9M37 48v-9"/>',
+  mat:'<rect x="8" y="22" width="48" height="26" rx="5"/><path class="p" d="M17 31h30M17 39h30" stroke-dasharray="0 10"/>',
+  lamp:'<path d="M22 28a10 10 0 1120 0c0 5-4 6-4 11H26c0-5-4-6-4-11z"/><path d="M27 45h10M29 51h6"/><path class="p" d="M32 6v4M10 26h4M50 26h4M15 11l3 3M49 11l-3 3"/>',
+  path:'<path class="s" d="M14 54L24 12M50 54L40 12"/><path class="g" d="M32 48V22M25 29l7-8 7 8"/>',
+  cal7:CAL+'<path class="p" d="M18 35h28M18 44h19" stroke-dasharray="0 9.330"/>',
+  sunmoon:'<circle cx="20" cy="26" r="6"/><path d="M20 12v4M20 36v4M6 26h4M30 26h4M10 16l3 3M27 33l3 3M10 36l3-3M27 19l3-3"/><g class="p" transform="translate(34 24) scale(1.2)" stroke-width="2.9"><path d="M21 12.790A9 9 0 1111.210 3 7 7 0 0021 12.790z"/></g>',
+  bp:'<rect x="8" y="16" width="36" height="32" rx="4"/><path class="p" d="M14 33h5l3-7 5 13 3-6h8"/><path class="s" d="M44 32h5c5 0 7 4 7 9v7"/>',
+  face:'<circle cx="32" cy="32" r="21"/><circle class="f" cx="24" cy="27" r="2.2"/><circle class="f" cx="40" cy="27" r="2.2"/><path d="M21 39q6 6 12 3"/><path class="w" d="M33 42q5-2 10 3"/>',
+  arms:'<circle class="f" cx="32" cy="11" r="5"/><path d="M32 18v22l-6 16M32 40l6 16M32 24H12"/><path class="w" d="M32 24l13 13"/>',
+  speak:BUBBLE+'<path class="w" d="M19 27q3-6 6 0t6 0 6 0 6 0"/>',
+  nosmoke:'<rect x="14" y="29" width="28" height="7" rx="2"/><path d="M47 29v7"/><path class="s" d="M46 23c0-4-4-4-4-8"/><circle class="r" cx="32" cy="32" r="23"/><path class="r" d="M15.700 15.700l32.600 32.600"/>',
+  salt:'<path d="M24 24h16l3 30H21z"/><path d="M24 24a8 8 0 0116 0"/><path class="p" d="M29 18h.01M35 18h.01M32 13h.01"/>',
+  leaf:'<path class="g" d="M14 50C14 28 28 14 50 14c0 22-14 36-36 36zM14 50l24-24"/>',
+  walk:'<circle class="f" cx="34" cy="10" r="5"/><path d="M33 17l-2 19 8 18M31 36l-8 18M33 22l-9 8M33 22l9 7"/>',
+  pills:'<g transform="rotate(-30 26 30)"><rect x="9" y="22" width="34" height="16" rx="8"/><path d="M26 22v16"/></g><circle class="p" cx="46" cy="46" r="9"/><path class="p" d="M40 46h12"/>',
+  calcheck:CAL+'<path class="g" d="M22 40l7 7 13-13"/>',
+  talk:'<circle class="f" cx="16" cy="34" r="6"/><path d="M5 56a11 11 0 0122 0"/><circle class="f" cx="48" cy="34" r="6"/><path d="M37 56a11 11 0 0122 0"/><path class="p" d="M20 8h24v14H34l-4 5v-5H20z"/>',
+  card:'<rect x="10" y="14" width="44" height="36" rx="4"/><circle class="p" cx="23" cy="26" r="4"/><path class="p" d="M12 46l12-11 8 7 7-6 13 11"/>',
+  cup:'<path d="M14 26h28v12a12 12 0 01-12 12h-4a12 12 0 01-12-12z"/><path d="M42 30h4a5 5 0 010 10h-4"/><path class="s" d="M22 18c0-3 3-3 3-6M32 18c0-3 3-3 3-6M10 56h36"/>',
+  phone:'<g transform="translate(6 6) scale(2.17)" stroke-width="1.6"><path d="M22 16.900v3a2 2 0 01-2.200 2 19.800 19.800 0 01-8.600-3.100 19.500 19.500 0 01-6-6A19.800 19.800 0 012.100 4.200 2 2 0 014.100 2h3a2 2 0 012 1.700c.100 1 .400 1.900.700 2.800a2 2 0 01-.500 2.100L8.100 9.900a16 16 0 006 6l1.300-1.300a2 2 0 012.100-.400c.900.300 1.800.600 2.800.700a2 2 0 011.700 2z"/></g>',
+  walker:'<path d="M18 56V24a8 8 0 018-8h12a8 8 0 018 8v32"/><path class="s" d="M18 36h28"/><path class="p" d="M14 56h8M42 56h8"/>',
+  wheelchair:'<circle cx="28" cy="40" r="14"/><circle class="f" cx="28" cy="40" r="2"/><path d="M24 12l3 22h18l5 16h6M16 12h8"/><circle class="s" cx="47" cy="56" r="3"/>',
+  cane:'<path d="M32 46V14a6 6 0 0112 0"/><path d="M22 46h20M22 46l-2 10M42 46l2 10M32 46v10"/>'
+};
+
+
+/* ---------- 語言包（由 pack-*.json 組入） ---------- */
+var PACKS={"zh":{"code":"zh","name":"中文","htmlLang":"zh-Hant","speech":"zh-TW","locale":"zh-TW","glyph":"字","rangeWord":" 到 ","say":[["119","一一九"],["1966","一九六六"],["722","七二二"]],"ui":{"brand":"腦中風 PAC 衛教","trial":"試用版","tabHome":"首頁","tabLearn":"衛教","tabCheck":"清單","tabQuiz":"測驗","homeTitle":"中風後的黃金復健期","homeIntro":"給病人和家屬的急性後期照護衛教。每篇約 3 分鐘，可以用看的，也可以用聽的。","todayTitle":"今日照護清單","todayDone":"已完成 {n} / {m} 項","unitsHeading":"衛教單元","aboutTitle":"關於這份衛教","about":["這是試用版，內容上線前須由醫療團隊審閱。","內容是一般性說明，每位病人的情況不同，請以主治醫師和照護團隊的指示為準。","勾選紀錄只存在這支裝置，不會上傳，也不會記錄姓名或病歷資料。"],"sourcesLabel":"參考來源：","src1":"健保署急性後期整合照護計畫","src2":"國民健康署腦中風衛教","learnTitle":"衛教單元","learnIntro":"共 {n} 篇，想看哪一篇就點哪一篇。","back":"全部單元","unitMeta":"第 {i} 篇，共 {n} 篇","speak":"朗讀本篇","stop":"停止朗讀","rate":"朗讀速度","rateNormal":"正常","rateSlow":"慢速","noSpeech":"這個瀏覽器不支援語音朗讀，請改用閱讀的方式。","speechFail":"這台裝置目前無法朗讀，請改用閱讀的方式。","noVoice":"這台裝置沒有中文語音，請改用閱讀的方式。","prev":"上一篇","next":"下一篇","toQuiz":"做小測驗","checkTitle":"照護清單","listDaily":"每日照護","listReady":"出院準備","progDone":"已完成 {n} / {m}","dailyHint":"{date}，每天重新計算","readyHint":"準備好一項就勾一項","clearAll":"全部取消勾選","privacy":"勾選紀錄只存在這支裝置，不會上傳，也不會記錄姓名或病歷資料。","quizTitle":"小測驗","quizIntro":"共 {n} 題是非題，看看重點記住了多少。","quizNo":"第 {i} 題，共 {n} 題","yes":"對","no":"不對","markOk":"○","right":"答對了。","correctIs":"正確答案是「{a}」。","nextQ":"下一題","seeResult":"看結果","resultTitle":"測驗結果","scoreOf":"/ {n} 題答對","reviewTitle":"可以再看一次的內容","correctAnswer":"正確答案：{a}。","readUnit":"閱讀「{t}」","allRight":"全部答對。這些重點請繼續用在每天的照護裡。","retry":"再測一次","weakNote":"圖中橘色代表無力的那一側。","fontAria":"字級","fontS":"標準字","fontM":"大字","fontL":"特大字","langAria":"語言","listAria":"清單種類","navAria":"主選單"},"sos":{"title":"再中風的警訊","items":[["微笑","嘴角歪斜、臉兩邊不對稱"],["舉手","雙手平舉，一隻手無力下垂"],["說你好","說話不清楚、講不出來"]],"call":"出現任何一項，立刻撥 {n}，並記下發作時間。"},"caps":{"journey":[["急性治療",""],["PAC 復健",""],["回家",""]],"team":[["物理治療","走路與平衡"],["職能治療","日常活動"],["語言治療","說話與吞嚥"]],"arm":[["這樣做","用枕頭托住手臂"],["不要這樣","拉無力的手臂"]],"eat":[["這樣做","坐直，小口慢慢吃"],["不要這樣","躺著吃"]],"after":[["坐 30 分鐘","吃完不馬上躺"],["清潔口腔","每餐飯後"],["檢查臉頰","有沒有殘留"]],"steps":[["床上坐","30 秒"],["床邊坐","30 秒"],["站穩","30 秒再走"]],"safe":[["扶手","浴室、馬桶旁"],["防滑墊","浴室地面"],["小夜燈","晚上留一盞"],["走道淨空","收起雜物電線"]],"three":[["按時服藥",""],["每天量血壓",""],["按時回診",""]],"bp722":[["7 天","連續量"],["2 次","早晚各一次"],["2 遍","每次量兩遍"]],"life":[["不吸菸",""],["少鹽少油",""],["多吃蔬菜",""],["持續活動",""]],"talk":[["面對面","慢慢說、句子短"],["圖片和手勢","幫助表達"]],"rest":[["固定休息","照顧者也要吃飯、睡覺"],["撥 1966","詢問喘息服務"]],"devices":[["助行器",""],["輪椅",""],["四腳拐",""]],"angle":{"cap":"灌食時和灌食後，床頭抬高 30–45 度","aria":"灌食時床頭抬高 30 到 45 度"},"weeks":{"cap":"PAC 照護期程（週）","legend":["原則 3–6 週","評估後可延長一次，最長 12 週","每 3 週評估一次"],"aria":"PAC 照護期程：原則 3 到 6 週，可延長一次最長到 12 週，每 3 週評估一次"}},"units":[{"title":"認識 PAC 急性後期照護","desc":"什麼是 PAC、誰可以參加、照護多久","body":[{"t":"h","x":"什麼是急性後期照護"},{"t":"p","x":"中風的急性治療結束、病情穩定之後，有一段身體功能恢復比較快的時間。健保的「急性後期整合照護計畫」簡稱 PAC，就是在這段時間由跨專業團隊安排密集復健，幫助病人恢復生活自理能力，順利回家。"},{"t":"fig","id":"journey"},{"t":"h","x":"誰可以參加"},{"t":"p","x":"是否適合參加，由醫療團隊評估。主要條件如下："},{"t":"ul","x":["急性腦中風發病後 1 個月內。特殊情況可放寬到 40 天內。","中風後有中度到中重度的功能障礙。","病情已經穩定 72 小時以上。","有復健潛能：能配合學習、在支撐下可以坐滿 1 小時、願意主動參與復健。"]},{"t":"h","x":"照護多久"},{"t":"p","x":"原則上是 3–6 週。團隊評估後如果還有需要，可以延長一次，最長到 12 週。期間每 3 週評估一次進步情形。"},{"t":"fig","id":"weeks"},{"t":"h","x":"三種照護模式"},{"t":"modes","x":[{"dt":"住院模式","dd":"住在醫院接受復健。高強度每天治療 3–5 次，一般強度每天 1–2 次。"},{"dt":"日間照護模式","dd":"白天到醫院復健，時間大約是上午 9 點到下午 5 點，每天治療 2–4 次，晚上回家休息。"},{"dt":"居家模式","dd":"沒辦法住院、日間照護或到門診復健的病人，由治療師到家裡治療。每次 30–50 分鐘，每週 1–6 次。"}]},{"t":"p","x":"每家醫院提供的模式不同，請向 PAC 個案管理師確認。"},{"t":"h","x":"什麼時候結束"},{"t":"ul","x":["功能明顯進步，可以回家自己復健。","連續 2 次評估沒有進步。","病情變化，需要先接受其他治療。","已達 12 週上限。"]},{"t":"key","h":"家屬可以做的事","ul":["參加團隊的說明與討論，了解復健目標。","跟著治療師和護理師學照顧技巧。","及早和團隊討論出院後的安排。"]}]},{"title":"復健怎麼做","desc":"團隊成員、家屬怎麼幫忙、什麼時候要停下來","body":[{"t":"h","x":"復健團隊在做什麼"},{"t":"ul","x":["物理治療：練習翻身、坐、站、走路和平衡。","職能治療：練習手的動作，以及穿衣、吃飯、上廁所等日常活動。","語言治療：練習說話、理解，以及吞嚥。"]},{"t":"fig","id":"team"},{"t":"p","x":"團隊裡還有醫師、護理師、營養師、藥師和社工師，有問題都可以提出來。"},{"t":"h","x":"病房裡的每一刻都是復健"},{"t":"p","x":"治療師教的動作，要用在每天的生活裡。病人自己做得到的事，例如洗臉、穿衣、吃飯，請讓他自己做。家屬在旁邊看著、必要時協助，不要全部代勞。"},{"t":"h","x":"保護無力的那一側"},{"t":"ul","x":["扶病人起身或移動時，不要拉無力那一側的手臂，以免肩膀受傷。","躺著或坐著時，用枕頭把無力的手臂托好。","長時間臥床時，大約每 2 小時協助翻身一次。"]},{"t":"fig","id":"arm"},{"t":"weak"},{"t":"warn","h":"出現這些情形，請先停下來並告訴醫護人員","ul":["頭暈、臉色蒼白、冒冷汗","胸悶、呼吸很喘","突然劇烈頭痛","手腳比平常更無力，或說話突然變得不清楚"]},{"t":"key","h":"進步有快有慢","p":"每個人恢復的速度不同。團隊每 3 週會評估一次，並依結果調整復健內容。持續練習比一次練很多更重要。"}]},{"title":"吞嚥與飲食安全","desc":"嗆咳的警訊、安全進食的方法","body":[{"t":"h","x":"為什麼要注意吞嚥"},{"t":"p","x":"中風後常見吞嚥變差。食物或水如果嗆進氣管，可能造成吸入性肺炎。有些病人嗆到時不會咳嗽，所以要靠家屬一起觀察。"},{"t":"warn","h":"吞嚥有問題的警訊","ul":["吃東西或喝水時咳嗽、嗆到","吃完後聲音變得濕濕的、有痰音","食物含在嘴裡吞不下去，或從嘴角流出來","吃一餐要花很久的時間","反覆發燒、痰變多"],"p":"出現這些情形，請告訴護理師或語言治療師。"},{"t":"h","x":"安全進食的方法"},{"t":"fig","id":"eat"},{"t":"ul","x":["病人完全清醒時才進食。","坐直再吃，姿勢依語言治療師教的方式調整。","小口慢慢吃，確定吞乾淨了再吃下一口。","餵食時，食物從有力的那一側放進嘴裡。","吃飯時專心，不邊吃邊說話。","吃完後至少坐 30 分鐘再躺下。","餐後清潔口腔，並檢查無力那一側的臉頰內有沒有食物殘留。"]},{"t":"fig","id":"after"},{"t":"h","x":"食物的軟硬與濃稠度"},{"t":"p","x":"食物要切多細、水要不要加增稠劑，請依語言治療師和營養師的建議，不要自己更改。"},{"t":"key","h":"使用鼻胃管的病人","ul":["灌食前先確認管子的位置和刻度。","灌食時把床頭抬高 30–45 度。","灌食後維持同樣姿勢至少 30 分鐘到 1 小時。"],"figBottom":"angle"}]},{"title":"預防跌倒","desc":"下床三步驟、病房與居家的安全重點","body":[{"t":"h","x":"中風後為什麼容易跌倒"},{"t":"p","x":"一側手腳無力、平衡變差、頭暈、急著上廁所，都會增加跌倒的機會。跌倒可能造成骨折或頭部受傷，讓復健中斷。"},{"t":"key","h":"下床三步驟","figTop":"steps","ul":["先在床上坐起來，坐 30 秒。","把腳放下，在床邊再坐 30 秒。","站起來，站穩 30 秒，沒有頭暈再開始走。"]},{"t":"h","x":"住院期間"},{"t":"ul","x":["下床和上廁所都要有人陪。需要幫忙請按呼叫鈴，不要勉強自己來。","床欄拉起，床的高度調到最低，床輪固定。","常用的物品放在有力那一側、伸手拿得到的地方。","穿合腳的防滑鞋，不穿拖鞋。褲子不要太長。","地板濕了請通知工作人員。"]},{"t":"h","x":"坐輪椅與移位"},{"t":"ul","x":["上下輪椅前，先把兩邊的煞車固定，腳踏板收起來。","移位的方法請照治療師教的步驟做。"]},{"t":"h","x":"回家以後"},{"t":"ul","x":["浴室和馬桶旁加裝扶手，地上鋪防滑墊。","走道上的雜物、電線、小地毯收起來。","晚上留一盞小燈。"]},{"t":"fig","id":"safe"},{"t":"warn","h":"萬一跌倒了","ul":["不要急著把病人拉起來，先看他是否清醒、哪裡痛。","住院中請立刻按呼叫鈴。","在家如果撞到頭、痛到不能動，或意識不清楚，請撥 119。"]}]},{"title":"預防再次中風","desc":"按時服藥、量血壓、認識再中風警訊","body":[{"t":"h","x":"中風過的人，要預防再發生"},{"t":"p","x":"中風過的人，再次中風的機會比一般人高。把血壓、血糖、血脂控制好，可以降低機會。"},{"t":"fig","id":"three"},{"t":"h","x":"按時服藥"},{"t":"ul","x":["預防血栓的藥，以及控制血壓、血糖、血脂的藥，都要照醫師指示每天服用。","不要因為覺得好多了就自己停藥或減藥。","如果有不容易止住的出血、解黑便或血便，請儘快告訴醫師。"]},{"t":"key","h":"量血壓「722」","figTop":"bp722","ul":["7：連續量 7 天。","2：早上起床後、晚上睡覺前各量一次。","2：每次量兩遍。"],"p":"把數字記下來，回診時帶給醫師看。血壓的目標值依醫師指示。"},{"t":"h","x":"生活習慣"},{"t":"fig","id":"life"},{"t":"ul","x":["不吸菸，少喝酒。","飲食少油、少糖、少鹽，多吃蔬菜和高纖食物。","依治療師的建議持續活動。","如果覺得心跳不規則、心悸或胸悶，請告訴醫師。","按時回診。"]},{"t":"sos"},{"t":"ul","x":["不要自己開車或騎車去醫院。","等救護車時，不要餵病人吃東西、喝水或吃藥。","不要等症狀自己好。"]}]},{"title":"情緒與溝通","desc":"中風後的情緒變化、怎麼和病人說話、照顧者的休息","body":[{"t":"h","x":"中風後的情緒變化"},{"t":"p","x":"中風後心情低落、容易哭或發脾氣，是常見的情形，和腦部受傷與生活突然改變都有關係，不是病人不夠堅強。"},{"t":"warn","h":"這些情形持續兩週以上，請告訴醫療團隊","ul":["整天悶悶不樂，對什麼事都沒興趣","不想復健、不想說話","睡不好或吃不下","常說自己拖累家人"],"p":"情緒問題可以治療，也會影響復健成果，值得提出來討論。"},{"t":"h","x":"和說話有困難的病人溝通"},{"t":"fig","id":"talk"},{"t":"ul","x":["面對面說話，速度放慢，句子短一點。","一次只說一件事。","多用可以回答「是」或「不是」的問題。","搭配手勢、圖片或實物。","給病人時間回答，不要急著替他說完。","用對大人說話的方式，不要當成小孩。"]},{"t":"h","x":"照顧者也要照顧自己"},{"t":"ul","x":["家人輪流照顧，不要一個人全部承擔。","照顧者要有固定的休息和吃飯時間。","覺得撐不住時，可以找護理師或社工師談。"]},{"t":"fig","id":"rest"},{"t":"key","h":"長照專線 1966","p":"撥 1966 可以詢問喘息服務、居家服務等長期照顧資源。"}]},{"title":"出院返家準備","desc":"出院前要學會的事、居家環境、長照資源","body":[{"t":"h","x":"出院前要學會的事"},{"t":"ul","x":["安全地幫病人翻身、上下床和上下輪椅。","餵食或鼻胃管灌食的方法。","每一種藥的作用和服用時間。","在家要繼續做的復健動作。","如果有管路，例如鼻胃管或尿管，要學會照護方法。"]},{"t":"p","x":"沒把握的地方，出院前請護理師或治療師再教一次，並實際操作給他們看。"},{"t":"h","x":"居家環境"},{"t":"ul","x":["床的高度要方便上下，床邊留輪椅可以靠近的空間。","浴室和馬桶旁加裝扶手，地面防滑。","走道保持寬敞，收起雜物和電線。"]},{"t":"fig","id":"safe"},{"t":"h","x":"輔具"},{"t":"fig","id":"devices"},{"t":"p","x":"需要哪一種輔具，例如助行器、輪椅或便盆椅，請先問治療師再準備。輔具補助可以向各縣市長期照顧管理中心詢問。"},{"t":"h","x":"長照資源"},{"t":"p","x":"住院期間就可以請出院準備服務的護理師協助轉介長照評估，也可以自己撥 1966。服務包括居家服務、居家復能、交通接送和喘息服務等。"},{"t":"key","h":"出院後","figTop":"three","ul":["記下回診日期和科別。","按時服藥，每天量血壓。","持續復健，不要中斷。"]},{"t":"warn","h":"出現這些情形，請立刻就醫","ul":["再中風的警訊：嘴歪、單側手腳無力、說話不清楚，請撥 119","發燒、咳嗽、痰變多","意識不清楚，或叫不太醒","跌倒受傷","抽搐"]}]}],"daily":["今天的復健課都有參加","自己做得到的事自己做（洗臉、穿衣、吃飯）","吃飯時坐直、小口慢吃，吃完坐 30 分鐘","餐後清潔口腔，檢查有沒有食物殘留","下床前先坐 30 秒、站 30 秒，並有人陪","臥床時約每 2 小時翻身，無力的手臂有枕頭托著","今天的藥都按時吃了","量血壓並記錄","今天有和病人聊天、鼓勵他","照顧者自己有休息和吃飯"],"ready":["會安全地協助上下床、上下輪椅","會餵食或鼻胃管灌食","知道每種藥的作用和服用時間","會做居家復健動作","已依治療師建議準備輔具","家裡已加裝扶手、鋪防滑墊、收好雜物","已撥 1966 或請護理師轉介長照評估","知道回診日期和科別","知道再中風的警訊和什麼時候要撥 119","家裡有血壓計，並且會記錄"],"quiz":[{"q":"中風病情穩定後，及早開始復健，比較有機會恢復功能。","why":"病情穩定後的這段時間恢復較快，PAC 就是在這段時間安排密集復健。"},{"q":"為了讓病人多休息，穿衣、吃飯最好都由家屬代勞。","why":"病人自己做得到的事請讓他自己做，這也是復健的一部分。家屬在旁邊看著、必要時協助就好。"},{"q":"扶病人起身時，不可以拉他無力那一側的手臂。","why":"拉無力那一側的手臂容易讓肩膀受傷。"},{"q":"病人吃飯時偶爾咳一下沒關係，不用告訴醫護人員。","why":"吃東西或喝水時咳嗽是吞嚥有問題的警訊，請告訴護理師或語言治療師。"},{"q":"餵食時，食物要從病人有力的那一側放進嘴裡。","why":"從有力的那一側放入，比較容易咀嚼和吞嚥，也比較不會殘留。"},{"q":"半夜想上廁所，為了不吵醒家屬，病人可以自己慢慢走去。","why":"下床和上廁所都要有人陪。住院中請按呼叫鈴，不要勉強自己來。"},{"q":"血壓穩定、沒有不舒服，就可以自己把藥停掉。","why":"血壓穩定是因為有按時服藥。要不要調整藥物，請由醫師決定。"},{"q":"突然嘴歪、一隻手無力或說話不清楚，先休息觀察半天再說。","why":"這是再中風的警訊。出現任何一項請立刻撥 119，並記下發作時間。"},{"q":"PAC 照護期間，團隊每 3 週會評估一次進步情形。","why":"團隊在收案、每 3 週和結案時都會評估，並依結果調整復健內容。"},{"q":"照顧者也需要休息，可以撥 1966 詢問喘息服務。","why":"照顧是長期的事。1966 長照專線可以詢問喘息服務和居家服務等資源。"}]},"en":{"code":"en","name":"English","htmlLang":"en","speech":"en-US","locale":"en-GB","glyph":"A","rangeWord":" to ","say":[["119","one one nine"],["1966","one nine six six"],["722","seven two two"]],"ui":{"brand":"Stroke PAC Education","trial":"Trial version","tabHome":"Home","tabLearn":"Learn","tabCheck":"Checklist","tabQuiz":"Quiz","homeTitle":"The golden period for rehabilitation after a stroke","homeIntro":"Post-acute care education for patients and families. Each unit takes about 3 minutes. You can read it or listen to it.","todayTitle":"Today's care checklist","todayDone":"Done: {n} / {m} items","unitsHeading":"Education units","aboutTitle":"About this education material","about":["This is a trial version. The medical team must review the content before it goes online.","The content is general information. Every patient is different. Please follow the instructions of your attending doctor and care team.","Your check marks are saved only on this device. They are not uploaded, and no names or medical record data are recorded.","This translation is a draft and has not yet been reviewed by a native-speaking healthcare professional."],"sourcesLabel":"Sources: ","src1":"National Health Insurance Administration, Post-Acute Care (PAC) program","src2":"Health Promotion Administration, stroke education","learnTitle":"Education units","learnIntro":"{n} units in total. Tap any unit you want to read.","back":"All units","unitMeta":"Unit {i} of {n}","speak":"Read this unit aloud","stop":"Stop reading aloud","rate":"Reading speed","rateNormal":"Normal","rateSlow":"Slow","noSpeech":"This browser cannot read text aloud. Please read the text instead.","speechFail":"This device cannot read aloud right now. Please read the text instead.","noVoice":"This device has no English voice. Please read the text instead.","prev":"Previous","next":"Next","toQuiz":"Take the quiz","checkTitle":"Care checklists","listDaily":"Daily care","listReady":"Discharge preparation","progDone":"Done: {n} / {m}","dailyHint":"{date}. Starts again every day","readyHint":"Check each item when it is ready","clearAll":"Uncheck all","privacy":"Your check marks are saved only on this device. They are not uploaded, and no names or medical record data are recorded.","quizTitle":"Quiz","quizIntro":"{n} true-or-false questions. See how many key points you remember.","quizNo":"Question {i} of {n}","yes":"True","no":"False","markOk":"✓","right":"Correct.","correctIs":"The correct answer is \"{a}\".","nextQ":"Next question","seeResult":"See result","resultTitle":"Quiz result","scoreOf":"/ {n} correct","reviewTitle":"Content you can read again","correctAnswer":"Correct answer: {a}.","readUnit":"Read \"{t}\"","allRight":"All correct. Please keep using these key points in everyday care.","retry":"Try again","weakNote":"In the pictures, orange shows the weak side.","fontAria":"Text size","fontS":"Standard text","fontM":"Large text","fontL":"Extra large text","langAria":"Language","listAria":"Checklist type","navAria":"Main menu"},"sos":{"title":"Warning signs of another stroke","items":[["Smile","The mouth is crooked, or the two sides of the face do not match"],["Raise both arms","Hold both arms out straight. One arm is weak and drops"],["Say hello","Speech is unclear, or the words do not come out"]],"call":"If any one of these happens, call {n} right away and write down the time it started."},"caps":{"journey":[["Acute treatment",""],["PAC rehab",""],["Going home",""]],"team":[["Physical therapy","Walking and balance"],["Occupational therapy","Daily activities"],["Speech therapy","Speaking and swallowing"]],"arm":[["Do this","Support arm with a pillow"],["Do not do this","Pull the weak arm"]],"eat":[["Do this","Sit up. Small, slow bites"],["Do not do this","Eat lying down"]],"after":[["Sit 30 minutes","Do not lie down right away"],["Clean the mouth","After every meal"],["Check the cheeks","For leftover food"]],"steps":[["Sit up in bed","30 seconds"],["Sit on edge of bed","30 seconds"],["Stand steady","30 seconds, then walk"]],"safe":[["Grab bars","Bathroom, beside toilet"],["Non-slip mat","Bathroom floor"],["Night light","Leave one on at night"],["Clear walkways","Remove clutter and cords"]],"three":[["Medicine on time",""],["Blood pressure daily",""],["Follow-up visits",""]],"bp722":[["7 days","In a row"],["2 times a day","Morning and night"],["2 readings","Each time"]],"life":[["No smoking",""],["Less salt and oil",""],["More vegetables",""],["Keep active",""]],"talk":[["Face to face","Slow, short sentences"],["Pictures, gestures","Help to communicate"]],"rest":[["Regular rest","Caregivers eat, sleep too"],["Call 1966","Ask about respite care"]],"devices":[["Walker",""],["Wheelchair",""],["Quad cane",""]],"angle":{"cap":"During and after tube feeding, raise the head of the bed 30–45 degrees","aria":"During tube feeding, the head of the bed is raised 30 to 45 degrees"},"weeks":{"cap":"PAC care period (weeks)","legend":["As a rule, 3–6 weeks","Can be extended once after assessment, up to 12 weeks","Assessment every 3 weeks"],"aria":"PAC care period: as a rule 3 to 6 weeks, can be extended once up to 12 weeks, with an assessment every 3 weeks"}},"units":[{"title":"About PAC post-acute care","desc":"What PAC is, who can join, how long care lasts","body":[{"t":"h","x":"What is post-acute care"},{"t":"p","x":"After the acute treatment for a stroke ends and the patient's condition is stable, there is a period when body functions recover faster. The National Health Insurance (NHI) Post-Acute Care program is called PAC for short. During this period, a team of different professionals arranges intensive rehabilitation. This helps the patient regain the ability to take care of themselves in daily life and go home smoothly."},{"t":"fig","id":"journey"},{"t":"h","x":"Who can join"},{"t":"p","x":"The medical team assesses whether a patient is suitable. The main conditions are:"},{"t":"ul","x":["Within 1 month after an acute stroke. In special cases this can be extended to within 40 days.","After the stroke, the patient has moderate to moderately severe loss of function.","The patient's condition has been stable for 72 hours or more.","The patient has potential for rehabilitation: can cooperate and learn, can sit with support for a full 1 hour, and is willing to take an active part in rehabilitation."]},{"t":"h","x":"How long care lasts"},{"t":"p","x":"As a rule, it is 3–6 weeks. If the team's assessment shows there is still a need, it can be extended once, up to 12 weeks at most. During this time, progress is assessed every 3 weeks."},{"t":"fig","id":"weeks"},{"t":"h","x":"Three models of care"},{"t":"modes","x":[{"dt":"Inpatient model","dd":"The patient stays in the hospital for rehabilitation. High intensity: 3–5 therapy sessions a day. Regular intensity: 1–2 sessions a day."},{"dt":"Day care model","dd":"The patient comes to the hospital for rehabilitation in the daytime, from about 9 in the morning to 5 in the afternoon, with 2–4 therapy sessions a day. The patient goes home to rest at night."},{"dt":"Home model","dd":"For patients who cannot use inpatient care, day care or outpatient rehabilitation, a therapist comes to the home to give therapy. Each session is 30–50 minutes, 1–6 times a week."}]},{"t":"p","x":"Each hospital offers different models. Please check with the PAC case manager."},{"t":"h","x":"When it ends"},{"t":"ul","x":["Function has clearly improved, and the patient can go home and do rehabilitation on their own.","No progress in 2 assessments in a row.","The patient's condition changes, and other treatment is needed first.","The 12-week limit has been reached."]},{"t":"key","h":"What family members can do","ul":["Join the team's briefings and discussions to understand the rehabilitation goals.","Learn care skills from the therapists and nurses.","Talk with the team early about the plans after discharge."]}]},{"title":"How rehabilitation is done","desc":"The team members, how family can help, when to stop","body":[{"t":"h","x":"What the rehabilitation team does"},{"t":"ul","x":["Physical therapy: practice turning over, sitting, standing, walking and balance.","Occupational therapy: practice hand movements and daily activities such as dressing, eating and using the toilet.","Speech therapy: practice speaking, understanding and swallowing."]},{"t":"fig","id":"team"},{"t":"p","x":"The team also includes doctors, nurses, dietitians, pharmacists and social workers. You can bring any question to them."},{"t":"h","x":"Every moment in the ward is rehabilitation"},{"t":"p","x":"The movements the therapist teaches should be used in everyday life. Please let the patient do the things he or she can do alone, such as washing the face, dressing and eating. Family members stay close and watch, and help when needed. Do not do everything for the patient."},{"t":"h","x":"Protect the weak side"},{"t":"ul","x":["When you help the patient get up or move, do not pull the arm on the weak side, so that the shoulder is not injured.","When the patient is lying down or sitting, support the weak arm well with a pillow.","When the patient stays in bed for a long time, help the patient turn over about every 2 hours."]},{"t":"fig","id":"arm"},{"t":"weak"},{"t":"warn","h":"If any of these happen, stop first and tell the medical staff","ul":["Dizziness, pale face, cold sweat","Chest tightness, or very short of breath","Sudden severe headache","Arms or legs weaker than usual, or speech suddenly becomes unclear"]},{"t":"key","h":"Progress can be fast or slow","p":"Each person recovers at a different speed. The team assesses the patient every 3 weeks and adjusts the rehabilitation based on the results. Practicing regularly is more important than practicing a lot at one time."}]},{"title":"Swallowing and safe eating","desc":"Warning signs of choking, ways to eat safely","body":[{"t":"h","x":"Why swallowing needs attention"},{"t":"p","x":"Swallowing often becomes worse after a stroke. If food or water goes into the airway, it may cause aspiration pneumonia (a lung infection). Some patients do not cough when they choke, so family members need to help watch."},{"t":"warn","h":"Warning signs of a swallowing problem","ul":["Coughing or choking when eating or drinking water","After eating, the voice sounds wet, as if there is phlegm","Food stays in the mouth and cannot be swallowed, or leaks out from the corner of the mouth","A meal takes a very long time to finish","Fever again and again, or more phlegm"],"p":"If any of these happen, please tell the nurse or speech therapist."},{"t":"h","x":"Ways to eat safely"},{"t":"fig","id":"eat"},{"t":"ul","x":["The patient should eat only when fully awake.","Sit upright before eating. Adjust the position the way the speech therapist taught.","Take small bites and eat slowly. Make sure everything is swallowed before the next bite.","When feeding the patient, put the food into the mouth from the strong side.","Pay attention during meals. Do not talk while eating.","After eating, sit for at least 30 minutes before lying down.","After meals, clean the mouth and check inside the cheek on the weak side for leftover food."]},{"t":"fig","id":"after"},{"t":"h","x":"How soft and how thick food should be"},{"t":"p","x":"How finely to cut the food and whether to add thickener to water: please follow the advice of the speech therapist and dietitian. Do not change it yourself."},{"t":"key","h":"Patients with a feeding tube (nasogastric tube)","ul":["Before feeding, first check the position of the tube and its length mark.","During feeding, raise the head of the bed 30–45 degrees.","After feeding, keep the same position for at least 30 minutes to 1 hour."],"figBottom":"angle"}]},{"title":"Preventing falls","desc":"Three steps for getting out of bed, key safety points in the ward and at home","body":[{"t":"h","x":"Why falls are more likely after a stroke"},{"t":"p","x":"Weakness in the arm and leg on one side, poorer balance, dizziness and rushing to the toilet all increase the chance of falling. A fall may cause a broken bone or a head injury, and interrupt rehabilitation."},{"t":"key","h":"Three steps for getting out of bed","figTop":"steps","ul":["First sit up in bed and sit for 30 seconds.","Put your feet down and sit on the edge of the bed for another 30 seconds.","Stand up and stand steady for 30 seconds. Start walking only if there is no dizziness."]},{"t":"h","x":"During the hospital stay"},{"t":"ul","x":["Someone must be with the patient when getting out of bed and going to the toilet. Press the call bell if you need help. Do not try to do it alone.","Keep the bed rails up, set the bed to its lowest height and lock the bed wheels.","Put often-used items on the strong side, within easy reach.","Wear non-slip shoes that fit well. Do not wear slippers. Pants should not be too long.","If the floor is wet, please tell the staff."]},{"t":"h","x":"Using a wheelchair and transferring"},{"t":"ul","x":["Before getting in or out of the wheelchair, first lock the brakes on both sides and fold up the footrests.","When transferring the patient, follow the steps the therapist taught."]},{"t":"h","x":"After going home"},{"t":"ul","x":["Install grab bars in the bathroom and beside the toilet, and put non-slip mats on the floor.","Put away clutter, electric cords and small rugs from the walkways.","Leave a small light on at night."]},{"t":"fig","id":"safe"},{"t":"warn","h":"If a fall happens","ul":["Do not rush to pull the patient up. First check whether the patient is awake and where it hurts.","In the hospital, press the call bell right away.","At home, if the patient hit the head, is in too much pain to move, or is not fully conscious, call 119."]}]},{"title":"Preventing another stroke","desc":"Taking medicine on time, measuring blood pressure, knowing the warning signs of another stroke","body":[{"t":"h","x":"People who have had a stroke need to prevent another one"},{"t":"p","x":"People who have had a stroke have a higher chance of another stroke than other people. Keeping blood pressure, blood sugar and blood lipids (fats) under good control can lower this chance."},{"t":"fig","id":"three"},{"t":"h","x":"Take medicine on time"},{"t":"ul","x":["Medicines that prevent blood clots, and medicines that control blood pressure, blood sugar and blood lipids (fats), must all be taken every day as the doctor instructed.","Do not stop or reduce the medicine yourself just because you feel much better.","If there is bleeding that is hard to stop, or black or bloody stools, tell the doctor as soon as possible."]},{"t":"key","h":"Measuring blood pressure: \"722\"","figTop":"bp722","ul":["7: measure for 7 days in a row.","2: measure once after getting up in the morning and once before going to bed at night.","2: take 2 readings each time."],"p":"Write the numbers down and bring them to show the doctor at the follow-up visit. For the target blood pressure, follow the doctor's instructions."},{"t":"h","x":"Daily habits"},{"t":"fig","id":"life"},{"t":"ul","x":["Do not smoke. Drink less alcohol.","Eat less oil, sugar and salt. Eat more vegetables and high-fiber foods.","Keep active as the therapist advises.","If you feel an irregular heartbeat, a pounding heart (palpitations) or chest tightness, please tell the doctor.","Go to follow-up visits on time."]},{"t":"sos"},{"t":"ul","x":["Do not drive a car or ride a motorcycle to the hospital yourself.","While waiting for the ambulance, do not give the patient food, water or medicine.","Do not wait for the symptoms to go away on their own."]}]},{"title":"Emotions and communication","desc":"Mood changes after a stroke, how to talk with the patient, rest for the caregiver","body":[{"t":"h","x":"Mood changes after a stroke"},{"t":"p","x":"After a stroke, it is common to feel low, cry easily or get angry easily. This is related to both the injury to the brain and the sudden change in life. It does not mean the patient is not strong enough."},{"t":"warn","h":"If these last for 2 weeks or more, please tell the medical team","ul":["Feeling down all day, with no interest in anything","Does not want to do rehabilitation or talk","Cannot sleep well or cannot eat","Often says he or she is a burden to the family"],"p":"Emotional problems can be treated. They also affect the results of rehabilitation, so they are worth bringing up and discussing."},{"t":"h","x":"Communicating with a patient who has difficulty speaking"},{"t":"fig","id":"talk"},{"t":"ul","x":["Speak face to face, slow down, and use shorter sentences.","Say only one thing at a time.","Use more questions that can be answered with \"yes\" or \"no\".","Use gestures, pictures or real objects together with your words.","Give the patient time to answer. Do not rush to finish the sentence for the patient.","Speak the way you speak to an adult. Do not treat the patient like a child."]},{"t":"h","x":"Caregivers need to take care of themselves too"},{"t":"ul","x":["Family members should take turns giving care. One person should not carry it all alone.","Caregivers need regular times to rest and to eat.","When you feel it is too much for you, you can talk with a nurse or social worker."]},{"t":"fig","id":"rest"},{"t":"key","h":"Long-term care hotline 1966","p":"Call 1966 to ask about long-term care resources such as respite care (someone else gives care for a short time so the caregiver can rest) and home care services."}]},{"title":"Getting ready for discharge and going home","desc":"What to learn before discharge, the home environment, long-term care resources","body":[{"t":"h","x":"What to learn before discharge"},{"t":"ul","x":["How to safely help the patient turn over, get in and out of bed, and get in and out of the wheelchair.","How to feed the patient, or how to feed through a feeding tube (nasogastric tube).","What each medicine does and when to take it.","The rehabilitation exercises to continue at home.","If the patient has a tube, such as a feeding tube (nasogastric tube) or a urinary catheter, learn how to care for it."]},{"t":"p","x":"For anything you are not sure about, ask the nurse or therapist to teach you again before discharge, and do it yourself while they watch."},{"t":"h","x":"The home environment"},{"t":"ul","x":["The bed height should make it easy to get in and out. Leave space beside the bed so a wheelchair can come close.","Install grab bars in the bathroom and beside the toilet, and make the floor non-slip.","Keep the walkways wide. Put away clutter and electric cords."]},{"t":"fig","id":"safe"},{"t":"h","x":"Assistive devices"},{"t":"fig","id":"devices"},{"t":"p","x":"Ask the therapist first which assistive device is needed, such as a walker, a wheelchair or a commode chair, and then get it. For subsidies for assistive devices, ask the long-term care management center of your city or county."},{"t":"h","x":"Long-term care resources"},{"t":"p","x":"While the patient is still in the hospital, you can ask the discharge planning nurse to help with a referral for a long-term care assessment. You can also call 1966 yourself. Services include home care, home-based reablement (training to do daily activities again), transport and respite care."},{"t":"key","h":"After discharge","figTop":"three","ul":["Write down the dates and departments of the follow-up visits.","Take medicine on time and measure blood pressure every day.","Keep doing rehabilitation. Do not stop."]},{"t":"warn","h":"If any of these happen, get medical care right away","ul":["Warning signs of another stroke: crooked mouth, weakness in the arm or leg on one side, unclear speech. Call 119","Fever, cough, more phlegm","Not fully conscious, or hard to wake up","Injury from a fall","Convulsions (seizures)"]}]}],"daily":["Joined all of today's rehabilitation sessions","The patient did the things he or she can do alone (washing the face, dressing, eating)","Sat upright at meals, took small bites slowly, and sat for 30 minutes after eating","Cleaned the mouth after meals and checked for leftover food","Before getting out of bed, sat for 30 seconds and stood for 30 seconds, with someone there","In bed, turned over about every 2 hours, with the weak arm supported by a pillow","Took all of today's medicine on time","Measured blood pressure and wrote it down","Talked with the patient and encouraged the patient today","The caregiver rested and ate"],"ready":["Can safely help the patient get in and out of bed and the wheelchair","Can feed the patient, or feed through a feeding tube (nasogastric tube)","Know what each medicine does and when to take it","Can do the home rehabilitation exercises","Have prepared assistive devices as the therapist advised","Grab bars and non-slip mats are installed at home, and clutter is put away","Have called 1966 or asked the nurse for a referral for a long-term care assessment","Know the dates and departments of the follow-up visits","Know the warning signs of another stroke and when to call 119","Have a blood pressure monitor at home and know how to record the readings"],"quiz":[{"q":"After a stroke, once the condition is stable, starting rehabilitation early gives a better chance of recovering function.","why":"Recovery is faster in the period after the condition becomes stable. PAC arranges intensive rehabilitation during this period."},{"q":"To let the patient rest more, it is best for family members to do the dressing and feeding for the patient.","why":"Please let the patient do the things he or she can do alone. This is also part of rehabilitation. Family members only need to stay close and watch, and help when needed."},{"q":"When helping the patient get up, you must not pull the arm on the weak side.","why":"Pulling the arm on the weak side can easily injure the shoulder."},{"q":"It is fine if the patient coughs once in a while during meals. There is no need to tell the medical staff.","why":"Coughing when eating or drinking water is a warning sign of a swallowing problem. Please tell the nurse or speech therapist."},{"q":"When feeding the patient, the food should be put into the mouth from the strong side.","why":"Food put in from the strong side is easier to chew and swallow, and less food is left in the mouth."},{"q":"If the patient needs the toilet in the middle of the night, the patient can walk there slowly alone so that the family is not woken up.","why":"Someone must be with the patient when getting out of bed and going to the toilet. In the hospital, press the call bell. Do not try to do it alone."},{"q":"If blood pressure is stable and the patient feels fine, the patient can stop taking the medicine on his or her own.","why":"Blood pressure is stable because the medicine is taken on time. Whether to change the medicine is for the doctor to decide."},{"q":"If the mouth suddenly becomes crooked, one arm becomes weak or speech becomes unclear, the patient should first rest and wait half a day to see if it gets better.","why":"These are warning signs of another stroke. If any one of them happens, call 119 right away and write down the time it started."},{"q":"During PAC care, the team assesses the patient's progress every 3 weeks.","why":"The team assesses the patient at the start of the program, every 3 weeks and at the end of the program, and adjusts the rehabilitation based on the results."},{"q":"Caregivers also need rest. They can call 1966 to ask about respite care.","why":"Caregiving is long-term work. You can call the 1966 long-term care hotline to ask about resources such as respite care and home care services."}]},"id":{"code":"id","name":"Indonesia","htmlLang":"id","speech":"id-ID","locale":"id-ID","glyph":"A","rangeWord":" sampai ","say":[["119","satu satu sembilan"],["1966","satu sembilan enam enam"],["722","tujuh dua dua"]],"ui":{"brand":"Edukasi Stroke PAC","trial":"Versi uji coba","tabHome":"Beranda","tabLearn":"Materi","tabCheck":"Daftar","tabQuiz":"Kuis","homeTitle":"Masa emas rehabilitasi setelah stroke","homeIntro":"Edukasi perawatan pasca-akut untuk pasien dan keluarga. Setiap materi sekitar 3 menit. Bisa dibaca, bisa juga didengarkan.","todayTitle":"Daftar perawatan hari ini","todayDone":"Selesai {n} / {m} hal","unitsHeading":"Materi edukasi","aboutTitle":"Tentang materi edukasi ini","about":["Ini versi uji coba. Sebelum diluncurkan, isinya harus diperiksa oleh tim medis.","Isinya adalah penjelasan umum. Keadaan setiap pasien berbeda. Ikutilah petunjuk dokter penanggung jawab dan tim perawatan.","Catatan centang hanya disimpan di perangkat ini. Catatan tidak diunggah. Nama dan data rekam medis juga tidak dicatat.","Terjemahan ini masih berupa draf dan belum diperiksa oleh tenaga kesehatan penutur asli."],"sourcesLabel":"Sumber rujukan:","src1":"Program Perawatan Pasca-Akut (PAC), Badan Asuransi Kesehatan Nasional Taiwan (NHI)","src2":"Edukasi stroke, Badan Promosi Kesehatan Taiwan (HPA)","learnTitle":"Materi edukasi","learnIntro":"Ada {n} materi. Ketuk materi yang ingin Anda baca.","back":"Semua materi","unitMeta":"Materi {i} dari {n}","speak":"Bacakan materi ini","stop":"Hentikan pembacaan","rate":"Kecepatan pembacaan","rateNormal":"Normal","rateSlow":"Lambat","noSpeech":"Browser ini tidak mendukung pembacaan dengan suara. Silakan baca teksnya.","speechFail":"Perangkat ini sedang tidak bisa membacakan dengan suara. Silakan baca teksnya.","noVoice":"Perangkat ini tidak memiliki suara bahasa Indonesia. Silakan baca teksnya.","prev":"Sebelumnya","next":"Berikutnya","toQuiz":"Kerjakan kuis","checkTitle":"Daftar perawatan","listDaily":"Perawatan harian","listReady":"Persiapan pulang","progDone":"Selesai {n} / {m}","dailyHint":"{date}, dihitung ulang setiap hari","readyHint":"Centang setiap hal yang sudah siap","clearAll":"Hapus semua centang","privacy":"Catatan centang hanya disimpan di perangkat ini. Catatan tidak diunggah. Nama dan data rekam medis juga tidak dicatat.","quizTitle":"Kuis","quizIntro":"Ada {n} soal benar atau salah. Lihat seberapa banyak hal penting yang Anda ingat.","quizNo":"Soal {i} dari {n}","yes":"Benar","no":"Salah","markOk":"✓","right":"Jawaban Anda benar.","correctIs":"Jawaban yang benar adalah “{a}”.","nextQ":"Soal berikutnya","seeResult":"Lihat hasil","resultTitle":"Hasil kuis","scoreOf":"/ {n} soal dijawab benar","reviewTitle":"Materi yang bisa dibaca lagi","correctAnswer":"Jawaban yang benar: {a}.","readUnit":"Baca “{t}”","allRight":"Semua jawaban benar. Teruslah gunakan hal-hal penting ini dalam perawatan setiap hari.","retry":"Ulangi kuis","weakNote":"Warna oranye pada gambar menunjukkan sisi yang lemah.","fontAria":"Ukuran huruf","fontS":"Huruf standar","fontM":"Huruf besar","fontL":"Huruf sangat besar","langAria":"Bahasa","listAria":"Jenis daftar","navAria":"Menu utama"},"sos":{"title":"Tanda peringatan stroke berulang","items":[["Senyum","Sudut mulut miring, kedua sisi wajah tidak sama"],["Angkat kedua tangan","Kedua tangan diangkat lurus ke depan, satu tangan lemah dan turun"],["Ucapkan halo","Bicara tidak jelas atau tidak bisa bicara"]],"call":"Jika ada salah satu tanda ini, segera telepon {n} dan catat waktu mulai gejalanya."},"caps":{"journey":[["Pengobatan akut",""],["Rehab PAC",""],["Pulang ke rumah",""]],"team":[["Fisioterapi","Berjalan dan keseimbangan"],["Terapi okupasi","Kegiatan sehari-hari"],["Terapi wicara","Bicara dan menelan"]],"arm":[["Lakukan ini","Topang lengan pakai bantal"],["Jangan begini","Menarik lengan yang lemah"]],"eat":[["Lakukan ini","Duduk tegak, suapan kecil"],["Jangan begini","Makan sambil berbaring"]],"after":[["Duduk 30 menit","Jangan langsung berbaring"],["Bersihkan mulut","Setiap selesai makan"],["Periksa pipi","Ada sisa makanan?"]],"steps":[["Di tempat tidur","Duduk 30 detik"],["Di tepi tempat tidur","Duduk 30 detik"],["Berdiri mantap","30 detik, baru jalan"]],"safe":[["Pegangan","Kamar mandi, dekat kloset"],["Alas antiselip","Lantai kamar mandi"],["Lampu malam","Nyalakan satu saat malam"],["Jalur bebas barang","Rapikan barang dan kabel"]],"three":[["Obat tepat waktu",""],["Tensi setiap hari",""],["Kontrol terjadwal",""]],"bp722":[["7 hari","Ukur berturut-turut"],["2 kali","Sekali pagi, sekali malam"],["Ukur 2 kali","Setiap kali mengukur"]],"life":[["Tidak merokok",""],["Irit garam, minyak",""],["Makan banyak sayur",""],["Terus bergerak",""]],"talk":[["Berhadapan","Pelan, kalimat pendek"],["Gambar dan isyarat","Bantu sampaikan maksud"]],"rest":[["Istirahat teratur","Pendamping pun makan, tidur"],["Telepon 1966","Tanya layanan pengganti"]],"devices":[["Walker",""],["Kursi roda",""],["Tongkat kaki empat",""]],"angle":{"cap":"Saat dan setelah memberi makan lewat selang, naikkan bagian kepala tempat tidur 30–45 derajat","aria":"Saat memberi makan lewat selang, bagian kepala tempat tidur dinaikkan 30 sampai 45 derajat"},"weeks":{"cap":"Lama perawatan PAC (minggu)","legend":["Pada dasarnya 3–6 minggu","Setelah dinilai, bisa diperpanjang satu kali, paling lama 12 minggu","Dinilai setiap 3 minggu"],"aria":"Lama perawatan PAC: pada dasarnya 3 sampai 6 minggu, bisa diperpanjang satu kali sampai paling lama 12 minggu, dinilai setiap 3 minggu"}},"units":[{"title":"Mengenal PAC, perawatan pasca-akut","desc":"Apa itu PAC, siapa yang bisa ikut, berapa lama perawatannya","body":[{"t":"h","x":"Apa itu perawatan pasca-akut"},{"t":"p","x":"Setelah pengobatan akut stroke selesai dan kondisi pasien stabil, ada masa ketika fungsi tubuh pulih lebih cepat. Program Perawatan Pasca-Akut dari Asuransi Kesehatan Nasional Taiwan (NHI) disingkat PAC. Pada masa inilah tim dari berbagai profesi mengatur rehabilitasi yang intensif. Tujuannya membantu pasien kembali mampu mengurus diri sendiri sehari-hari dan pulang ke rumah dengan lancar."},{"t":"fig","id":"journey"},{"t":"h","x":"Siapa yang bisa ikut"},{"t":"p","x":"Tim medis menilai apakah pasien cocok untuk ikut. Syarat utamanya sebagai berikut:"},{"t":"ul","x":["Dalam 1 bulan setelah serangan stroke akut. Pada keadaan khusus, bisa dilonggarkan sampai dalam 40 hari.","Setelah stroke, ada gangguan fungsi tingkat sedang sampai sedang-berat.","Kondisi sudah stabil selama 72 jam atau lebih.","Punya potensi rehabilitasi: bisa bekerja sama untuk belajar, bisa duduk selama 1 jam penuh dengan ditopang, dan mau ikut rehabilitasi secara aktif."]},{"t":"h","x":"Berapa lama perawatannya"},{"t":"p","x":"Pada dasarnya 3–6 minggu. Jika setelah dinilai tim masih diperlukan, perawatan bisa diperpanjang satu kali, paling lama sampai 12 minggu. Selama itu, kemajuan pasien dinilai setiap 3 minggu."},{"t":"fig","id":"weeks"},{"t":"h","x":"Tiga model perawatan"},{"t":"modes","x":[{"dt":"Model rawat inap","dd":"Pasien tinggal di rumah sakit untuk rehabilitasi. Intensitas tinggi: terapi 3–5 kali sehari. Intensitas biasa: terapi 1–2 kali sehari."},{"dt":"Model perawatan siang hari","dd":"Pasien datang ke rumah sakit pada siang hari untuk rehabilitasi, kira-kira dari pukul 9 pagi sampai pukul 5 sore. Terapi 2–4 kali sehari. Malam hari pasien pulang ke rumah untuk beristirahat."},{"dt":"Model di rumah","dd":"Untuk pasien yang tidak bisa rawat inap, ikut perawatan siang hari, atau datang ke rawat jalan untuk rehabilitasi. Terapis datang ke rumah untuk memberikan terapi. Setiap kali 30–50 menit, 1–6 kali seminggu."}]},{"t":"p","x":"Model yang tersedia di setiap rumah sakit berbeda. Silakan pastikan kepada manajer kasus PAC."},{"t":"h","x":"Kapan perawatan berakhir"},{"t":"ul","x":["Fungsi pasien maju dengan jelas, sehingga bisa pulang dan melakukan rehabilitasi sendiri.","Tidak ada kemajuan pada 2 kali penilaian berturut-turut.","Kondisi penyakit berubah dan pasien perlu menjalani pengobatan lain lebih dahulu.","Sudah mencapai batas 12 minggu."]},{"t":"key","h":"Yang bisa dilakukan keluarga","ul":["Ikut penjelasan dan diskusi dengan tim, dan pahami tujuan rehabilitasi.","Belajar cara merawat dari terapis dan perawat.","Sejak awal, bicarakan dengan tim tentang rencana setelah pasien pulang dari rumah sakit."]}]},{"title":"Cara menjalani rehabilitasi","desc":"Anggota tim, cara keluarga membantu, kapan harus berhenti","body":[{"t":"h","x":"Apa yang dikerjakan tim rehabilitasi"},{"t":"ul","x":["Fisioterapi: latihan membalik badan, duduk, berdiri, berjalan, dan keseimbangan.","Terapi okupasi: latihan gerakan tangan, serta kegiatan sehari-hari seperti berpakaian, makan, dan ke toilet.","Terapi wicara: latihan berbicara, memahami, dan menelan."]},{"t":"fig","id":"team"},{"t":"p","x":"Dalam tim juga ada dokter, perawat, ahli gizi, apoteker, dan pekerja sosial. Jika ada pertanyaan, silakan sampaikan."},{"t":"h","x":"Setiap saat di kamar rawat adalah rehabilitasi"},{"t":"p","x":"Gerakan yang diajarkan terapis harus dipakai dalam kehidupan sehari-hari. Hal yang bisa dilakukan pasien sendiri, misalnya mencuci muka, berpakaian, dan makan, biarkan pasien melakukannya sendiri. Keluarga mengawasi di dekatnya dan membantu bila perlu. Jangan mengerjakan semuanya untuk pasien."},{"t":"h","x":"Lindungi sisi yang lemah"},{"t":"ul","x":["Saat membantu pasien bangun atau berpindah, jangan menarik lengan di sisi yang lemah, supaya bahu tidak cedera.","Saat pasien berbaring atau duduk, topang lengan yang lemah dengan bantal.","Jika pasien lama berbaring di tempat tidur, bantu membalik badannya kira-kira setiap 2 jam."]},{"t":"fig","id":"arm"},{"t":"weak"},{"t":"warn","h":"Jika ada keadaan berikut, berhenti dahulu dan beri tahu tenaga medis","ul":["Pusing, wajah pucat, keringat dingin","Dada terasa tertekan, napas sangat terengah-engah","Sakit kepala hebat yang tiba-tiba","Tangan dan kaki lebih lemah dari biasanya, atau bicara tiba-tiba menjadi tidak jelas"]},{"t":"key","h":"Kemajuan bisa cepat, bisa lambat","p":"Kecepatan pemulihan setiap orang berbeda. Tim menilai setiap 3 minggu dan menyesuaikan isi rehabilitasi menurut hasilnya. Berlatih terus-menerus lebih penting daripada berlatih banyak dalam satu kali."}]},{"title":"Menelan dan keamanan makan","desc":"Tanda peringatan tersedak, cara makan yang aman","body":[{"t":"h","x":"Mengapa menelan perlu diperhatikan"},{"t":"p","x":"Setelah stroke, kemampuan menelan sering menurun. Jika makanan atau air tersedak masuk ke saluran napas, bisa terjadi radang paru-paru (pneumonia aspirasi). Sebagian pasien tidak batuk saat tersedak, jadi keluarga perlu ikut mengamati."},{"t":"warn","h":"Tanda peringatan gangguan menelan","ul":["Batuk atau tersedak saat makan atau minum air","Setelah makan, suara menjadi basah dan terdengar berdahak","Makanan tertahan di mulut dan tidak bisa ditelan, atau keluar dari sudut mulut","Satu kali makan memakan waktu sangat lama","Demam berulang, dahak bertambah banyak"],"p":"Jika ada keadaan ini, beri tahu perawat atau terapis wicara."},{"t":"h","x":"Cara makan yang aman"},{"t":"fig","id":"eat"},{"t":"ul","x":["Pasien makan hanya saat sudah benar-benar sadar dan terjaga.","Duduk tegak dahulu, baru makan. Atur posisi sesuai cara yang diajarkan terapis wicara.","Makan dengan suapan kecil dan pelan-pelan. Pastikan makanan sudah tertelan habis sebelum suapan berikutnya.","Saat menyuapi, masukkan makanan ke mulut dari sisi yang kuat.","Saat makan, pusatkan perhatian pada makan. Jangan makan sambil berbicara.","Setelah makan, duduk paling sedikit 30 menit sebelum berbaring.","Setelah makan, bersihkan mulut. Periksa juga apakah ada sisa makanan di dalam pipi pada sisi yang lemah."]},{"t":"fig","id":"after"},{"t":"h","x":"Kelunakan dan kekentalan makanan"},{"t":"p","x":"Seberapa halus makanan harus dipotong dan apakah air perlu diberi pengental, ikutilah saran terapis wicara dan ahli gizi. Jangan mengubahnya sendiri."},{"t":"key","h":"Pasien yang memakai selang makan (selang NGT)","ul":["Sebelum memberi makan lewat selang, pastikan dahulu posisi selang dan tanda ukurannya.","Saat memberi makan lewat selang, naikkan bagian kepala tempat tidur 30–45 derajat.","Setelah memberi makan lewat selang, pertahankan posisi yang sama paling sedikit 30 menit sampai 1 jam."],"figBottom":"angle"}]},{"title":"Mencegah jatuh","desc":"Tiga langkah turun dari tempat tidur, hal penting keamanan di kamar rawat dan di rumah","body":[{"t":"h","x":"Mengapa mudah jatuh setelah stroke"},{"t":"p","x":"Tangan dan kaki di satu sisi lemah, keseimbangan menurun, pusing, dan terburu-buru ke toilet. Semua ini menambah kemungkinan jatuh. Jatuh bisa menyebabkan patah tulang atau cedera kepala, sehingga rehabilitasi terhenti."},{"t":"key","h":"Tiga langkah turun dari tempat tidur","figTop":"steps","ul":["Bangun dan duduk dahulu di atas tempat tidur selama 30 detik.","Turunkan kaki, lalu duduk lagi di tepi tempat tidur selama 30 detik.","Berdiri, lalu berdiri dengan mantap selama 30 detik. Jika tidak pusing, baru mulai berjalan."]},{"t":"h","x":"Selama dirawat di rumah sakit"},{"t":"ul","x":["Turun dari tempat tidur dan ke toilet harus selalu ditemani. Jika perlu bantuan, tekan bel panggil. Jangan memaksakan diri melakukannya sendiri.","Naikkan pagar tempat tidur, atur tinggi tempat tidur ke posisi paling rendah, dan kunci roda tempat tidur.","Letakkan barang yang sering dipakai di sisi yang kuat, di tempat yang bisa dijangkau tangan.","Pakai sepatu antiselip yang pas di kaki. Jangan pakai sandal. Celana jangan terlalu panjang.","Jika lantai basah, beri tahu petugas."]},{"t":"h","x":"Duduk di kursi roda dan berpindah"},{"t":"ul","x":["Sebelum naik ke atau turun dari kursi roda, kunci dahulu rem di kedua sisi dan lipat pijakan kaki.","Untuk cara berpindah, ikuti langkah-langkah yang diajarkan terapis."]},{"t":"h","x":"Setelah pulang ke rumah"},{"t":"ul","x":["Pasang pegangan di kamar mandi dan di samping kloset. Pasang alas antiselip di lantai.","Singkirkan barang-barang, kabel listrik, dan karpet kecil dari jalur jalan.","Nyalakan satu lampu kecil pada malam hari."]},{"t":"fig","id":"safe"},{"t":"warn","h":"Jika pasien jatuh","ul":["Jangan terburu-buru menarik pasien untuk bangun. Lihat dahulu apakah pasien sadar dan bagian mana yang sakit.","Jika sedang dirawat di rumah sakit, segera tekan bel panggil.","Jika di rumah kepala pasien terbentur, sakit sampai tidak bisa bergerak, atau kesadarannya menurun, telepon 119."]}]},{"title":"Mencegah stroke berulang","desc":"Minum obat tepat waktu, mengukur tekanan darah, mengenal tanda peringatan stroke berulang","body":[{"t":"h","x":"Orang yang pernah stroke perlu mencegah stroke terjadi lagi"},{"t":"p","x":"Orang yang pernah stroke lebih besar kemungkinannya terkena stroke lagi dibandingkan orang pada umumnya. Mengendalikan tekanan darah (tensi), gula darah, dan lemak darah dengan baik bisa menurunkan kemungkinan itu."},{"t":"fig","id":"three"},{"t":"h","x":"Minum obat tepat waktu"},{"t":"ul","x":["Obat pencegah gumpalan darah, serta obat pengendali tekanan darah, gula darah, dan lemak darah, semuanya harus diminum setiap hari sesuai petunjuk dokter.","Jangan menghentikan atau mengurangi obat sendiri karena merasa sudah jauh lebih baik.","Jika ada perdarahan yang sulit berhenti, tinja berwarna hitam, atau tinja berdarah, secepatnya beri tahu dokter."]},{"t":"key","h":"Mengukur tekanan darah “722”","figTop":"bp722","ul":["7: ukur selama 7 hari berturut-turut.","2: ukur satu kali setelah bangun pagi dan satu kali sebelum tidur malam.","2: setiap kali mengukur, ukur dua kali."],"p":"Catat angkanya dan bawa saat kontrol untuk diperlihatkan kepada dokter. Target tekanan darah mengikuti petunjuk dokter."},{"t":"h","x":"Kebiasaan hidup"},{"t":"fig","id":"life"},{"t":"ul","x":["Tidak merokok, kurangi minuman beralkohol.","Makan dengan sedikit minyak, sedikit gula, dan sedikit garam. Perbanyak sayur dan makanan berserat tinggi.","Terus bergerak aktif sesuai saran terapis.","Jika merasa detak jantung tidak teratur, berdebar-debar, atau dada terasa tertekan, beri tahu dokter.","Kontrol ke dokter sesuai jadwal."]},{"t":"sos"},{"t":"ul","x":["Jangan menyetir mobil atau mengendarai motor sendiri ke rumah sakit.","Saat menunggu ambulans, jangan beri pasien makanan, minuman, atau obat.","Jangan menunggu gejala hilang sendiri."]}]},{"title":"Emosi dan komunikasi","desc":"Perubahan emosi setelah stroke, cara berbicara dengan pasien, istirahat bagi pendamping pasien","body":[{"t":"h","x":"Perubahan emosi setelah stroke"},{"t":"p","x":"Setelah stroke, suasana hati yang murung, mudah menangis, atau mudah marah adalah hal yang sering terjadi. Hal ini berkaitan dengan cedera pada otak dan perubahan hidup yang tiba-tiba. Ini bukan karena pasien kurang tegar."},{"t":"warn","h":"Jika keadaan berikut berlangsung dua minggu atau lebih, beri tahu tim medis","ul":["Murung sepanjang hari, tidak berminat pada apa pun","Tidak mau rehabilitasi, tidak mau berbicara","Tidur tidak nyenyak atau tidak nafsu makan","Sering berkata bahwa dirinya membebani keluarga"],"p":"Masalah emosi bisa diobati. Masalah ini juga memengaruhi hasil rehabilitasi, jadi layak disampaikan dan dibicarakan."},{"t":"h","x":"Berkomunikasi dengan pasien yang sulit berbicara"},{"t":"fig","id":"talk"},{"t":"ul","x":["Berbicaralah berhadapan, lebih pelan, dengan kalimat yang lebih pendek.","Sampaikan satu hal saja setiap kali.","Lebih sering gunakan pertanyaan yang bisa dijawab “ya” atau “tidak”.","Sertai dengan isyarat tangan, gambar, atau benda nyata.","Beri pasien waktu untuk menjawab. Jangan terburu-buru menyelesaikan ucapannya.","Berbicaralah seperti kepada orang dewasa. Jangan memperlakukan pasien seperti anak kecil."]},{"t":"h","x":"Orang yang merawat pasien (pendamping) juga perlu menjaga diri sendiri"},{"t":"ul","x":["Anggota keluarga merawat secara bergantian. Jangan satu orang menanggung semuanya sendiri.","Pendamping perlu punya waktu istirahat dan waktu makan yang tetap.","Jika merasa tidak sanggup lagi, Anda bisa berbicara dengan perawat atau pekerja sosial."]},{"t":"fig","id":"rest"},{"t":"key","h":"Saluran telepon perawatan jangka panjang 1966","p":"Telepon 1966 untuk bertanya tentang sumber daya perawatan jangka panjang, seperti layanan pengganti sementara bagi pendamping (respite) dan layanan di rumah."}]},{"title":"Persiapan pulang dari rumah sakit","desc":"Hal yang harus dikuasai sebelum pulang, lingkungan rumah, sumber daya perawatan jangka panjang","body":[{"t":"h","x":"Hal yang harus dikuasai sebelum pulang"},{"t":"ul","x":["Membantu pasien membalik badan, naik-turun tempat tidur, dan naik-turun kursi roda dengan aman.","Cara menyuapi atau memberi makan lewat selang makan (selang NGT).","Kegunaan setiap obat dan waktu minumnya.","Gerakan rehabilitasi yang harus diteruskan di rumah.","Jika ada selang, misalnya selang makan (selang NGT) atau selang kencing (kateter urine), pelajari cara merawatnya."]},{"t":"p","x":"Untuk hal yang belum Anda yakini, sebelum pulang mintalah perawat atau terapis mengajarkannya sekali lagi, lalu praktikkan langsung di depan mereka."},{"t":"h","x":"Lingkungan rumah"},{"t":"ul","x":["Tinggi tempat tidur harus memudahkan naik dan turun. Sisakan ruang di samping tempat tidur agar kursi roda bisa mendekat.","Pasang pegangan di kamar mandi dan di samping kloset. Lantai harus antiselip.","Jaga jalur jalan tetap lapang. Singkirkan barang-barang dan kabel listrik."]},{"t":"fig","id":"safe"},{"t":"h","x":"Alat bantu"},{"t":"fig","id":"devices"},{"t":"p","x":"Alat bantu mana yang diperlukan, misalnya alat bantu jalan (walker), kursi roda, atau kursi toilet (commode), tanyakan dahulu kepada terapis sebelum menyiapkannya. Tentang bantuan biaya alat bantu, Anda bisa bertanya ke Pusat Manajemen Perawatan Jangka Panjang di tiap kabupaten atau kota."},{"t":"h","x":"Sumber daya perawatan jangka panjang"},{"t":"p","x":"Sejak masih dirawat di rumah sakit, Anda sudah bisa meminta perawat layanan persiapan pulang untuk membantu merujuk ke penilaian perawatan jangka panjang. Anda juga bisa menelepon 1966 sendiri. Layanannya antara lain layanan di rumah, pemulihan kemampuan di rumah, antar-jemput, dan layanan pengganti sementara bagi pendamping (respite)."},{"t":"key","h":"Setelah pulang dari rumah sakit","figTop":"three","ul":["Catat tanggal kontrol dan poli (bagian) yang dituju.","Minum obat tepat waktu dan ukur tekanan darah setiap hari.","Teruskan rehabilitasi, jangan terputus."]},{"t":"warn","h":"Jika ada keadaan berikut, segera cari pertolongan medis","ul":["Tanda peringatan stroke berulang: mulut miring, tangan dan kaki di satu sisi lemah, bicara tidak jelas. Telepon 119","Demam, batuk, dahak bertambah banyak","Kesadaran menurun, atau sulit dibangunkan","Jatuh dan cedera","Kejang"]}]}],"daily":["Hari ini ikut semua sesi rehabilitasi","Hal yang bisa dilakukan sendiri, dilakukan sendiri (mencuci muka, berpakaian, makan)","Saat makan duduk tegak, suapan kecil dan pelan-pelan; setelah makan duduk 30 menit","Setelah makan, mulut dibersihkan dan diperiksa apakah ada sisa makanan","Sebelum turun dari tempat tidur, duduk 30 detik, berdiri 30 detik, dan ada yang menemani","Saat berbaring di tempat tidur, badan dibalik kira-kira setiap 2 jam, dan lengan yang lemah ditopang bantal","Semua obat hari ini sudah diminum tepat waktu","Tekanan darah diukur dan dicatat","Hari ini sudah mengobrol dengan pasien dan menyemangatinya","Pendamping pasien sendiri sudah istirahat dan makan"],"ready":["Bisa membantu pasien naik-turun tempat tidur dan kursi roda dengan aman","Bisa menyuapi atau memberi makan lewat selang makan (selang NGT)","Tahu kegunaan setiap obat dan waktu minumnya","Bisa melakukan gerakan rehabilitasi di rumah","Alat bantu sudah disiapkan sesuai saran terapis","Di rumah sudah dipasang pegangan dan alas antiselip, dan barang-barang sudah dirapikan","Sudah menelepon 1966 atau meminta perawat merujuk ke penilaian perawatan jangka panjang","Tahu tanggal kontrol dan poli (bagian) yang dituju","Tahu tanda peringatan stroke berulang dan kapan harus menelepon 119","Di rumah ada alat pengukur tekanan darah (tensimeter), dan bisa mencatat hasilnya"],"quiz":[{"q":"Setelah kondisi stroke stabil, memulai rehabilitasi sejak dini memberi peluang lebih besar untuk memulihkan fungsi.","why":"Pada masa setelah kondisi stabil, pemulihan berlangsung lebih cepat. PAC mengatur rehabilitasi intensif pada masa ini."},{"q":"Agar pasien lebih banyak beristirahat, berpakaian dan makan sebaiknya semuanya dikerjakan oleh keluarga.","why":"Hal yang bisa dilakukan pasien sendiri, biarkan pasien melakukannya sendiri. Ini juga bagian dari rehabilitasi. Keluarga cukup mengawasi di dekatnya dan membantu bila perlu."},{"q":"Saat membantu pasien bangun, lengan di sisi yang lemah tidak boleh ditarik.","why":"Menarik lengan di sisi yang lemah mudah membuat bahu cedera."},{"q":"Jika pasien sesekali batuk saat makan, itu tidak apa-apa dan tidak perlu diberitahukan kepada tenaga medis.","why":"Batuk saat makan atau minum air adalah tanda peringatan gangguan menelan. Beri tahu perawat atau terapis wicara."},{"q":"Saat menyuapi, makanan harus dimasukkan ke mulut pasien dari sisi yang kuat.","why":"Jika dimasukkan dari sisi yang kuat, makanan lebih mudah dikunyah dan ditelan, dan lebih jarang tersisa di mulut."},{"q":"Jika ingin ke toilet tengah malam, pasien boleh berjalan pelan-pelan sendiri supaya tidak membangunkan keluarga.","why":"Turun dari tempat tidur dan ke toilet harus selalu ditemani. Selama dirawat di rumah sakit, tekan bel panggil. Jangan memaksakan diri melakukannya sendiri."},{"q":"Jika tekanan darah stabil dan tidak ada keluhan, obat boleh dihentikan sendiri.","why":"Tekanan darah stabil karena obat diminum tepat waktu. Perlu atau tidaknya obat diubah, biarkan dokter yang memutuskan."},{"q":"Jika tiba-tiba mulut miring, satu tangan lemah, atau bicara tidak jelas, sebaiknya istirahat dan amati dahulu selama setengah hari.","why":"Ini tanda peringatan stroke berulang. Jika ada salah satu tanda, segera telepon 119 dan catat waktu mulai gejalanya."},{"q":"Selama perawatan PAC, tim menilai kemajuan pasien setiap 3 minggu.","why":"Tim melakukan penilaian saat pasien masuk program, setiap 3 minggu, dan saat program selesai, lalu menyesuaikan isi rehabilitasi menurut hasilnya."},{"q":"Pendamping pasien juga perlu beristirahat dan bisa menelepon 1966 untuk bertanya tentang layanan pengganti sementara bagi pendamping (respite).","why":"Merawat adalah pekerjaan jangka panjang. Saluran telepon perawatan jangka panjang 1966 bisa dihubungi untuk bertanya tentang sumber daya seperti layanan pengganti sementara bagi pendamping (respite) dan layanan di rumah."}]},"vi":{"code":"vi","name":"Tiếng Việt","htmlLang":"vi","speech":"vi-VN","locale":"vi-VN","glyph":"A","rangeWord":" đến ","say":[["119","một một chín"],["1966","một chín sáu sáu"],["722","bảy hai hai"]],"ui":{"brand":"Hướng dẫn đột quỵ PAC","trial":"Bản dùng thử","tabHome":"Trang chủ","tabLearn":"Bài học","tabCheck":"Danh sách","tabQuiz":"Câu hỏi","homeTitle":"Giai đoạn vàng để phục hồi sau đột quỵ","homeIntro":"Hướng dẫn chăm sóc sau giai đoạn cấp dành cho người bệnh và gia đình. Mỗi bài khoảng 3 phút, có thể đọc hoặc nghe.","todayTitle":"Danh sách chăm sóc hôm nay","todayDone":"Đã xong {n} / {m} việc","unitsHeading":"Các bài học","aboutTitle":"Về tài liệu hướng dẫn này","about":["Đây là bản dùng thử. Nội dung phải được đội ngũ y tế xem xét trước khi đưa vào sử dụng.","Nội dung chỉ là hướng dẫn chung. Tình trạng của mỗi người bệnh khác nhau, xin làm theo chỉ dẫn của bác sĩ điều trị và đội ngũ chăm sóc.","Các dấu đánh chọn chỉ được lưu trên thiết bị này, không được tải lên, cũng không ghi lại họ tên hay hồ sơ bệnh án.","Bản dịch này là bản nháp, chưa được nhân viên y tế nói tiếng Việt bản ngữ xem xét."],"sourcesLabel":"Nguồn tham khảo:","src1":"Chương trình Chăm sóc Sau giai đoạn cấp (PAC) của Cơ quan Bảo hiểm Y tế Toàn dân Đài Loan (NHI)","src2":"Tài liệu hướng dẫn về đột quỵ của Cục Sức khỏe Quốc dân Đài Loan (HPA)","learnTitle":"Các bài học","learnIntro":"Có {n} bài. Muốn xem bài nào thì bấm vào bài đó.","back":"Tất cả bài học","unitMeta":"Bài {i} trong {n} bài","speak":"Nghe đọc bài này","stop":"Dừng đọc","rate":"Tốc độ đọc","rateNormal":"Bình thường","rateSlow":"Chậm","noSpeech":"Trình duyệt này không hỗ trợ đọc thành tiếng. Xin hãy tự đọc chữ.","speechFail":"Thiết bị này hiện không đọc thành tiếng được. Xin hãy tự đọc chữ.","noVoice":"Thiết bị này không có giọng đọc tiếng Việt. Xin hãy tự đọc chữ.","prev":"Bài trước","next":"Bài sau","toQuiz":"Làm câu hỏi ôn tập","checkTitle":"Danh sách chăm sóc","listDaily":"Chăm sóc hằng ngày","listReady":"Chuẩn bị xuất viện","progDone":"Đã xong {n} / {m}","dailyHint":"{date}, mỗi ngày tính lại từ đầu","readyHint":"Chuẩn bị xong việc nào thì đánh dấu việc đó","clearAll":"Bỏ chọn tất cả","privacy":"Các dấu đánh chọn chỉ được lưu trên thiết bị này, không được tải lên, cũng không ghi lại họ tên hay hồ sơ bệnh án.","quizTitle":"Câu hỏi ôn tập","quizIntro":"Có {n} câu đúng/sai. Hãy xem bạn nhớ được bao nhiêu điểm chính.","quizNo":"Câu {i} trong {n} câu","yes":"Đúng","no":"Sai","markOk":"✓","right":"Bạn trả lời đúng.","correctIs":"Đáp án đúng là “{a}”.","nextQ":"Câu tiếp theo","seeResult":"Xem kết quả","resultTitle":"Kết quả","scoreOf":"/ {n} câu trả lời đúng","reviewTitle":"Nội dung nên xem lại","correctAnswer":"Đáp án đúng: {a}.","readUnit":"Đọc bài “{t}”","allRight":"Bạn trả lời đúng tất cả. Xin tiếp tục áp dụng những điểm chính này vào việc chăm sóc hằng ngày.","retry":"Làm lại","weakNote":"Trong hình, màu cam là bên yếu.","fontAria":"Cỡ chữ","fontS":"Chữ chuẩn","fontM":"Chữ lớn","fontL":"Chữ rất lớn","langAria":"Ngôn ngữ","listAria":"Loại danh sách","navAria":"Menu chính"},"sos":{"title":"Dấu hiệu cảnh báo đột quỵ tái phát","items":[["Cười","Miệng méo, hai bên mặt không cân đối"],["Giơ hai tay","Giơ ngang hai tay, một tay yếu và rơi xuống"],["Nói xin chào","Nói không rõ, không nói ra được"]],"call":"Có bất kỳ dấu hiệu nào, hãy gọi {n} ngay và ghi lại giờ bắt đầu có triệu chứng."},"caps":{"journey":[["Điều trị cấp tính",""],["Tập phục hồi PAC",""],["Về nhà",""]],"team":[["Vật lý trị liệu","Đi lại và thăng bằng"],["Hoạt động trị liệu","Sinh hoạt hằng ngày"],["Ngôn ngữ trị liệu","Nói và nuốt"]],"arm":[["Làm như thế này","Dùng gối đỡ cánh tay"],["Đừng làm thế này","Kéo cánh tay bên yếu"]],"eat":[["Làm như thế này","Ngồi thẳng, ăn từng chút"],["Đừng làm thế này","Ăn khi đang nằm"]],"after":[["Ngồi 30 phút","Ăn xong không nằm ngay"],["Vệ sinh miệng","Sau mỗi bữa ăn"],["Kiểm tra má","Còn sót thức ăn không"]],"steps":[["Ngồi trên giường","30 giây"],["Ngồi mép giường","30 giây"],["Đứng vững","30 giây rồi mới đi"]],"safe":[["Tay vịn","Phòng tắm, cạnh bồn cầu"],["Thảm chống trượt","Sàn phòng tắm"],["Đèn ngủ nhỏ","Để một đèn ban đêm"],["Lối đi thoáng","Cất đồ đạc, dây điện"]],"three":[["Uống thuốc đúng giờ",""],["Đo huyết áp mỗi ngày",""],["Tái khám đúng hẹn",""]],"bp722":[["7 ngày","Đo liên tục"],["2 lần","Sáng một lần, tối một lần"],["2 lượt","Mỗi lần đo hai lượt"]],"life":[["Không hút thuốc",""],["Ít muối, ít dầu mỡ",""],["Ăn nhiều rau",""],["Duy trì vận động",""]],"talk":[["Mặt đối mặt","Nói chậm, câu ngắn"],["Hình ảnh, cử chỉ","Giúp diễn đạt"]],"rest":[["Giờ nghỉ cố định","Người chăm sóc cần ăn, ngủ"],["Gọi 1966","Hỏi về chăm sóc thay thế"]],"devices":[["Khung tập đi",""],["Xe lăn",""],["Gậy bốn chân",""]],"angle":{"cap":"Khi cho ăn qua ống và sau khi cho ăn, nâng đầu giường cao 30–45 độ","aria":"Khi cho ăn qua ống, nâng đầu giường cao 30 đến 45 độ"},"weeks":{"cap":"Thời gian chăm sóc PAC (tuần)","legend":["Về nguyên tắc 3–6 tuần","Sau khi đánh giá có thể kéo dài một lần, tối đa 12 tuần","Đánh giá 3 tuần một lần"],"aria":"Thời gian chăm sóc PAC: về nguyên tắc 3 đến 6 tuần, có thể kéo dài một lần, tối đa đến 12 tuần, đánh giá 3 tuần một lần"}},"units":[{"title":"Tìm hiểu về PAC, chăm sóc sau giai đoạn cấp","desc":"PAC là gì, ai được tham gia, chăm sóc trong bao lâu","body":[{"t":"h","x":"Chăm sóc sau giai đoạn cấp là gì"},{"t":"p","x":"Sau khi việc điều trị cấp tính cho đột quỵ kết thúc và bệnh đã ổn định, có một khoảng thời gian chức năng cơ thể hồi phục khá nhanh. Chương trình Chăm sóc Sau giai đoạn cấp của Bảo hiểm Y tế Toàn dân Đài Loan (NHI), gọi tắt là PAC. Trong chương trình này, một đội ngũ gồm nhiều chuyên ngành sắp xếp cho người bệnh tập phục hồi chức năng tích cực ngay trong khoảng thời gian đó, giúp người bệnh lấy lại khả năng tự lo sinh hoạt và về nhà thuận lợi."},{"t":"fig","id":"journey"},{"t":"h","x":"Ai được tham gia"},{"t":"p","x":"Người bệnh có phù hợp để tham gia hay không là do đội ngũ y tế đánh giá. Các điều kiện chính như sau:"},{"t":"ul","x":["Trong vòng 1 tháng sau khi bị đột quỵ não cấp. Trường hợp đặc biệt có thể nới rộng đến trong vòng 40 ngày.","Sau đột quỵ có suy giảm chức năng ở mức trung bình đến trung bình nặng.","Bệnh đã ổn định từ 72 giờ trở lên.","Có khả năng phục hồi: có thể phối hợp và học theo hướng dẫn, ngồi được đủ 1 giờ khi được đỡ, sẵn lòng chủ động tham gia tập phục hồi chức năng."]},{"t":"h","x":"Chăm sóc trong bao lâu"},{"t":"p","x":"Về nguyên tắc là 3–6 tuần. Sau khi đội ngũ y tế đánh giá, nếu vẫn còn cần thì có thể kéo dài một lần, tối đa đến 12 tuần. Trong thời gian này, cứ 3 tuần đánh giá mức tiến bộ một lần."},{"t":"fig","id":"weeks"},{"t":"h","x":"Ba hình thức chăm sóc"},{"t":"modes","x":[{"dt":"Hình thức nội trú","dd":"Ở lại bệnh viện để tập phục hồi chức năng. Cường độ cao: mỗi ngày trị liệu 3–5 lần. Cường độ thông thường: mỗi ngày 1–2 lần."},{"dt":"Hình thức chăm sóc ban ngày","dd":"Ban ngày đến bệnh viện tập phục hồi chức năng, thời gian khoảng từ 9 giờ sáng đến 5 giờ chiều, mỗi ngày trị liệu 2–4 lần, buổi tối về nhà nghỉ ngơi."},{"dt":"Hình thức tại nhà","dd":"Với người bệnh không thể nằm viện, không thể tham gia chăm sóc ban ngày hoặc không thể đến phòng khám ngoại trú để tập phục hồi chức năng, chuyên viên trị liệu sẽ đến nhà để trị liệu. Mỗi lần 30–50 phút, mỗi tuần 1–6 lần."}]},{"t":"p","x":"Mỗi bệnh viện cung cấp các hình thức khác nhau, xin hỏi lại người quản lý ca bệnh PAC cho chắc."},{"t":"h","x":"Khi nào kết thúc"},{"t":"ul","x":["Chức năng tiến bộ rõ rệt, có thể về nhà tự tập phục hồi chức năng.","2 lần đánh giá liên tiếp không có tiến bộ.","Bệnh thay đổi, cần điều trị khác trước.","Đã đến giới hạn tối đa 12 tuần."]},{"t":"key","h":"Những việc gia đình có thể làm","ul":["Tham gia các buổi giải thích và thảo luận của đội ngũ y tế để hiểu mục tiêu phục hồi chức năng.","Học kỹ năng chăm sóc từ chuyên viên trị liệu và điều dưỡng.","Sớm thảo luận với đội ngũ y tế về việc sắp xếp sau khi xuất viện."]}]},{"title":"Tập phục hồi chức năng như thế nào","desc":"Các thành viên trong đội ngũ, gia đình giúp như thế nào, khi nào cần dừng lại","body":[{"t":"h","x":"Đội ngũ phục hồi chức năng làm gì"},{"t":"ul","x":["Vật lý trị liệu: tập lật người, ngồi, đứng, đi lại và giữ thăng bằng.","Hoạt động trị liệu: tập các động tác của tay và các sinh hoạt hằng ngày như mặc quần áo, ăn cơm, đi vệ sinh.","Ngôn ngữ trị liệu: tập nói, tập hiểu lời nói và tập nuốt."]},{"t":"fig","id":"team"},{"t":"p","x":"Trong đội ngũ còn có bác sĩ, điều dưỡng, chuyên viên dinh dưỡng, dược sĩ và nhân viên công tác xã hội. Có thắc mắc gì đều có thể nêu ra."},{"t":"h","x":"Mỗi giây phút trong phòng bệnh đều là tập phục hồi chức năng"},{"t":"p","x":"Những động tác chuyên viên trị liệu dạy cần được dùng trong sinh hoạt hằng ngày. Những việc người bệnh tự làm được, ví dụ rửa mặt, mặc quần áo, ăn cơm, xin hãy để người bệnh tự làm. Người nhà ở bên cạnh trông chừng, giúp khi cần thiết, đừng làm thay tất cả."},{"t":"h","x":"Bảo vệ bên yếu"},{"t":"ul","x":["Khi đỡ người bệnh ngồi dậy hoặc di chuyển, không kéo cánh tay bên yếu, để tránh làm tổn thương vai.","Khi nằm hoặc ngồi, dùng gối đỡ chắc cánh tay bên yếu.","Khi nằm trên giường lâu, cứ khoảng 2 giờ giúp người bệnh lật người một lần."]},{"t":"fig","id":"arm"},{"t":"weak"},{"t":"warn","h":"Nếu có những biểu hiện sau, xin dừng lại trước và báo cho nhân viên y tế","ul":["Chóng mặt, mặt tái nhợt, vã mồ hôi lạnh","Tức ngực, thở rất gấp","Đột ngột đau đầu dữ dội","Tay chân yếu hơn bình thường, hoặc đột nhiên nói không rõ"]},{"t":"key","h":"Tiến bộ có nhanh có chậm","p":"Tốc độ hồi phục của mỗi người khác nhau. Đội ngũ y tế đánh giá 3 tuần một lần và điều chỉnh nội dung tập phục hồi chức năng theo kết quả. Tập đều đặn liên tục quan trọng hơn là tập thật nhiều trong một lần."}]},{"title":"Nuốt và ăn uống an toàn","desc":"Dấu hiệu cảnh báo bị sặc, cách ăn an toàn","body":[{"t":"h","x":"Vì sao cần chú ý việc nuốt"},{"t":"p","x":"Sau đột quỵ, khả năng nuốt thường kém đi. Nếu thức ăn hoặc nước bị sặc vào khí quản, có thể gây viêm phổi do hít sặc. Có người bệnh bị sặc mà không ho, vì vậy cần người nhà cùng quan sát."},{"t":"warn","h":"Dấu hiệu cảnh báo có vấn đề về nuốt","ul":["Ho, sặc khi ăn hoặc uống nước","Sau khi ăn, giọng nói nghe ướt, có tiếng đờm","Ngậm thức ăn trong miệng không nuốt xuống được, hoặc thức ăn chảy ra ở khóe miệng","Ăn một bữa mất rất nhiều thời gian","Sốt nhiều lần, đờm nhiều hơn"],"p":"Nếu có những biểu hiện này, xin báo cho điều dưỡng hoặc chuyên viên ngôn ngữ trị liệu."},{"t":"h","x":"Cách ăn an toàn"},{"t":"fig","id":"eat"},{"t":"ul","x":["Chỉ ăn khi người bệnh hoàn toàn tỉnh táo.","Ngồi thẳng rồi mới ăn, điều chỉnh tư thế theo cách chuyên viên ngôn ngữ trị liệu đã dạy.","Ăn từng miếng nhỏ, chậm rãi, chắc chắn đã nuốt hết rồi mới ăn miếng tiếp theo.","Khi đút ăn, đưa thức ăn vào miệng từ bên khỏe.","Tập trung khi ăn, không vừa ăn vừa nói chuyện.","Ăn xong ngồi ít nhất 30 phút rồi mới nằm xuống.","Sau bữa ăn, vệ sinh miệng và kiểm tra xem bên trong má bên yếu có còn sót thức ăn không."]},{"t":"fig","id":"after"},{"t":"h","x":"Độ mềm cứng và độ đặc của thức ăn"},{"t":"p","x":"Thức ăn cần cắt nhỏ đến mức nào, nước có cần thêm chất làm đặc hay không, xin làm theo lời khuyên của chuyên viên ngôn ngữ trị liệu và chuyên viên dinh dưỡng, đừng tự ý thay đổi."},{"t":"key","h":"Người bệnh dùng ống thông mũi dạ dày (ống cho ăn)","ul":["Trước khi cho ăn qua ống, kiểm tra vị trí và vạch đánh dấu của ống.","Khi cho ăn qua ống, nâng đầu giường cao 30–45 độ.","Sau khi cho ăn qua ống, giữ nguyên tư thế đó ít nhất 30 phút đến 1 giờ."],"figBottom":"angle"}]},{"title":"Phòng ngừa té ngã","desc":"Ba bước xuống giường, các điểm an toàn chính ở phòng bệnh và ở nhà","body":[{"t":"h","x":"Vì sao sau đột quỵ dễ té ngã"},{"t":"p","x":"Tay chân một bên yếu, thăng bằng kém đi, chóng mặt, vội đi vệ sinh đều làm tăng khả năng té ngã. Té ngã có thể gây gãy xương hoặc chấn thương đầu, làm việc tập phục hồi chức năng bị gián đoạn."},{"t":"key","h":"Ba bước xuống giường","figTop":"steps","ul":["Trước tiên ngồi dậy trên giường, ngồi 30 giây.","Thả chân xuống, ngồi ở mép giường thêm 30 giây.","Đứng dậy, đứng vững 30 giây, không chóng mặt rồi mới bắt đầu đi."]},{"t":"h","x":"Trong thời gian nằm viện"},{"t":"ul","x":["Xuống giường và đi vệ sinh đều phải có người đi cùng. Cần giúp thì xin bấm chuông gọi, đừng cố tự làm.","Kéo thanh chắn giường lên, hạ giường xuống mức thấp nhất, khóa bánh xe giường.","Đồ thường dùng để ở bên khỏe, nơi với tay lấy được.","Mang giày chống trượt vừa chân, không mang dép lê. Quần không nên quá dài.","Sàn nhà bị ướt thì xin báo cho nhân viên."]},{"t":"h","x":"Ngồi xe lăn và chuyển chỗ"},{"t":"ul","x":["Trước khi lên xuống xe lăn, khóa phanh hai bên trước và gập chỗ để chân lên.","Cách chuyển chỗ xin làm theo các bước chuyên viên trị liệu đã dạy."]},{"t":"h","x":"Sau khi về nhà"},{"t":"ul","x":["Lắp thêm tay vịn trong phòng tắm và bên cạnh bồn cầu, trải thảm chống trượt trên sàn.","Cất đồ đạc lặt vặt, dây điện, thảm nhỏ trên lối đi.","Buổi tối để một ngọn đèn nhỏ."]},{"t":"fig","id":"safe"},{"t":"warn","h":"Nếu lỡ bị té ngã","ul":["Đừng vội kéo người bệnh dậy, trước tiên xem người bệnh có tỉnh táo không, đau ở đâu.","Nếu đang nằm viện, xin bấm chuông gọi ngay.","Ở nhà, nếu bị đập đầu, đau đến mức không cử động được, hoặc không tỉnh táo, xin gọi 119."]}]},{"title":"Phòng ngừa đột quỵ tái phát","desc":"Uống thuốc đúng giờ, đo huyết áp, nhận biết dấu hiệu cảnh báo đột quỵ tái phát","body":[{"t":"h","x":"Người đã từng đột quỵ cần phòng ngừa bị lại"},{"t":"p","x":"Người đã từng đột quỵ có khả năng bị đột quỵ lần nữa cao hơn người bình thường. Kiểm soát tốt huyết áp, đường huyết và mỡ máu có thể làm giảm khả năng này."},{"t":"fig","id":"three"},{"t":"h","x":"Uống thuốc đúng giờ"},{"t":"ul","x":["Thuốc phòng cục máu đông và các thuốc kiểm soát huyết áp, đường huyết, mỡ máu đều phải uống mỗi ngày theo chỉ dẫn của bác sĩ.","Đừng vì thấy khỏe hơn nhiều mà tự ý ngừng thuốc hoặc giảm thuốc.","Nếu bị chảy máu khó cầm, đi ngoài phân đen hoặc phân có máu, xin báo cho bác sĩ càng sớm càng tốt."]},{"t":"key","h":"Đo huyết áp “722”","figTop":"bp722","ul":["7: đo liên tục 7 ngày.","2: buổi sáng sau khi thức dậy và buổi tối trước khi đi ngủ, mỗi buổi đo một lần.","2: mỗi lần đo hai lượt."],"p":"Ghi lại các con số, khi tái khám mang cho bác sĩ xem. Mức huyết áp cần đạt theo chỉ dẫn của bác sĩ."},{"t":"h","x":"Thói quen sinh hoạt"},{"t":"fig","id":"life"},{"t":"ul","x":["Không hút thuốc, hạn chế uống rượu bia.","Ăn ít dầu mỡ, ít đường, ít muối, ăn nhiều rau và thực phẩm giàu chất xơ.","Duy trì vận động theo lời khuyên của chuyên viên trị liệu.","Nếu thấy tim đập không đều, hồi hộp đánh trống ngực hoặc tức ngực, xin báo cho bác sĩ.","Tái khám đúng hẹn."]},{"t":"sos"},{"t":"ul","x":["Đừng tự lái ô tô hoặc đi xe máy đến bệnh viện.","Trong lúc chờ xe cấp cứu, đừng cho người bệnh ăn, uống nước hay uống thuốc.","Đừng chờ triệu chứng tự hết."]}]},{"title":"Cảm xúc và giao tiếp","desc":"Thay đổi cảm xúc sau đột quỵ, cách nói chuyện với người bệnh, việc nghỉ ngơi của người chăm sóc","body":[{"t":"h","x":"Thay đổi cảm xúc sau đột quỵ"},{"t":"p","x":"Sau đột quỵ, tâm trạng buồn chán, dễ khóc hoặc dễ nổi nóng là điều thường gặp. Điều này liên quan đến tổn thương não và cả việc cuộc sống thay đổi đột ngột, không phải do người bệnh không đủ mạnh mẽ."},{"t":"warn","h":"Nếu những biểu hiện sau kéo dài từ hai tuần trở lên, xin báo cho đội ngũ y tế","ul":["Buồn rầu cả ngày, không còn hứng thú với việc gì","Không muốn tập phục hồi chức năng, không muốn nói chuyện","Ngủ không ngon hoặc không ăn nổi","Thường nói mình là gánh nặng cho gia đình"],"p":"Vấn đề cảm xúc có thể điều trị được, và cũng ảnh hưởng đến kết quả phục hồi chức năng, nên rất đáng được nêu ra để thảo luận."},{"t":"h","x":"Giao tiếp với người bệnh gặp khó khăn khi nói"},{"t":"fig","id":"talk"},{"t":"ul","x":["Nói chuyện mặt đối mặt, nói chậm lại, câu ngắn hơn.","Mỗi lần chỉ nói một việc.","Dùng nhiều câu hỏi có thể trả lời “có” hoặc “không”.","Kết hợp cử chỉ, hình ảnh hoặc đồ vật thật.","Cho người bệnh thời gian trả lời, đừng vội nói thay cho hết câu.","Nói chuyện theo cách nói với người lớn, đừng coi người bệnh như trẻ con."]},{"t":"h","x":"Người chăm sóc cũng cần chăm sóc bản thân"},{"t":"ul","x":["Người nhà thay phiên nhau chăm sóc, đừng để một người gánh hết.","Người chăm sóc cần có giờ nghỉ và giờ ăn cố định.","Khi cảm thấy không chịu nổi nữa, có thể tìm điều dưỡng hoặc nhân viên công tác xã hội để nói chuyện."]},{"t":"fig","id":"rest"},{"t":"key","h":"Đường dây chăm sóc dài hạn 1966","p":"Gọi 1966 để hỏi về các nguồn hỗ trợ chăm sóc dài hạn như dịch vụ chăm sóc thay thế tạm thời, dịch vụ chăm sóc tại nhà."}]},{"title":"Chuẩn bị xuất viện về nhà","desc":"Những việc cần học trước khi xuất viện, môi trường trong nhà, nguồn hỗ trợ chăm sóc dài hạn","body":[{"t":"h","x":"Những việc cần học được trước khi xuất viện"},{"t":"ul","x":["Giúp người bệnh lật người, lên xuống giường và lên xuống xe lăn một cách an toàn.","Cách đút ăn hoặc cho ăn qua ống thông mũi dạ dày.","Tác dụng và giờ uống của từng loại thuốc.","Các động tác phục hồi chức năng cần tiếp tục tập ở nhà.","Nếu có ống thông, ví dụ ống thông mũi dạ dày hoặc ống thông tiểu, cần học cách chăm sóc."]},{"t":"p","x":"Những chỗ chưa chắc chắn, trước khi xuất viện xin nhờ điều dưỡng hoặc chuyên viên trị liệu dạy lại một lần nữa, và tự tay làm cho họ xem."},{"t":"h","x":"Môi trường trong nhà"},{"t":"ul","x":["Chiều cao của giường phải thuận tiện cho việc lên xuống, bên cạnh giường chừa chỗ để xe lăn có thể vào sát.","Lắp thêm tay vịn trong phòng tắm và bên cạnh bồn cầu, sàn chống trượt.","Giữ lối đi rộng rãi, cất đồ đạc lặt vặt và dây điện."]},{"t":"fig","id":"safe"},{"t":"h","x":"Dụng cụ hỗ trợ"},{"t":"fig","id":"devices"},{"t":"p","x":"Cần loại dụng cụ hỗ trợ nào, ví dụ khung tập đi, xe lăn hoặc ghế bô, xin hỏi chuyên viên trị liệu trước rồi mới chuẩn bị. Về trợ cấp dụng cụ hỗ trợ, có thể hỏi Trung tâm Quản lý Chăm sóc Dài hạn của các huyện, thành phố."},{"t":"h","x":"Nguồn hỗ trợ chăm sóc dài hạn"},{"t":"p","x":"Ngay trong thời gian nằm viện đã có thể nhờ điều dưỡng của dịch vụ chuẩn bị xuất viện giúp giới thiệu để được đánh giá chăm sóc dài hạn, cũng có thể tự gọi 1966. Các dịch vụ gồm có dịch vụ chăm sóc tại nhà, phục hồi khả năng sinh hoạt tại nhà, đưa đón đi lại và dịch vụ chăm sóc thay thế tạm thời, v.v."},{"t":"key","h":"Sau khi xuất viện","figTop":"three","ul":["Ghi lại ngày tái khám và chuyên khoa.","Uống thuốc đúng giờ, đo huyết áp mỗi ngày.","Tiếp tục tập phục hồi chức năng, không gián đoạn."]},{"t":"warn","h":"Nếu có những biểu hiện sau, xin đi khám ngay","ul":["Dấu hiệu cảnh báo đột quỵ tái phát: méo miệng, yếu tay chân một bên, nói không rõ, xin gọi 119","Sốt, ho, đờm nhiều hơn","Không tỉnh táo, hoặc gọi khó tỉnh","Té ngã bị thương","Co giật"]}]}],"daily":["Hôm nay đã tham gia đủ các buổi tập phục hồi chức năng","Việc tự làm được thì tự làm (rửa mặt, mặc quần áo, ăn cơm)","Khi ăn ngồi thẳng, ăn miếng nhỏ, chậm rãi, ăn xong ngồi 30 phút","Sau bữa ăn vệ sinh miệng, kiểm tra xem còn sót thức ăn không","Khi xuống giường: ngồi 30 giây, đứng 30 giây rồi mới đi, và có người đi cùng","Khi nằm trên giường, cứ khoảng 2 giờ lật người một lần, cánh tay bên yếu có gối đỡ","Hôm nay đã uống đủ thuốc đúng giờ","Đo huyết áp và ghi lại","Hôm nay đã trò chuyện và động viên người bệnh","Bản thân người chăm sóc đã nghỉ ngơi và ăn cơm"],"ready":["Biết cách giúp lên xuống giường, lên xuống xe lăn an toàn","Biết đút ăn hoặc cho ăn qua ống thông mũi dạ dày","Biết tác dụng và giờ uống của từng loại thuốc","Biết làm các động tác phục hồi chức năng tại nhà","Đã chuẩn bị dụng cụ hỗ trợ theo lời khuyên của chuyên viên trị liệu","Ở nhà đã lắp tay vịn, trải thảm chống trượt, cất gọn đồ đạc lặt vặt","Đã gọi 1966 hoặc nhờ điều dưỡng giới thiệu để được đánh giá chăm sóc dài hạn","Biết ngày tái khám và chuyên khoa","Biết dấu hiệu cảnh báo đột quỵ tái phát và khi nào cần gọi 119","Ở nhà có máy đo huyết áp và biết cách ghi lại"],"quiz":[{"q":"Sau khi bệnh đột quỵ ổn định, bắt đầu tập phục hồi chức năng sớm thì có nhiều cơ hội hồi phục chức năng hơn.","why":"Khoảng thời gian sau khi bệnh ổn định là lúc hồi phục khá nhanh. PAC sắp xếp tập phục hồi chức năng tích cực chính trong khoảng thời gian này."},{"q":"Để người bệnh được nghỉ ngơi nhiều hơn, tốt nhất người nhà nên làm thay hết việc mặc quần áo và ăn cơm.","why":"Những việc người bệnh tự làm được, xin hãy để người bệnh tự làm, đây cũng là một phần của phục hồi chức năng. Người nhà chỉ cần ở bên cạnh trông chừng và giúp khi cần thiết."},{"q":"Khi đỡ người bệnh ngồi dậy, không được kéo cánh tay bên yếu của người bệnh.","why":"Kéo cánh tay bên yếu dễ làm vai bị tổn thương."},{"q":"Khi ăn, người bệnh thỉnh thoảng ho một chút thì không sao, không cần báo cho nhân viên y tế.","why":"Ho khi ăn hoặc uống nước là dấu hiệu cảnh báo có vấn đề về nuốt, xin báo cho điều dưỡng hoặc chuyên viên ngôn ngữ trị liệu."},{"q":"Khi đút ăn, phải đưa thức ăn vào miệng từ bên khỏe của người bệnh.","why":"Đưa vào từ bên khỏe thì dễ nhai và nuốt hơn, cũng ít bị sót thức ăn hơn."},{"q":"Nửa đêm muốn đi vệ sinh, để không đánh thức người nhà, người bệnh có thể tự đi chậm chậm một mình.","why":"Xuống giường và đi vệ sinh đều phải có người đi cùng. Nếu đang nằm viện, xin bấm chuông gọi, đừng cố tự làm."},{"q":"Huyết áp ổn định, không thấy khó chịu thì có thể tự ngừng thuốc.","why":"Huyết áp ổn định là nhờ uống thuốc đúng giờ. Có điều chỉnh thuốc hay không, xin để bác sĩ quyết định."},{"q":"Đột nhiên méo miệng, một tay yếu hoặc nói không rõ thì trước tiên cứ nghỉ ngơi, theo dõi nửa ngày rồi tính sau.","why":"Đây là dấu hiệu cảnh báo đột quỵ tái phát. Có bất kỳ dấu hiệu nào, xin gọi 119 ngay và ghi lại giờ bắt đầu có triệu chứng."},{"q":"Trong thời gian chăm sóc PAC, đội ngũ y tế đánh giá mức tiến bộ 3 tuần một lần.","why":"Đội ngũ y tế đánh giá khi nhận vào chương trình, 3 tuần một lần và khi kết thúc chương trình, rồi điều chỉnh nội dung tập phục hồi chức năng theo kết quả."},{"q":"Người chăm sóc cũng cần nghỉ ngơi, có thể gọi 1966 để hỏi về dịch vụ chăm sóc thay thế tạm thời.","why":"Chăm sóc là việc lâu dài. Có thể gọi đường dây chăm sóc dài hạn 1966 để hỏi về các nguồn hỗ trợ như dịch vụ chăm sóc thay thế tạm thời và dịch vụ chăm sóc tại nhà."}]},"th":{"code":"th","name":"ไทย","htmlLang":"th","speech":"th-TH","locale":"th-TH","glyph":"A","rangeWord":" ถึง ","say":[["119","หนึ่ง หนึ่ง เก้า"],["1966","หนึ่ง เก้า หก หก"],["722","เจ็ด สอง สอง"]],"ui":{"brand":"ความรู้โรคหลอดเลือดสมอง PAC","trial":"รุ่นทดลอง","tabHome":"หน้าแรก","tabLearn":"ความรู้","tabCheck":"รายการ","tabQuiz":"แบบทดสอบ","homeTitle":"ช่วงเวลาทองของการฟื้นฟูหลังเป็นโรคหลอดเลือดสมอง","homeIntro":"ความรู้เรื่องการดูแลหลังระยะเฉียบพลัน สำหรับผู้ป่วยและญาติ แต่ละเรื่องใช้เวลาประมาณ 3 นาที จะอ่านเองก็ได้ จะฟังก็ได้","todayTitle":"รายการดูแลวันนี้","todayDone":"ทำแล้ว {n} / {m} ข้อ","unitsHeading":"เรื่องที่ควรรู้","aboutTitle":"เกี่ยวกับความรู้ชุดนี้","about":["นี่เป็นรุ่นทดลอง ก่อนเปิดใช้จริง เนื้อหาต้องผ่านการตรวจทานจากทีมรักษาก่อน","เนื้อหาเป็นคำอธิบายทั่วไป ผู้ป่วยแต่ละคนมีอาการไม่เหมือนกัน โปรดยึดคำแนะนำของแพทย์เจ้าของไข้และทีมดูแลเป็นหลัก","เครื่องหมายที่ทำไว้จะเก็บอยู่ในเครื่องนี้เท่านั้น ไม่มีการส่งออกไป และไม่บันทึกชื่อหรือข้อมูลเวชระเบียน","คำแปลนี้เป็นฉบับร่าง ยังไม่ได้ผ่านการตรวจทานจากบุคลากรทางการแพทย์ที่เป็นเจ้าของภาษา"],"sourcesLabel":"แหล่งอ้างอิง:","src1":"โครงการดูแลหลังระยะเฉียบพลัน (PAC) ของสำนักงานประกันสุขภาพแห่งชาติไต้หวัน","src2":"ความรู้เรื่องโรคหลอดเลือดสมอง ของกรมส่งเสริมสุขภาพไต้หวัน","learnTitle":"เรื่องที่ควรรู้","learnIntro":"มีทั้งหมด {n} เรื่อง อยากอ่านเรื่องไหน แตะเรื่องนั้นได้เลย","back":"เรื่องทั้งหมด","unitMeta":"เรื่องที่ {i} จาก {n} เรื่อง","speak":"อ่านออกเสียงเรื่องนี้","stop":"หยุดอ่านออกเสียง","rate":"ความเร็วเสียงอ่าน","rateNormal":"ปกติ","rateSlow":"ช้า","noSpeech":"เบราว์เซอร์นี้ไม่รองรับการอ่านออกเสียง โปรดอ่านข้อความแทน","speechFail":"ตอนนี้เครื่องนี้อ่านออกเสียงไม่ได้ โปรดอ่านข้อความแทน","noVoice":"เครื่องนี้ไม่มีเสียงภาษาไทย โปรดอ่านข้อความแทน","prev":"ก่อนหน้า","next":"ถัดไป","toQuiz":"ทำแบบทดสอบ","checkTitle":"รายการดูแล","listDaily":"การดูแลประจำวัน","listReady":"เตรียมออกจากโรงพยาบาล","progDone":"ทำแล้ว {n} / {m}","dailyHint":"{date} เริ่มนับใหม่ทุกวัน","readyHint":"เตรียมเสร็จข้อไหน ก็ทำเครื่องหมายข้อนั้น","clearAll":"ยกเลิกเครื่องหมายทั้งหมด","privacy":"เครื่องหมายที่ทำไว้จะเก็บอยู่ในเครื่องนี้เท่านั้น ไม่มีการส่งออกไป และไม่บันทึกชื่อหรือข้อมูลเวชระเบียน","quizTitle":"แบบทดสอบ","quizIntro":"มีคำถามถูกผิดทั้งหมด {n} ข้อ ลองดูว่าจำเรื่องสำคัญได้มากแค่ไหน","quizNo":"ข้อที่ {i} จาก {n} ข้อ","yes":"ถูก","no":"ผิด","markOk":"✓","right":"ตอบถูกแล้ว","correctIs":"คำตอบที่ถูกคือ “{a}”","nextQ":"ข้อถัดไป","seeResult":"ดูผล","resultTitle":"ผลแบบทดสอบ","scoreOf":"/ {n} ข้อ ตอบถูก","reviewTitle":"เนื้อหาที่อ่านทบทวนได้อีกครั้ง","correctAnswer":"คำตอบที่ถูก: {a}","readUnit":"อ่านเรื่อง “{t}”","allRight":"ตอบถูกทุกข้อ โปรดนำเรื่องสำคัญเหล่านี้ไปใช้ในการดูแลทุกวันต่อไป","retry":"ทำแบบทดสอบอีกครั้ง","weakNote":"ในภาพ สีส้มหมายถึงข้างที่อ่อนแรง","fontAria":"ขนาดตัวอักษร","fontS":"ตัวปกติ","fontM":"ตัวใหญ่","fontL":"ตัวใหญ่มาก","langAria":"ภาษา","listAria":"ประเภทรายการ","navAria":"เมนูหลัก"},"sos":{"title":"สัญญาณเตือนโรคหลอดเลือดสมองซ้ำ","items":[["ยิ้ม","มุมปากเบี้ยว หน้าสองข้างไม่เท่ากัน"],["ยกแขนสองข้าง","ยกแขนสองข้างให้เสมอกัน แขนข้างหนึ่งอ่อนแรงตกลง"],["พูดสวัสดี","พูดไม่ชัด พูดไม่ออก"]],"call":"ถ้ามีอาการข้อใดข้อหนึ่ง ให้โทร {n} ทันที และจดเวลาที่เริ่มมีอาการไว้"},"caps":{"journey":[["รักษาระยะเฉียบพลัน",""],["ฟื้นฟูแบบ PAC",""],["กลับบ้าน",""]],"team":[["กายภาพบำบัด","การเดินและการทรงตัว"],["กิจกรรมบำบัด","กิจวัตรประจำวัน"],["แก้ไขการพูด","การพูดและการกลืน"]],"arm":[["ทำแบบนี้","ใช้หมอนรองแขนไว้"],["อย่าทำแบบนี้","ดึงแขนข้างที่อ่อนแรง"]],"eat":[["ทำแบบนี้","นั่งตัวตรง กินคำเล็ก ช้าๆ"],["อย่าทำแบบนี้","นอนกิน"]],"after":[["นั่ง 30 นาที","กินเสร็จไม่นอนทันที"],["ทำความสะอาดปาก","หลังอาหารทุกมื้อ"],["ตรวจกระพุ้งแก้ม","มีเศษอาหารค้างไหม"]],"steps":[["นั่งบนเตียง","30 วินาที"],["นั่งขอบเตียง","30 วินาที"],["ยืนให้มั่นคง","30 วินาที แล้วค่อยเดิน"]],"safe":[["ราวจับ","ห้องน้ำ ข้างโถส้วม"],["แผ่นกันลื่น","พื้นห้องน้ำ"],["ไฟดวงเล็ก","เปิดไว้หนึ่งดวงตอนกลางคืน"],["ทางเดินโล่ง","เก็บของเกะกะและสายไฟ"]],"three":[["กินยาตรงเวลา",""],["วัดความดันทุกวัน",""],["มาตรวจตามนัด",""]],"bp722":[["7 วัน","วัดต่อเนื่อง"],["2 รอบ","เช้าหนึ่งรอบ ค่ำหนึ่งรอบ"],["2 ครั้ง","แต่ละรอบวัดสองครั้ง"]],"life":[["ไม่สูบบุหรี่",""],["ลดเค็ม ลดมัน",""],["กินผักให้มาก",""],["ขยับตัวสม่ำเสมอ",""]],"talk":[["หันหน้าเข้าหากัน","พูดช้าๆ ประโยคสั้นๆ"],["รูปภาพและท่าทาง","ช่วยในการสื่อสาร"]],"rest":[["พักให้เป็นเวลา","ผู้ดูแลก็ต้องกินและนอน"],["โทร 1966","ถามบริการดูแลแทนชั่วคราว"]],"devices":[["โครงช่วยเดิน",""],["รถเข็นนั่ง",""],["ไม้เท้าสี่ขา",""]],"angle":{"cap":"ระหว่างให้อาหารทางสายและหลังให้อาหารทางสาย ยกหัวเตียงสูง 30–45 องศา","aria":"ระหว่างให้อาหารทางสาย ยกหัวเตียงสูง 30 ถึง 45 องศา"},"weeks":{"cap":"ระยะเวลาการดูแลแบบ PAC (สัปดาห์)","legend":["โดยหลัก 3–6 สัปดาห์","หลังประเมินแล้วขยายเวลาได้หนึ่งครั้ง นานที่สุด 12 สัปดาห์","ประเมินทุก 3 สัปดาห์"],"aria":"ระยะเวลาการดูแลแบบ PAC: โดยหลัก 3 ถึง 6 สัปดาห์ ขยายเวลาได้หนึ่งครั้ง นานที่สุดถึง 12 สัปดาห์ ประเมินทุก 3 สัปดาห์"}},"units":[{"title":"รู้จักการดูแลหลังระยะเฉียบพลัน (PAC)","desc":"PAC คืออะไร ใครเข้าร่วมได้ ดูแลนานเท่าไร","body":[{"t":"h","x":"การดูแลหลังระยะเฉียบพลันคืออะไร"},{"t":"p","x":"เมื่อการรักษาโรคหลอดเลือดสมองในระยะเฉียบพลันสิ้นสุดลง และอาการคงที่แล้ว จะมีช่วงเวลาหนึ่งที่ร่างกายฟื้นความสามารถได้ค่อนข้างเร็ว “โครงการดูแลหลังระยะเฉียบพลัน” ของประกันสุขภาพแห่งชาติไต้หวัน เรียกย่อว่า PAC คือการที่ทีมสหวิชาชีพจัดการฟื้นฟูอย่างเข้มข้นในช่วงเวลานี้ เพื่อช่วยให้ผู้ป่วยกลับมาช่วยเหลือตัวเองในชีวิตประจำวันได้ และกลับบ้านได้อย่างราบรื่น"},{"t":"fig","id":"journey"},{"t":"h","x":"ใครเข้าร่วมได้"},{"t":"p","x":"ทีมรักษาจะเป็นผู้ประเมินว่าเหมาะจะเข้าร่วมหรือไม่ เงื่อนไขหลักมีดังนี้"},{"t":"ul","x":["เริ่มเป็นโรคหลอดเลือดสมองเฉียบพลันมาไม่เกิน 1 เดือน กรณีพิเศษผ่อนผันได้ถึงไม่เกิน 40 วัน","หลังเป็นโรคหลอดเลือดสมอง มีความบกพร่องในการทำงานของร่างกายระดับปานกลาง ถึงปานกลางค่อนข้างรุนแรง","อาการคงที่มาแล้ว 72 ชั่วโมงขึ้นไป","มีศักยภาพในการฟื้นฟู คือ ให้ความร่วมมือในการเรียนรู้ได้ นั่งได้ครบ 1 ชั่วโมงเมื่อมีสิ่งพยุง และเต็มใจเข้าร่วมการฟื้นฟูอย่างตั้งใจ"]},{"t":"h","x":"ดูแลนานเท่าไร"},{"t":"p","x":"โดยหลักคือ 3–6 สัปดาห์ หลังทีมประเมินแล้ว ถ้ายังจำเป็น ขยายเวลาได้หนึ่งครั้ง นานที่สุดถึง 12 สัปดาห์ ระหว่างนี้จะประเมินความก้าวหน้าทุก 3 สัปดาห์"},{"t":"fig","id":"weeks"},{"t":"h","x":"รูปแบบการดูแลสามแบบ"},{"t":"modes","x":[{"dt":"แบบนอนโรงพยาบาล","dd":"พักอยู่ในโรงพยาบาลเพื่อรับการฟื้นฟู ระดับเข้มข้นสูง รับการบำบัดวันละ 3–5 ครั้ง ระดับเข้มข้นทั่วไป วันละ 1–2 ครั้ง"},{"dt":"แบบดูแลช่วงกลางวัน","dd":"มาฟื้นฟูที่โรงพยาบาลตอนกลางวัน เวลาประมาณ 9 โมงเช้า ถึง 5 โมงเย็น รับการบำบัดวันละ 2–4 ครั้ง ตอนค่ำกลับไปพักที่บ้าน"},{"dt":"แบบที่บ้าน","dd":"สำหรับผู้ป่วยที่ไม่สามารถนอนโรงพยาบาล รับการดูแลช่วงกลางวัน หรือมาฟื้นฟูที่แผนกผู้ป่วยนอกได้ นักบำบัดจะไปบำบัดให้ที่บ้าน ครั้งละ 30–50 นาที สัปดาห์ละ 1–6 ครั้ง"}]},{"t":"p","x":"แต่ละโรงพยาบาลมีรูปแบบให้บริการไม่เหมือนกัน โปรดสอบถามผู้จัดการรายกรณีของ PAC ให้แน่ใจ"},{"t":"h","x":"สิ้นสุดเมื่อไร"},{"t":"ul","x":["ความสามารถของร่างกายดีขึ้นชัดเจน กลับบ้านไปฟื้นฟูเองได้","ประเมิน 2 ครั้งติดต่อกันแล้วไม่มีความก้าวหน้า","อาการเปลี่ยนแปลง ต้องไปรับการรักษาอย่างอื่นก่อน","ครบกำหนดสูงสุด 12 สัปดาห์แล้ว"]},{"t":"key","h":"สิ่งที่ญาติทำได้","ul":["เข้าร่วมฟังคำอธิบายและการพูดคุยของทีม เพื่อเข้าใจเป้าหมายของการฟื้นฟู","เรียนรู้วิธีดูแลจากนักบำบัดและพยาบาล","ปรึกษาทีมแต่เนิ่นๆ เรื่องการจัดเตรียมหลังออกจากโรงพยาบาล"]}]},{"title":"การฟื้นฟูทำอย่างไร","desc":"สมาชิกในทีม ญาติช่วยได้อย่างไร เมื่อไรต้องหยุด","body":[{"t":"h","x":"ทีมฟื้นฟูทำอะไรบ้าง"},{"t":"ul","x":["กายภาพบำบัด: ฝึกพลิกตัว นั่ง ยืน เดิน และการทรงตัว","กิจกรรมบำบัด: ฝึกการใช้มือ และกิจวัตรประจำวัน เช่น แต่งตัว กินข้าว เข้าห้องน้ำ","การแก้ไขการพูด: ฝึกพูด ฝึกความเข้าใจ และฝึกกลืน"]},{"t":"fig","id":"team"},{"t":"p","x":"ในทีมยังมีแพทย์ พยาบาล นักโภชนาการ เภสัชกร และนักสังคมสงเคราะห์ มีข้อสงสัยอะไรก็บอกได้เสมอ"},{"t":"h","x":"ทุกช่วงเวลาในหอผู้ป่วยคือการฟื้นฟู"},{"t":"p","x":"ท่าที่นักบำบัดสอน ต้องนำมาใช้ในชีวิตประจำวัน สิ่งที่ผู้ป่วยทำเองได้ เช่น ล้างหน้า แต่งตัว กินข้าว โปรดให้ผู้ป่วยทำเอง ญาติคอยดูอยู่ข้างๆ และช่วยเมื่อจำเป็น อย่าทำแทนทั้งหมด"},{"t":"h","x":"ปกป้องข้างที่อ่อนแรง"},{"t":"ul","x":["เวลาพยุงผู้ป่วยลุกขึ้นหรือเคลื่อนย้าย อย่าดึงแขนข้างที่อ่อนแรง เพื่อไม่ให้ไหล่บาดเจ็บ","เวลานอนหรือนั่ง ใช้หมอนรองแขนข้างที่อ่อนแรงไว้ให้ดี","เมื่อต้องนอนบนเตียงเป็นเวลานาน ช่วยพลิกตัวประมาณทุก 2 ชั่วโมง"]},{"t":"fig","id":"arm"},{"t":"weak"},{"t":"warn","h":"ถ้ามีอาการเหล่านี้ โปรดหยุดก่อน แล้วแจ้งแพทย์หรือพยาบาล","ul":["เวียนหัว หน้าซีด เหงื่อออกตัวเย็น","แน่นหน้าอก หายใจหอบมาก","จู่ๆ ปวดหัวรุนแรง","แขนขาอ่อนแรงกว่าปกติ หรือจู่ๆ พูดไม่ชัด"]},{"t":"key","h":"ความก้าวหน้ามีทั้งเร็วและช้า","p":"แต่ละคนฟื้นตัวเร็วช้าไม่เท่ากัน ทีมจะประเมินทุก 3 สัปดาห์ และปรับเนื้อหาการฟื้นฟูตามผล การฝึกอย่างต่อเนื่องสำคัญกว่าการฝึกมากๆ ในครั้งเดียว"}]},{"title":"การกลืนและความปลอดภัยในการกินอาหาร","desc":"สัญญาณเตือนของการสำลัก วิธีกินอาหารอย่างปลอดภัย","body":[{"t":"h","x":"ทำไมต้องระวังเรื่องการกลืน"},{"t":"p","x":"หลังเป็นโรคหลอดเลือดสมอง มักพบว่ากลืนได้แย่ลง ถ้าอาหารหรือน้ำสำลักเข้าหลอดลม อาจทำให้เกิดปอดอักเสบจากการสำลัก ผู้ป่วยบางคนสำลักแล้วไม่ไอ จึงต้องอาศัยญาติช่วยกันสังเกต"},{"t":"warn","h":"สัญญาณเตือนว่าการกลืนมีปัญหา","ul":["ไอหรือสำลักเวลากินอาหารหรือดื่มน้ำ","กินเสร็จแล้วเสียงเปลี่ยน เหมือนมีน้ำหรือเสมหะค้างในคอ","อมอาหารไว้ในปาก กลืนไม่ลง หรืออาหารไหลออกทางมุมปาก","กินอาหารหนึ่งมื้อใช้เวลานานมาก","มีไข้ซ้ำๆ เสมหะมากขึ้น"],"p":"ถ้ามีอาการเหล่านี้ โปรดแจ้งพยาบาลหรือนักแก้ไขการพูด"},{"t":"h","x":"วิธีกินอาหารอย่างปลอดภัย"},{"t":"fig","id":"eat"},{"t":"ul","x":["ให้กินอาหารเมื่อผู้ป่วยตื่นเต็มที่เท่านั้น","นั่งตัวตรงก่อนกิน ปรับท่าทางตามวิธีที่นักแก้ไขการพูดสอน","กินคำเล็กๆ ช้าๆ ให้แน่ใจว่ากลืนหมดแล้ว จึงกินคำต่อไป","เวลาป้อนอาหาร ให้ใส่อาหารเข้าปากทางข้างที่มีแรง","ตั้งใจกิน ไม่พูดไปกินไป","กินเสร็จแล้ว นั่งอย่างน้อย 30 นาที แล้วจึงนอนลง","หลังอาหาร ทำความสะอาดช่องปาก และตรวจดูว่ามีเศษอาหารค้างในกระพุ้งแก้มข้างที่อ่อนแรงหรือไม่"]},{"t":"fig","id":"after"},{"t":"h","x":"ความนิ่มแข็งและความข้นของอาหาร"},{"t":"p","x":"อาหารต้องหั่นละเอียดแค่ไหน น้ำต้องเติมสารเพิ่มความข้นหรือไม่ โปรดทำตามคำแนะนำของนักแก้ไขการพูดและนักโภชนาการ อย่าเปลี่ยนเอง"},{"t":"key","h":"ผู้ป่วยที่ใช้สายให้อาหารทางจมูก","ul":["ก่อนให้อาหารทางสาย ตรวจตำแหน่งของสายและขีดบอกระยะบนสายก่อน","ระหว่างให้อาหารทางสาย ยกหัวเตียงสูง 30–45 องศา","หลังให้อาหารทางสาย ให้อยู่ท่าเดิมอย่างน้อย 30 นาที ถึง 1 ชั่วโมง"],"figBottom":"angle"}]},{"title":"ป้องกันการหกล้ม","desc":"สามขั้นตอนลงจากเตียง จุดสำคัญด้านความปลอดภัยในหอผู้ป่วยและที่บ้าน","body":[{"t":"h","x":"ทำไมหลังเป็นโรคหลอดเลือดสมองจึงหกล้มง่าย"},{"t":"p","x":"แขนขาอ่อนแรงข้างหนึ่ง ทรงตัวได้แย่ลง เวียนหัว รีบไปเข้าห้องน้ำ ล้วนทำให้มีโอกาสหกล้มมากขึ้น การหกล้มอาจทำให้กระดูกหักหรือศีรษะบาดเจ็บ ทำให้การฟื้นฟูต้องหยุดชะงัก"},{"t":"key","h":"สามขั้นตอนลงจากเตียง","figTop":"steps","ul":["ลุกขึ้นนั่งบนเตียงก่อน นั่ง 30 วินาที","ห้อยเท้าลง นั่งที่ขอบเตียงอีก 30 วินาที","ลุกขึ้นยืน ยืนให้มั่นคง 30 วินาที ถ้าไม่เวียนหัวจึงเริ่มเดิน"]},{"t":"h","x":"ระหว่างนอนโรงพยาบาล"},{"t":"ul","x":["ลงจากเตียงและเข้าห้องน้ำ ต้องมีคนอยู่ด้วยทุกครั้ง ถ้าต้องการความช่วยเหลือ โปรดกดกริ่งเรียก อย่าฝืนทำเอง","ยกราวกั้นเตียงขึ้น ปรับเตียงให้ต่ำที่สุด ล็อกล้อเตียง","วางของที่ใช้บ่อยไว้ทางข้างที่มีแรง ในที่ที่เอื้อมมือหยิบถึง","ใส่รองเท้ากันลื่นที่พอดีเท้า ไม่ใส่รองเท้าแตะ กางเกงอย่ายาวเกินไป","ถ้าพื้นเปียก โปรดแจ้งเจ้าหน้าที่"]},{"t":"h","x":"การนั่งรถเข็นนั่งและการเคลื่อนย้ายตัว"},{"t":"ul","x":["ก่อนขึ้นหรือลงรถเข็นนั่ง ล็อกเบรกทั้งสองข้าง และพับที่วางเท้าขึ้นก่อน","วิธีเคลื่อนย้ายตัว โปรดทำตามขั้นตอนที่นักบำบัดสอน"]},{"t":"h","x":"เมื่อกลับบ้านแล้ว"},{"t":"ul","x":["ติดราวจับในห้องน้ำและข้างโถส้วม ปูแผ่นกันลื่นบนพื้น","เก็บของเกะกะ สายไฟ และพรมผืนเล็กออกจากทางเดิน","ตอนกลางคืนเปิดไฟดวงเล็กไว้หนึ่งดวง"]},{"t":"fig","id":"safe"},{"t":"warn","h":"ถ้าเกิดหกล้ม","ul":["อย่ารีบดึงผู้ป่วยขึ้น ดูก่อนว่าผู้ป่วยรู้สึกตัวดีหรือไม่ เจ็บตรงไหน","ถ้าอยู่ในโรงพยาบาล โปรดกดกริ่งเรียกทันที","ถ้าอยู่ที่บ้าน แล้วศีรษะกระแทก เจ็บจนขยับไม่ได้ หรือไม่ค่อยรู้สึกตัว โปรดโทร 119"]}]},{"title":"ป้องกันโรคหลอดเลือดสมองซ้ำ","desc":"กินยาตรงเวลา วัดความดัน รู้จักสัญญาณเตือนโรคหลอดเลือดสมองซ้ำ","body":[{"t":"h","x":"คนที่เคยเป็นโรคหลอดเลือดสมอง ต้องป้องกันไม่ให้เป็นซ้ำ"},{"t":"p","x":"คนที่เคยเป็นโรคหลอดเลือดสมอง มีโอกาสเป็นซ้ำสูงกว่าคนทั่วไป การคุมความดันโลหิต น้ำตาลในเลือด และไขมันในเลือดให้ดี ช่วยลดโอกาสนี้ได้"},{"t":"fig","id":"three"},{"t":"h","x":"กินยาตรงเวลา"},{"t":"ul","x":["ยาป้องกันลิ่มเลือด และยาคุมความดันโลหิต น้ำตาลในเลือด ไขมันในเลือด ต้องกินทุกวันตามที่แพทย์สั่ง","แม้รู้สึกว่าดีขึ้นมากแล้ว ก็อย่าหยุดยาหรือลดยาเอง","ถ้ามีเลือดออกที่หยุดยาก ถ่ายอุจจาระสีดำ หรือถ่ายเป็นเลือด โปรดแจ้งแพทย์โดยเร็ว"]},{"t":"key","h":"วัดความดันแบบ “722”","figTop":"bp722","ul":["7: วัดต่อเนื่อง 7 วัน","2: วัดตอนเช้าหลังตื่นนอน และตอนค่ำก่อนเข้านอน อย่างละหนึ่งรอบ","2: แต่ละรอบ วัดสองครั้ง"],"p":"จดตัวเลขไว้ แล้วนำไปให้แพทย์ดูเมื่อมาตรวจตามนัด ค่าความดันเป้าหมายให้เป็นไปตามที่แพทย์กำหนด"},{"t":"h","x":"นิสัยในชีวิตประจำวัน"},{"t":"fig","id":"life"},{"t":"ul","x":["ไม่สูบบุหรี่ ดื่มเหล้าให้น้อย","กินอาหารมันน้อย หวานน้อย เค็มน้อย กินผักและอาหารที่มีใยอาหารสูงให้มาก","ขยับร่างกายอย่างต่อเนื่องตามคำแนะนำของนักบำบัด","ถ้ารู้สึกว่าหัวใจเต้นไม่สม่ำเสมอ ใจสั่น หรือแน่นหน้าอก โปรดแจ้งแพทย์","มาตรวจตามนัด"]},{"t":"sos"},{"t":"ul","x":["อย่าขับรถหรือขี่มอเตอร์ไซค์ไปโรงพยาบาลเอง","ระหว่างรอรถพยาบาล อย่าให้ผู้ป่วยกินอาหาร ดื่มน้ำ หรือกินยา","อย่ารอให้อาการหายเอง"]}]},{"title":"อารมณ์และการสื่อสาร","desc":"อารมณ์ที่เปลี่ยนไปหลังเป็นโรคหลอดเลือดสมอง วิธีพูดกับผู้ป่วย การพักของผู้ดูแล","body":[{"t":"h","x":"อารมณ์ที่เปลี่ยนไปหลังเป็นโรคหลอดเลือดสมอง"},{"t":"p","x":"หลังเป็นโรคหลอดเลือดสมอง อารมณ์เศร้า ร้องไห้ง่าย หรือโมโหง่าย เป็นเรื่องที่พบได้บ่อย เกี่ยวข้องทั้งกับสมองที่ได้รับบาดเจ็บ และชีวิตที่เปลี่ยนไปอย่างกะทันหัน ไม่ใช่เพราะผู้ป่วยไม่เข้มแข็งพอ"},{"t":"warn","h":"ถ้าอาการเหล่านี้เป็นต่อเนื่องสองสัปดาห์ขึ้นไป โปรดแจ้งทีมรักษา","ul":["หม่นหมองทั้งวัน ไม่สนใจอะไรเลย","ไม่อยากฟื้นฟู ไม่อยากพูด","นอนหลับไม่ดี หรือกินไม่ลง","พูดบ่อยๆ ว่าตัวเองเป็นภาระของครอบครัว"],"p":"ปัญหาด้านอารมณ์รักษาได้ และมีผลต่อผลของการฟื้นฟูด้วย จึงควรบอกเพื่อปรึกษากัน"},{"t":"h","x":"การสื่อสารกับผู้ป่วยที่พูดลำบาก"},{"t":"fig","id":"talk"},{"t":"ul","x":["พูดแบบหันหน้าเข้าหากัน พูดให้ช้าลง ใช้ประโยคสั้นลง","พูดครั้งละเรื่องเดียว","ใช้คำถามที่ตอบได้ว่า “ใช่” หรือ “ไม่ใช่” ให้มาก","ใช้ท่าทาง รูปภาพ หรือของจริงประกอบ","ให้เวลาผู้ป่วยตอบ อย่ารีบพูดแทนจนจบ","พูดแบบที่พูดกับผู้ใหญ่ อย่าทำเหมือนผู้ป่วยเป็นเด็ก"]},{"t":"h","x":"ผู้ดูแลก็ต้องดูแลตัวเอง"},{"t":"ul","x":["คนในครอบครัวผลัดกันดูแล อย่าให้คนเดียวรับภาระทั้งหมด","ผู้ดูแลต้องมีเวลาพักและเวลากินข้าวที่แน่นอน","เมื่อรู้สึกว่าไม่ไหว คุยกับพยาบาลหรือนักสังคมสงเคราะห์ได้"]},{"t":"fig","id":"rest"},{"t":"key","h":"สายด่วนการดูแลระยะยาว 1966","p":"โทร 1966 เพื่อสอบถามเรื่องแหล่งช่วยเหลือด้านการดูแลระยะยาวได้ เช่น บริการดูแลแทนชั่วคราวเพื่อให้ผู้ดูแลได้พัก และบริการดูแลที่บ้าน"}]},{"title":"เตรียมออกจากโรงพยาบาลกลับบ้าน","desc":"สิ่งที่ต้องทำให้เป็นก่อนออกจากโรงพยาบาล สภาพแวดล้อมในบ้าน แหล่งช่วยเหลือด้านการดูแลระยะยาว","body":[{"t":"h","x":"สิ่งที่ต้องทำให้เป็นก่อนออกจากโรงพยาบาล"},{"t":"ul","x":["ช่วยผู้ป่วยพลิกตัว ขึ้นลงเตียง และขึ้นลงรถเข็นนั่งอย่างปลอดภัย","วิธีป้อนอาหาร หรือวิธีให้อาหารทางสายที่ใส่ทางจมูก","ยาแต่ละชนิดใช้ทำอะไร และกินเวลาไหน","ท่าฟื้นฟูที่ต้องทำต่อที่บ้าน","ถ้ามีสายต่างๆ เช่น สายให้อาหารทางจมูก หรือสายสวนปัสสาวะ ต้องเรียนรู้วิธีดูแลให้เป็น"]},{"t":"p","x":"ส่วนที่ยังไม่มั่นใจ ก่อนออกจากโรงพยาบาล โปรดขอให้พยาบาลหรือนักบำบัดสอนอีกครั้ง และลงมือทำจริงให้พยาบาลหรือนักบำบัดดู"},{"t":"h","x":"สภาพแวดล้อมในบ้าน"},{"t":"ul","x":["เตียงต้องสูงพอดีให้ขึ้นลงสะดวก ข้างเตียงเว้นที่ให้รถเข็นนั่งเข้าใกล้ได้","ติดราวจับในห้องน้ำและข้างโถส้วม พื้นต้องกันลื่น","ทางเดินต้องกว้างโล่ง เก็บของเกะกะและสายไฟ"]},{"t":"fig","id":"safe"},{"t":"h","x":"อุปกรณ์ช่วย"},{"t":"fig","id":"devices"},{"t":"p","x":"ต้องใช้อุปกรณ์ช่วยชนิดไหน เช่น โครงช่วยเดิน รถเข็นนั่ง หรือเก้าอี้นั่งถ่าย โปรดถามนักบำบัดก่อน แล้วจึงจัดเตรียม เรื่องเงินอุดหนุนค่าอุปกรณ์ช่วย สอบถามได้ที่ศูนย์จัดการการดูแลระยะยาวของแต่ละเมืองและเทศมณฑล"},{"t":"h","x":"แหล่งช่วยเหลือด้านการดูแลระยะยาว"},{"t":"p","x":"ตั้งแต่ช่วงที่ยังนอนโรงพยาบาล ก็ขอให้พยาบาลของบริการเตรียมออกจากโรงพยาบาล ช่วยส่งต่อเพื่อรับการประเมินการดูแลระยะยาวได้ หรือจะโทร 1966 เองก็ได้ บริการมีทั้งบริการดูแลที่บ้าน การฟื้นฟูความสามารถที่บ้าน บริการรถรับส่ง และบริการดูแลแทนชั่วคราวเพื่อให้ผู้ดูแลได้พัก เป็นต้น"},{"t":"key","h":"หลังออกจากโรงพยาบาล","figTop":"three","ul":["จดวันนัดตรวจและแผนกไว้","กินยาตรงเวลา วัดความดันทุกวัน","ฟื้นฟูอย่างต่อเนื่อง อย่าหยุดกลางคัน"]},{"t":"warn","h":"ถ้ามีอาการเหล่านี้ โปรดไปพบแพทย์ทันที","ul":["สัญญาณเตือนโรคหลอดเลือดสมองซ้ำ: ปากเบี้ยว แขนขาอ่อนแรงข้างเดียว พูดไม่ชัด โปรดโทร 119","มีไข้ ไอ เสมหะมากขึ้น","ไม่ค่อยรู้สึกตัว หรือปลุกแล้วไม่ค่อยตื่น","หกล้มบาดเจ็บ","ชัก"]}]}],"daily":["วันนี้เข้าร่วมการฝึกฟื้นฟูครบทุกครั้ง","สิ่งที่ทำเองได้ ก็ทำเอง (ล้างหน้า แต่งตัว กินข้าว)","เวลากิน นั่งตัวตรง กินคำเล็กๆ ช้าๆ กินเสร็จนั่งต่อ 30 นาที","หลังอาหาร ทำความสะอาดช่องปาก และตรวจดูว่ามีเศษอาหารค้างหรือไม่","ก่อนลงจากเตียง นั่ง 30 วินาที ยืน 30 วินาทีก่อน และมีคนอยู่ด้วย","ตอนนอนบนเตียง พลิกตัวประมาณทุก 2 ชั่วโมง และมีหมอนรองแขนข้างที่อ่อนแรง","วันนี้กินยาครบและตรงเวลา","วัดความดันและจดบันทึก","วันนี้ได้พูดคุยกับผู้ป่วยและให้กำลังใจ","ผู้ดูแลเองได้พักและได้กินข้าว"],"ready":["ช่วยผู้ป่วยขึ้นลงเตียงและขึ้นลงรถเข็นนั่งได้อย่างปลอดภัย","ป้อนอาหาร หรือให้อาหารทางสายที่ใส่ทางจมูกเป็น","รู้ว่ายาแต่ละชนิดใช้ทำอะไร และกินเวลาไหน","ทำท่าฟื้นฟูที่บ้านเป็น","เตรียมอุปกรณ์ช่วยตามคำแนะนำของนักบำบัดแล้ว","ที่บ้านติดราวจับ ปูแผ่นกันลื่น และเก็บของเกะกะแล้ว","โทร 1966 แล้ว หรือขอให้พยาบาลส่งต่อเพื่อประเมินการดูแลระยะยาวแล้ว","รู้วันนัดตรวจและแผนก","รู้สัญญาณเตือนโรคหลอดเลือดสมองซ้ำ และรู้ว่าเมื่อไรต้องโทร 119","ที่บ้านมีเครื่องวัดความดัน และจดบันทึกเป็น"],"quiz":[{"q":"เมื่ออาการของโรคหลอดเลือดสมองคงที่แล้ว การเริ่มฟื้นฟูแต่เนิ่นๆ ทำให้มีโอกาสฟื้นความสามารถได้มากกว่า","why":"ช่วงเวลาหลังอาการคงที่เป็นช่วงที่ฟื้นตัวได้เร็วกว่า PAC คือการจัดการฟื้นฟูอย่างเข้มข้นในช่วงเวลานี้"},{"q":"เพื่อให้ผู้ป่วยได้พักมากขึ้น การแต่งตัวและกินข้าว ให้ญาติทำแทนทั้งหมดจะดีที่สุด","why":"สิ่งที่ผู้ป่วยทำเองได้ โปรดให้ผู้ป่วยทำเอง นี่ก็เป็นส่วนหนึ่งของการฟื้นฟู ญาติคอยดูอยู่ข้างๆ และช่วยเมื่อจำเป็นก็พอ"},{"q":"เวลาพยุงผู้ป่วยลุกขึ้น ห้ามดึงแขนข้างที่อ่อนแรงของผู้ป่วย","why":"การดึงแขนข้างที่อ่อนแรง ทำให้ไหล่บาดเจ็บได้ง่าย"},{"q":"ผู้ป่วยไอบ้างเป็นครั้งคราวตอนกินข้าวไม่เป็นไร ไม่ต้องแจ้งแพทย์หรือพยาบาล","why":"การไอเวลากินอาหารหรือดื่มน้ำ เป็นสัญญาณเตือนว่าการกลืนมีปัญหา โปรดแจ้งพยาบาลหรือนักแก้ไขการพูด"},{"q":"เวลาป้อนอาหาร ต้องใส่อาหารเข้าปากทางข้างที่มีแรงของผู้ป่วย","why":"ใส่ทางข้างที่มีแรง จะเคี้ยวและกลืนได้ง่ายกว่า และอาหารค้างน้อยกว่า"},{"q":"กลางดึกอยากเข้าห้องน้ำ ผู้ป่วยค่อยๆ เดินไปเองได้ เพื่อไม่ให้ญาติตื่น","why":"ลงจากเตียงและเข้าห้องน้ำ ต้องมีคนอยู่ด้วยทุกครั้ง ถ้าอยู่ในโรงพยาบาล โปรดกดกริ่งเรียก อย่าฝืนทำเอง"},{"q":"ถ้าความดันคงที่และไม่มีอาการไม่สบาย ก็หยุดยาเองได้","why":"ความดันคงที่เพราะกินยาตรงเวลา จะปรับยาหรือไม่ ให้แพทย์เป็นผู้ตัดสินใจ"},{"q":"จู่ๆ ปากเบี้ยว แขนอ่อนแรงข้างหนึ่ง หรือพูดไม่ชัด ให้พักและสังเกตอาการครึ่งวันก่อน","why":"นี่คือสัญญาณเตือนโรคหลอดเลือดสมองซ้ำ ถ้ามีอาการข้อใดข้อหนึ่ง โปรดโทร 119 ทันที และจดเวลาที่เริ่มมีอาการไว้"},{"q":"ระหว่างการดูแลแบบ PAC ทีมจะประเมินความก้าวหน้าทุก 3 สัปดาห์","why":"ทีมจะประเมินเมื่อรับเข้าโครงการ ทุก 3 สัปดาห์ และเมื่อสิ้นสุดการดูแล แล้วปรับเนื้อหาการฟื้นฟูตามผล"},{"q":"ผู้ดูแลก็ต้องได้พัก และโทร 1966 เพื่อสอบถามเรื่องบริการดูแลแทนชั่วคราวได้","why":"การดูแลเป็นเรื่องระยะยาว โทรสายด่วนการดูแลระยะยาว 1966 เพื่อสอบถามเรื่องแหล่งช่วยเหลือได้ เช่น บริการดูแลแทนชั่วคราวเพื่อให้ผู้ดูแลได้พัก และบริการดูแลที่บ้าน"}]}};
+var ORDER=["zh","en","id","vi","th"].filter(function(k){return !!PACKS[k];});
+
+/* ---------- 與語言無關的結構 ---------- */
+var UNIT_META=[
+  {id:"u1",tone:"blue",icon:"cal"},{id:"u2",tone:"teal",icon:"gym"},{id:"u3",tone:"green",icon:"bowl"},
+  {id:"u4",tone:"orange",icon:"shield"},{id:"u5",tone:"pink",icon:"heart"},{id:"u6",tone:"purple",icon:"chat"},
+  {id:"u7",tone:"sky",icon:"home"}
+];
+var QUIZ_KEY=[
+  {a:true,u:"u1"},{a:false,u:"u2"},{a:true,u:"u2"},{a:false,u:"u3"},{a:true,u:"u3"},
+  {a:false,u:"u4"},{a:false,u:"u5"},{a:false,u:"u5"},{a:true,u:"u1"},{a:true,u:"u6"}
+];
+var FIGS={
+  journey:{flow:true,items:["bed","walkerFig","house"]},
+  team:{cols:"c3",items:["pt","ot","st"]},
+  arm:{cols:"c2",items:["armOk","armNo"],marks:true},
+  eat:{cols:"c2",items:["eatOk","eatNo"],marks:true},
+  after:{cols:"c3",items:["clock","brush","cheek"]},
+  steps:{cols:"c3",items:["step1","step2","step3"],num:true},
+  safe:{cols:"c4",items:["rail","mat","lamp","path"]},
+  three:{cols:"c3",items:["pills","bp","calcheck"]},
+  bp722:{cols:"c3",items:["cal7","sunmoon","bp"]},
+  life:{cols:"c4",items:["nosmoke","salt","leaf","walk"]},
+  talk:{cols:"c2",items:["talk","card"]},
+  rest:{cols:"c2",items:["cup","phone"]},
+  devices:{cols:"c3",items:["walker","wheelchair","cane"]}
+};
+var MODE_ICONS=["hospital","sun","visit"];
+var SOS_ICONS=["face","arms","speak"];
+
+/* ---------- 小工具 ---------- */
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function fmt(s,o){return String(s).replace(/\{([a-z]+)\}/g,function(m,k){return o[k]!==undefined?o[k]:m;});}
+function T(k,o){return esc(o?fmt(L.ui[k],o):L.ui[k]);}
+function load(k,d){try{var v=localStorage.getItem(k);return v==null?d:JSON.parse(v);}catch(e){return d;}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+function pad(n){return n<10?"0"+n:""+n;}
+
+var now=new Date();
+var ISO=now.getFullYear()+"-"+pad(now.getMonth()+1)+"-"+pad(now.getDate());
+var DAYKEY="pac.daily."+ISO;
+function todayStr(){
+  if(L.code==="zh")return (now.getFullYear()-1911)+" 年 "+(now.getMonth()+1)+" 月 "+now.getDate()+" 日（"+"日一二三四五六".charAt(now.getDay())+"）";
+  try{return new Intl.DateTimeFormat(L.locale,{dateStyle:"full"}).format(now);}catch(e){return ISO;}
+}
+function detectLang(){
+  var saved=load("pac.lang",null);
+  if(saved&&PACKS[saved])return saved;
+  var list=[];
+  try{list=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""]);}catch(e){}
+  for(var i=0;i<list.length;i++){
+    var p=String(list[i]).toLowerCase().slice(0,2);
+    if(p==="in")p="id";
+    if(PACKS[p])return p;
+  }
+  return "zh";
+}
+
+var S={
+  tab:"home", unit:null, list:"daily",
+  lang:detectLang(),
+  fs:load("pac.fs","s"), rate:load("pac.rate","1"),
+  daily:load(DAYKEY,[]), ready:load("pac.ready",[]),
+  quiz:{i:0,ans:[],picked:null}
+};
+var L=PACKS[S.lang];
+var FS={s:18,m:21,l:24};
+var view=document.getElementById("view");
+
+/* ---------- 上方列：語言與字級 ---------- */
+function paintChrome(){
+  document.documentElement.lang=L.htmlLang;
+  document.documentElement.style.fontSize=FS[S.fs]+"px";
+  document.getElementById("brand").textContent=L.ui.brand;
+  var sel=document.getElementById("lang");
+  if(!sel.options.length){
+    sel.innerHTML=ORDER.map(function(k){return '<option value="'+k+'">'+esc(PACKS[k].name)+'</option>';}).join("");
+  }
+  sel.value=S.lang;
+  sel.setAttribute("aria-label",L.ui.langAria);
+  document.getElementById("fs").setAttribute("aria-label",L.ui.fontAria);
+  document.getElementById("nav").setAttribute("aria-label",L.ui.navAria);
+  [["s","fontS"],["m","fontM"],["l","fontL"]].forEach(function(p){
+    var b=document.getElementById("fs-"+p[0]);
+    b.setAttribute("aria-pressed",String(S.fs===p[0]));
+    b.setAttribute("aria-label",L.ui[p[1]]);
+    b.title=L.ui[p[1]];
+    b.firstElementChild.textContent=L.glyph;
+  });
+}
+
+/* ---------- 語音朗讀 ---------- */
+var synth=("speechSynthesis" in window)?window.speechSynthesis:null;
+if(synth){try{synth.getVoices();}catch(e){}}
+var sp={on:false,q:[],i:-1,run:0,err:""};
+function findVoice(){
+  try{
+    var v=synth.getVoices()||[];
+    if(!v.length)return {none:false,voice:null};
+    var want=L.speech.toLowerCase(),pre=want.slice(0,2),exact=null,loose=null;
+    for(var k=0;k<v.length;k++){
+      var lg=String(v[k].lang||"").toLowerCase().replace("_","-");
+      if(lg===want&&!exact)exact=v[k];
+      if(lg.indexOf(pre)===0&&!loose)loose=v[k];
+    }
+    return {none:!(exact||loose),voice:exact||loose};
+  }catch(e){return {none:false,voice:null};}
+}
+function speakText(el){
+  var t=el.textContent.replace(/(\d)\s*[–\-]\s*(\d)/g,"$1"+L.rangeWord+"$2");
+  (L.say||[]).forEach(function(p){t=t.split(p[0]).join(p[1]);});
+  return t;
+}
+function clearMark(){var m=view.querySelectorAll(".speaking");for(var k=0;k<m.length;k++)m[k].classList.remove("speaking");}
+function stopSpeak(){sp.run++;sp.on=false;if(synth){try{synth.cancel();}catch(e){}}clearMark();paintSpeak();}
+function nextSpeak(){
+  clearMark();sp.i++;
+  if(!sp.on||sp.i>=sp.q.length){stopSpeak();return;}
+  var el=sp.q[sp.i],run=sp.run;
+  el.classList.add("speaking");
+  try{el.scrollIntoView({block:"center",behavior:"smooth"});}catch(e){}
+  var u=new SpeechSynthesisUtterance(speakText(el));
+  u.lang=L.speech;u.rate=parseFloat(S.rate)||1;
+  if(sp.voice)u.voice=sp.voice;
+  u.onend=function(){if(run===sp.run)nextSpeak();};
+  u.onerror=function(ev){
+    if(run!==sp.run)return;
+    if(ev&&(ev.error==="interrupted"||ev.error==="canceled"))return;
+    sp.err=L.ui.speechFail;stopSpeak();
+  };
+  synth.speak(u);
+}
+function startSpeak(){
+  if(!synth)return;
+  stopSpeak();sp.err="";
+  var fv=findVoice();
+  if(fv.none){sp.err=L.ui.noVoice;paintSpeak();return;}
+  sp.voice=fv.voice;
+  var all=view.querySelectorAll(".art-h h1,.article h2,.article h3,.article p,.article li,.article dt,.article dd");
+  sp.q=[];
+  for(var k=0;k<all.length;k++){if(!all[k].closest(".nospeak"))sp.q.push(all[k]);}
+  sp.on=true;sp.i=-1;sp.run++;paintSpeak();nextSpeak();
+}
+function paintSpeak(){
+  var b=document.getElementById("speak-btn"),n=document.getElementById("speak-note");
+  if(!b)return;
+  b.innerHTML=sp.on?ic("stop")+T("stop"):ic("play")+T("speak");
+  b.setAttribute("aria-pressed",String(sp.on));
+  if(n){n.textContent=sp.err;n.hidden=!sp.err;}
+}
+
+/* ---------- 圖解 ---------- */
+function pg(n){return '<svg class="pg" viewBox="0 0 64 64" aria-hidden="true">'+PIC[n]+'</svg>';}
+function pic(n,cap,sub,cls,pre){
+  return '<figure class="pic'+(cls?" "+cls:"")+'">'+pg(n)+'<figcaption><b>'+(pre||"")+esc(cap)+'</b>'+(sub?'<span>'+esc(sub)+'</span>':'')+'</figcaption></figure>';
+}
+function fig(id){
+  var c=L.caps[id];
+  if(id==="angle"){
+    return '<figure class="fig nospeak"><svg class="pg" viewBox="0 0 120 70" role="img" aria-label="'+esc(c.aria)+'">'+
+      '<path class="s" d="M8 58h104M12 58v8M108 58v8"/><path class="s" d="M50 54H12" stroke-dasharray="3 4"/>'+
+      '<path d="M17 28L50 54h58"/><path class="p" d="M32 54A18 18 0 0135.800 42.900" stroke-width="2.5"/>'+
+      '<circle class="f" cx="27.500" cy="26.500" r="5"/><path d="M32.600 34L53 50h45"/><text x="1" y="49">30–45°</text></svg>'+
+      '<figcaption>'+esc(c.cap)+'</figcaption></figure>';
+  }
+  if(id==="weeks"){
+    return '<div class="weeks nospeak" role="img" aria-label="'+esc(c.aria)+'"><div class="cap">'+esc(c.cap)+'</div>'+
+      '<div class="scale"><i class="base"></i><i class="ext"></i></div>'+
+      '<div class="ticks"><span style="left:0%">0</span><span style="left:25%">3</span><span style="left:50%">6</span><span style="left:75%">9</span><span style="left:100%">12</span></div>'+
+      '<div class="legend"><span><i class="l1"></i>'+esc(c.legend[0])+'</span><span><i class="l2"></i>'+esc(c.legend[1])+'</span><span><i class="l3"></i>'+esc(c.legend[2])+'</span></div></div>';
+  }
+  var F=FIGS[id];
+  var items=F.items.map(function(n,i){
+    var cls="",pre="";
+    if(F.marks){cls=i===0?"ok":"no";pre=(i===0?esc(L.ui.markOk):"✕")+" ";}
+    if(F.num){cls="step";pre='<i class="num">'+(i+1)+'</i>';}
+    return pic(n,c[i][0],c[i][1],cls,pre);
+  });
+  if(F.flow)return '<div class="pics flow nospeak">'+items.join(ic("right"))+'</div>';
+  return '<div class="pics nospeak '+F.cols+'">'+items.join("")+'</div>';
+}
+function sosHtml(tag){
+  var sep=L.code==="zh"?"，":", ";
+  return '<'+tag+'>'+ic("alert")+esc(L.sos.title)+'</'+tag+'><ol>'+L.sos.items.map(function(it,i){
+    return '<li>'+pg(SOS_ICONS[i])+'<div><b>'+esc(it[0])+'<i class="vh">'+sep+'</i></b><span>'+esc(it[1])+'</span></div></li>';
+  }).join("")+'</ol><p class="call">'+esc(L.sos.call).replace("{n}",'<a class="tel" href="tel:119"><em>119</em></a>')+'</p>';
+}
+function ulHtml(a){return '<ul>'+a.map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+'</ul>';}
+function blocks(body){
+  return body.map(function(b){
+    switch(b.t){
+      case "h":return '<h2>'+esc(b.x)+'</h2>';
+      case "p":return '<p>'+esc(b.x)+'</p>';
+      case "ul":return ulHtml(b.x);
+      case "fig":return fig(b.id);
+      case "weak":return '<p class="hint nospeak">'+T("weakNote")+'</p>';
+      case "sos":return '<div class="sos">'+sosHtml("h3")+'</div>';
+      case "modes":return '<dl class="modes">'+b.x.map(function(m,i){
+        return '<div><dt>'+pg(MODE_ICONS[i])+esc(m.dt)+'</dt><dd>'+esc(m.dd)+'</dd></div>';}).join("")+'</dl>';
+      case "key":
+      case "warn":return '<div class="'+b.t+'"><h3>'+esc(b.h)+'</h3>'+(b.figTop?fig(b.figTop):"")+(b.ul?ulHtml(b.ul):"")+
+        (b.p?'<p>'+esc(b.p)+'</p>':"")+(b.figBottom?fig(b.figBottom):"")+'</div>';
+    }
+    return "";
+  }).join("");
+}
+
+/* ---------- 畫面 ---------- */
+var TABS=[["home","tabHome","home"],["learn","tabLearn","book"],["check","tabCheck","check"],["quiz","tabQuiz","quiz"]];
+function paintTabs(){
+  document.getElementById("tabs").innerHTML=TABS.map(function(t){
+    return '<button type="button" data-tab="'+t[0]+'"'+(S.tab===t[0]?' aria-current="page"':'')+'>'+ic(t[2])+'<span>'+T(t[1])+'</span></button>';
+  }).join("");
+}
+function unitIndex(id){for(var k=0;k<UNIT_META.length;k++){if(UNIT_META[k].id===id)return k;}return 0;}
+function unitList(){
+  return '<div class="list">'+UNIT_META.map(function(m,i){
+    var u=L.units[i];
+    return '<button type="button" class="unit" data-unit="'+m.id+'"><span class="tile t-'+m.tone+'">'+ic(m.icon)+'</span>'+
+      '<span><b>'+esc(u.title)+'</b><small>'+esc(u.desc)+'</small></span><span class="go">'+ic("right")+'</span></button>';
+  }).join("")+'</div>';
+}
+function homeView(){
+  var n=L.daily.length,done=S.daily.length,pct=Math.round(done/n*100);
+  return '<section class="intro"><div class="eyebrow"><span>'+T("brand")+'</span><span class="chip">'+T("trial")+'</span></div>'+
+    '<h1>'+T("homeTitle")+'</h1><p>'+T("homeIntro")+'</p></section>'+fig("journey")+
+    '<button type="button" class="today" data-tab="check">'+ic("check")+'<span class="meter"><b>'+T("todayTitle")+'</b><span>'+T("todayDone",{n:done,m:n})+'</span>'+
+    '<span class="track"><i style="width:'+pct+'%"></i></span></span>'+ic("right")+'</button>'+
+    '<section><h2 class="sec-h">'+T("unitsHeading")+'</h2>'+unitList()+'</section>'+
+    '<section class="sos">'+sosHtml("h2")+'</section>'+
+    '<section class="about"><h2>'+T("aboutTitle")+'</h2><ul>'+L.ui.about.map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+
+    '<li>'+T("sourcesLabel")+'<a href="https://www.nhi.gov.tw/ch/dl-44097-0e4152da5acf46b5ae01e93d5390a839-1.pdf" target="_blank" rel="noopener">'+T("src1")+'</a>, '+
+    '<a href="https://mohw.gov.tw/cp-16-74897-1.html" target="_blank" rel="noopener">'+T("src2")+'</a></li></ul></section>';
+}
+function learnView(){
+  return '<section class="intro"><h1>'+T("learnTitle")+'</h1><p>'+T("learnIntro",{n:UNIT_META.length})+'</p></section>'+unitList();
+}
+function unitView(id){
+  var idx=unitIndex(id),u=L.units[idx],prev=UNIT_META[idx-1],next=UNIT_META[idx+1];
+  var bar=synth
+    ?'<div class="speakbar"><button type="button" class="btn" id="speak-btn" data-act="speak"></button>'+
+      '<label for="rate">'+T("rate")+'<select id="rate"><option value="1">'+T("rateNormal")+'</option><option value="0.8">'+T("rateSlow")+'</option></select></label>'+
+      '<p class="note" id="speak-note" hidden></p></div>'
+    :'<div class="speakbar"><p class="note">'+T("noSpeech")+'</p></div>';
+  return '<button type="button" class="back" data-tab="learn">'+ic("left")+T("back")+'</button>'+
+    '<header class="art-h"><h1>'+esc(u.title)+'</h1><p>'+T("unitMeta",{i:idx+1,n:UNIT_META.length})+'</p></header>'+bar+
+    '<article class="article">'+blocks(u.body)+'</article>'+
+    '<div class="pager">'+
+    (prev?'<button type="button" class="btn ghost" data-unit="'+prev.id+'">'+ic("left")+T("prev")+'</button>':'')+
+    (next?'<button type="button" class="btn" data-unit="'+next.id+'">'+T("next")+ic("right")+'</button>'
+         :'<button type="button" class="btn" data-tab="quiz">'+T("toQuiz")+ic("right")+'</button>')+
+    '</div>';
+}
+function checkView(){
+  var daily=S.list==="daily",items=daily?L.daily:L.ready,sel=daily?S.daily:S.ready;
+  var pct=Math.round(sel.length/items.length*100);
+  return '<section class="intro"><h1>'+T("checkTitle")+'</h1></section>'+
+    '<div class="seg" role="group" aria-label="'+T("listAria")+'">'+
+    '<button type="button" data-list="daily" aria-pressed="'+daily+'">'+T("listDaily")+'</button>'+
+    '<button type="button" data-list="ready" aria-pressed="'+(!daily)+'">'+T("listReady")+'</button></div>'+
+    '<div class="prog"><div class="row"><b id="prog-n">'+T("progDone",{n:sel.length,m:items.length})+'</b>'+
+    '<span class="hint">'+(daily?T("dailyHint",{date:todayStr()}):T("readyHint"))+'</span></div>'+
+    '<div class="line"><i id="prog-bar" style="width:'+pct+'%"></i></div></div>'+
+    '<ul class="checks list">'+items.map(function(t,i){
+      return '<li><label for="ck-'+S.list+'-'+i+'"><input type="checkbox" id="ck-'+S.list+'-'+i+'" data-ck="'+i+'"'+(sel.indexOf(i)>-1?" checked":"")+'><span>'+esc(t)+'</span></label></li>';
+    }).join("")+'</ul>'+
+    '<button type="button" class="btn ghost" data-act="clear">'+T("clearAll")+'</button>'+
+    '<p class="hint">'+T("privacy")+'</p>';
+}
+function quizView(){
+  var Q=S.quiz,N=L.quiz.length;
+  function ansWord(a){return a?L.ui.yes:L.ui.no;}
+  if(Q.i>=N){
+    var right=0,miss=[];
+    L.quiz.forEach(function(q,i){if(Q.ans[i]===QUIZ_KEY[i].a)right++;else miss.push(i);});
+    return '<section class="intro"><h1>'+T("resultTitle")+'</h1></section><div class="quiz">'+
+      '<div class="score">'+right+' <small>'+T("scoreOf",{n:N})+'</small></div>'+
+      (miss.length?'<div class="review"><b>'+T("reviewTitle")+'</b>'+miss.map(function(i){
+        var q=L.quiz[i],k=QUIZ_KEY[i];
+        return '<div><p>'+esc(q.q)+'</p><p class="hint">'+T("correctAnswer",{a:ansWord(k.a)})+' '+esc(q.why)+'</p>'+
+          '<button type="button" class="linkbtn" data-unit="'+k.u+'">'+T("readUnit",{t:L.units[unitIndex(k.u)].title})+'</button></div>';
+      }).join("")+'</div>':'<p>'+T("allRight")+'</p>')+
+      '<button type="button" class="btn" data-act="retry">'+T("retry")+'</button></div>';
+  }
+  var q=L.quiz[Q.i],key=QUIZ_KEY[Q.i],picked=Q.picked,answered=picked!==null,ok=answered&&picked===key.a;
+  return '<section class="intro"><h1>'+T("quizTitle")+'</h1><p>'+T("quizIntro",{n:N})+'</p></section>'+
+    '<div class="quiz"><div class="no">'+T("quizNo",{i:Q.i+1,n:N})+'</div>'+
+    '<p class="q">'+esc(q.q)+'</p>'+
+    '<div class="ans">'+
+    '<button type="button" data-ans="1"'+(answered?" disabled":"")+(picked===true?' class="pick"':'')+'>'+T("markOk")+' '+T("yes")+'</button>'+
+    '<button type="button" data-ans="0"'+(answered?" disabled":"")+(picked===false?' class="pick"':'')+'>✕ '+T("no")+'</button></div>'+
+    (answered?'<div class="fb '+(ok?"right":"wrong")+'" role="status"><b>'+(ok?T("right"):T("correctIs",{a:ansWord(key.a)}))+'</b><p>'+esc(q.why)+'</p></div>'+
+      '<button type="button" class="btn" data-act="next">'+(Q.i+1<N?T("nextQ"):T("seeResult"))+ic("right")+'</button>':'')+
+    '</div>';
+}
+
+function render(keepScroll){
+  stopSpeak();
+  var html;
+  if(S.tab==="learn"&&S.unit)html=unitView(S.unit);
+  else if(S.tab==="learn")html=learnView();
+  else if(S.tab==="check")html=checkView();
+  else if(S.tab==="quiz")html=quizView();
+  else html=homeView();
+  view.innerHTML=html;
+  paintTabs();paintSpeak();
+  var r=document.getElementById("rate");if(r)r.value=S.rate;
+  if(!keepScroll){try{window.scrollTo(0,0);}catch(e){}}
+  try{var h=S.tab==="learn"&&S.unit?S.unit:S.tab;if(location.hash!=="#"+h)history.replaceState(null,"","#"+h);}catch(e){}
+}
+function go(tab,unit){S.tab=tab;S.unit=unit||null;render();}
+function fromHash(){
+  var h=(location.hash||"").replace("#","");
+  if(/^u[1-7]$/.test(h)){S.tab="learn";S.unit=h;}
+  else if(["home","learn","check","quiz"].indexOf(h)>-1){S.tab=h;S.unit=null;}
+}
+
+/* ---------- 事件 ---------- */
+document.addEventListener("click",function(e){
+  var t=e.target.closest("button");if(!t)return;
+  var d=t.dataset;
+  if(d.fs){S.fs=d.fs;save("pac.fs",S.fs);paintChrome();return;}
+  if(d.tab){go(d.tab);return;}
+  if(d.unit){go("learn",d.unit);return;}
+  if(d.list){S.list=d.list;render(true);return;}
+  if(d.ans){S.quiz.picked=d.ans==="1";S.quiz.ans[S.quiz.i]=S.quiz.picked;render(true);return;}
+  if(d.act==="next"){S.quiz.i++;S.quiz.picked=null;render();return;}
+  if(d.act==="retry"){S.quiz={i:0,ans:[],picked:null};render();return;}
+  if(d.act==="speak"){if(sp.on)stopSpeak();else startSpeak();return;}
+  if(d.act==="clear"){
+    if(S.list==="daily"){S.daily=[];save(DAYKEY,S.daily);}else{S.ready=[];save("pac.ready",S.ready);}
+    render(true);return;
+  }
+});
+document.addEventListener("change",function(e){
+  var t=e.target;
+  if(t.id==="lang"){
+    if(!PACKS[t.value])return;
+    S.lang=t.value;L=PACKS[S.lang];save("pac.lang",S.lang);
+    paintChrome();render(true);return;
+  }
+  if(t.id==="rate"){S.rate=t.value;save("pac.rate",S.rate);if(sp.on)startSpeak();return;}
+  if(t.dataset&&t.dataset.ck!==undefined){
+    var i=parseInt(t.dataset.ck,10),daily=S.list==="daily",arr=daily?S.daily:S.ready,at=arr.indexOf(i);
+    if(t.checked&&at<0)arr.push(i);
+    if(!t.checked&&at>-1)arr.splice(at,1);
+    save(daily?DAYKEY:"pac.ready",arr);
+    var n=(daily?L.daily:L.ready).length;
+    document.getElementById("prog-n").textContent=fmt(L.ui.progDone,{n:arr.length,m:n});
+    document.getElementById("prog-bar").style.width=Math.round(arr.length/n*100)+"%";
+  }
+});
+window.addEventListener("hashchange",function(){fromHash();render();});
+window.addEventListener("pagehide",function(){if(synth){try{synth.cancel();}catch(e){}}});
+
+fromHash();paintChrome();render();
+})();
+</script>
+<script>
+if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}
+</script>
+</body>
+</html>
