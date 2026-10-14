@@ -1,5 +1,5 @@
 // 腦中風 PAC 衛教：離線快取。每次更新內容，請把 VERSION 改成新的字串。
-const VERSION = "v10-1151014";
+const VERSION = "v11-1151014";
 const CACHE = "pac-edu-" + VERSION;
 const ASSETS = ["./", "index.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", "icons/apple-touch-icon.png"];
 self.addEventListener("install", e => {
