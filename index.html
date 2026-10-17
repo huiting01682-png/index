@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>腦中風 PAC 衛教</title>
 <meta name="robots" content="noindex,nofollow">
+<meta name="description" content="給病人、家屬與看護的腦中風急性後期照護衛教｜國防醫學大學三軍總醫院松山分院">
+<meta property="og:type" content="website">
+<meta property="og:title" content="腦中風 PAC 衛教｜三軍總醫院松山分院">
+<meta property="og:description" content="給病人、家屬與看護的急性後期照護衛教，五種語言、可朗讀、可離線使用。">
+<meta property="og:image" content="https://huiting01682-png.github.io/index/img/og.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:url" content="https://huiting01682-png.github.io/index/">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#245F94">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -495,6 +503,14 @@ img.pg{display:block;width:100%;height:auto;max-width:6.4rem;aspect-ratio:1;obje
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .photos video,:root:not([data-theme="light"]) .hero{filter:brightness(.82) sepia(.12)}}
 @media (prefers-reduced-motion: reduce){.btn{transition:none}}
 
+/* 動畫下方的分解步驟 */
+.steps3d{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.steps3d li{display:grid;grid-template-columns:96px 2.2em 1fr;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:6px 12px 6px 6px;box-shadow:var(--shadow);margin:0}
+.steps3d img{width:96px;height:72px;object-fit:cover;border-radius:12px;display:block}
+.steps3d i{font-style:normal;font-weight:800;color:#fff;background:linear-gradient(180deg,var(--accent),#FF6B3D);width:2em;height:2em;border-radius:50%;display:grid;place-items:center}
+.steps3d span{color:var(--ink);font-weight:700;line-height:1.45}
+:root[data-theme="dark"] .steps3d img{filter:brightness(.82) sepia(.12)}
+
 .sos a.tel{text-decoration:none}
 </style>
 </head>
@@ -789,6 +805,17 @@ var PICIMG={bed:"i-bed",house:"i-house",pills:"i-pills",bp:"i-bp"};
 var UNIT_IMG={u3:"i-bowl",u5:"i-pills",u7:"i-house",u13:"i-bp"};
 /* 情境動畫（vid/ 資料夾）：院內拍好的影片用同檔名覆蓋即可 */
 var VIDS={sitstand:1};
+/* 動畫下方的分解步驟簡圖（img/steps/）：每種語言一組說明 */
+var STEPS={sitstand:{n:5,t:{
+  zh:["坐到椅子前緣，雙腳往後收","身體往前傾，鼻子超過腳尖","雙手撐扶手，屁股離開椅面","慢慢站直","先站穩，再走路"],
+  en:["Move to the front edge of the chair, feet back","Lean forward, nose over toes","Push on the armrests and lift your hips","Slowly stand up straight","Stand steady before walking"],
+  id:["Duduk di ujung depan kursi, kaki ditarik ke belakang","Condongkan badan ke depan, hidung di atas jari kaki","Tekan sandaran tangan, angkat pinggul","Berdiri tegak perlahan","Berdiri stabil dulu sebelum berjalan"],
+  vi:["Ngồi ra mép trước ghế, kéo chân về phía sau","Nghiêng người về trước, mũi ở trên mũi chân","Chống tay lên tay vịn, nhấc mông lên","Từ từ đứng thẳng","Đứng vững rồi mới đi"],
+  th:["เลื่อนมานั่งที่ขอบเก้าอี้ ดึงเท้าไปข้างหลัง","โน้มตัวไปข้างหน้า ให้จมูกอยู่เหนือปลายเท้า","มือดันที่วางแขน แล้วยกก้นขึ้น","ค่อย ๆ ยืดตัวตรง","ยืนให้มั่นคงก่อนเดิน"]}}};
+function stepsHtml(n){
+  var S=STEPS[n];if(!S)return "";var t=S.t[L.code]||S.t.en;
+  return '<ol class="steps3d">'+t.map(function(x,i){return '<li><img src="img/steps/'+n+'-'+(i+1)+'.webp" width="320" height="240" alt="" loading="lazy" decoding="async"><i>'+(i+1)+'</i><span>'+esc(x)+'</span></li>';}).join("")+'</ol>';
+}
 var MODE_ICONS=["hospital","sun","visit"];
 var SOS_ICONS=["face","arms","speak"];
 ICON.pin='<path d="M12 21s-7-6.2-7-12a7 7 0 0114 0c0 5.800-7 12-7 12z"/><circle cx="12" cy="9" r="2.500"/>';
@@ -988,7 +1015,7 @@ function photoHtml(names,alt){
   return '<div class="photos nospeak'+(names.length>1?' two':'')+'">'+names.map(function(n){
     if(VIDS[n])return '<video src="vid/'+n+'.mp4" poster="img/'+n+'.webp" width="800" height="600" muted loop playsinline preload="none" aria-label="'+esc(alt)+'"></video>';
     return '<img src="img/'+n+'.webp" width="800" height="600" loading="lazy" decoding="async" alt="'+esc(alt)+'">';
-  }).join("")+'</div>';
+  }).join("")+'</div>'+names.map(stepsHtml).join("");
 }
 function photoAlt(body,i){
   var nx=body[i+1];
