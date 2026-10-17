@@ -561,6 +561,9 @@ img.pg{display:block;width:100%;height:auto;max-width:6.4rem;aspect-ratio:1;obje
 .mroutes span{min-width:2.6em;text-align:center;padding:3px 8px;border-radius:8px;background:var(--primary-soft);color:var(--ink);font-weight:800;font-size:.9em}
 .btn.sm{min-height:42px;padding:6px 12px;font-size:.88em;text-decoration:none}
 .shuttle .snext{font-size:1.25em;font-weight:800;color:var(--ink)}
+.angle3d .angwrap{position:relative;max-width:12rem;margin-inline:auto}
+.angle3d img.pg{max-width:12rem}
+.angle3d .angtag{position:absolute;right:4px;top:8px;background:var(--primary);color:var(--on-primary);font-weight:800;border-radius:999px;padding:2px 10px;font-size:.95em}
 
 .sos a.tel{text-decoration:none}
 </style>
@@ -853,7 +856,7 @@ var FIGS={
 };
 var HOSP={zh:"國防醫學大學三軍總醫院松山分院",en:"Tri-Service General Hospital Songshan Branch, NDMU",banner:"台北地區軍民健康守護者"};
 /* 皮克斯風 3D 小圖示（pics/ 資料夾）；沒有列出的仍用線條圖 */
-var PICIMG={bed:"i-bed",house:"i-house",pills:"i-pills",bp:"i-bp",calcheck:"i-calcheck",cal7:"i-cal7",sunmoon:"i-sunmoon",nosmoke:"i-nosmoke",salt:"i-salt",leaf:"i-leaf",clock:"i-clock",brush:"i-brush",rail:"i-rail",mat:"i-mat",lamp:"i-lamp",cup:"i-cup",phone:"i-phone",walker:"i-walker",wheelchair:"i-wheelchair",cane:"i-cane",pt:"i-pt",ot:"i-ot",st:"i-st",path:"i-path",shower:"i-shower",commode:"i-commode",afo:"i-afo",clothespin:"i-clothespin",beancup:"i-beancup",mirror:"i-mirror",naming:"i-naming",bell:"i-bell",tape:"i-tape",glass:"i-glass",card:"i-card",pegBoard:"i-pegBoard",evalStart:"i-evalStart",evalMid:"i-evalMid",evalEnd:"i-evalEnd",tl1:"i-tl1",tl2:"i-tl2",tl3:"i-tl3",tl4:"i-tl4"};
+var PICIMG={aFwd:"i-aFwd",aSide:"i-aSide",aUp:"i-aUp",afo:"i-afo",ankle:"i-ankle",armNo:"i-armNo",armOk:"i-armOk",armraise:"i-armraise",arms:"i-arms",bal1:"i-bal1",bal3:"i-bal3",beancup:"i-beancup",bed:"i-bed",bed30:"i-bed30",bell:"i-bell",bp:"i-bp",brainL:"i-brainL",brainR:"i-brainR",bridge:"i-bridge",brush:"i-brush",cal7:"i-cal7",calcheck:"i-calcheck",cane:"i-cane",caneNo:"i-caneNo",caneOk:"i-caneOk",card:"i-card",cheek:"i-cheek",cheekPuff:"i-cheekPuff",clock:"i-clock",clothespin:"i-clothespin",commode:"i-commode",counter:"i-counter",cup:"i-cup",dryswallow:"i-dryswallow",eatNo:"i-eatNo",eatOk:"i-eatOk",evalEnd:"i-evalEnd",evalMid:"i-evalMid",evalStart:"i-evalStart",face:"i-face",footDrop:"i-footDrop",footNo:"i-footNo",footUp:"i-footUp",glass:"i-glass",hGrasp:"i-hGrasp",hReach:"i-hReach",hRelease:"i-hRelease",hWrist:"i-hWrist",handNo:"i-handNo",heelraise:"i-heelraise",hipturn:"i-hipturn",hospital:"i-hospital",house:"i-house",kneeNo:"i-kneeNo",kneelift:"i-kneelift",lamp:"i-lamp",leaf:"i-leaf",lobeF:"i-lobeF",lobeO:"i-lobeO",lobeP:"i-lobeP",lobeT:"i-lobeT",lunge:"i-lunge",mat:"i-mat",mirror:"i-mirror",mmAssist:"i-mmAssist",mmThink:"i-mmThink",mmTry:"i-mmTry",naming:"i-naming",nosmoke:"i-nosmoke",ot:"i-ot",path:"i-path",pegBoard:"i-pegBoard",phone:"i-phone",pills:"i-pills",posBack:"i-posBack",posSit:"i-posSit",posStrong:"i-posStrong",posWeak:"i-posWeak",pt:"i-pt",rail:"i-rail",salt:"i-salt",shift:"i-shift",shower:"i-shower",sitEat:"i-sitEat",sitstand:"i-sitstand",speak:"i-speak",st:"i-st",stairsDown:"i-stairsDown",stairsUp:"i-stairsUp",step1:"i-step1",step2:"i-step2",step3:"i-step3",stickBar:"i-stickBar",stretchNo:"i-stretchNo",stretchOk:"i-stretchOk",sun:"i-sun",sunmoon:"i-sunmoon",talk:"i-talk",tape:"i-tape",tl1:"i-tl1",tl2:"i-tl2",tl3:"i-tl3",tl4:"i-tl4",tongueMove:"i-tongueMove",towelwipe:"i-towelwipe",turn1:"i-turn1",turn2:"i-turn2",turn3:"i-turn3",turn4:"i-turn4",visit:"i-visit",walk:"i-walk",walker:"i-walker",walkerFig:"i-walkerFig",wheelchair:"i-wheelchair"};
 var UNIT_IMG={u3:"i-bowl",u5:"i-pills",u7:"i-house",u13:"i-bp"};
 /* 情境動畫（vid/ 資料夾）：院內拍好的影片用同檔名覆蓋即可 */
 var VIDS={sitstand:1};
@@ -1019,6 +1022,7 @@ function pic(n,cap,sub,cls,pre){
 function fig(id){
   var c=L.caps[id];
   if(id==="angle"){
+    if(PICIMG.bed30)return '<figure class="fig nospeak angle3d" role="img" aria-label="'+esc(c.aria)+'"><div class="angwrap">'+pg("bed30")+'<span class="angtag">30–45°</span></div><figcaption>'+esc(c.cap)+'</figcaption></figure>';
     return '<figure class="fig nospeak"><svg class="pg" viewBox="0 0 120 70" role="img" aria-label="'+esc(c.aria)+'">'+
       '<path class="s" d="M8 58h104M12 58v8M108 58v8"/><path class="s" d="M50 54H12" stroke-dasharray="3 4"/>'+
       '<path d="M17 28L50 54h58"/><path class="p" d="M32 54A18 18 0 0135.800 42.900" stroke-width="2.5"/>'+
