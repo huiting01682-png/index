@@ -367,6 +367,13 @@ details.others .list{padding:0 10px 10px}
 :root[data-theme="dark"] .themebtn{color:var(--primary)}
 @media (max-width:370px){.lang select{max-width:96px}.fs button{min-width:38px}}
 
+/* 3D 情境插圖 */
+.photos{display:grid;gap:10px;margin:2px 0}
+.photos img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:14px;background:var(--line);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+@media (min-width:560px){.photos.two{grid-template-columns:repeat(2,minmax(0,1fr))}}
+:root[data-theme="dark"] .photos img{filter:brightness(.82) sepia(.12)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .photos img{filter:brightness(.82) sepia(.12)}}
+
 .sos a.tel{text-decoration:none}
 </style>
 </head>
@@ -836,8 +843,41 @@ function sosHtml(tag){
   }).join("")+'</ol><p class="call">'+esc(L.sos.call).replace("{n}",'<a class="tel" href="tel:119"><em>119</em></a>')+'</p>';
 }
 function ulHtml(a){return '<ul>'+a.map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+'</ul>';}
-function blocks(body){
-  return body.map(function(b){
+/* 3D 情境插圖：放在第幾個段落後面（索引從 0 起算） */
+var PHOTOS={
+  u1:{0:["home"]},
+  u2:{0:["team"]},
+  u3:{4:["feeding"],10:["ngtube"]},
+  u4:{2:["bedside"],5:["wheelchair"],7:["bathroom","nightpath"]},
+  u6:{5:["cards"],9:["caregiver"]},
+  u8:{3:["bridge","ankle"],7:["sitstand"],10:["heelraise"]},
+  u9:{3:["cane","walker"],7:["stairs"]},
+  u10:{3:["towel"]},
+  u11:{3:["posWeak"],4:["posStrong"],5:["posBack"],6:["posSit"],9:["turning"]},
+  u13:{3:["bp"],27:["call119"]},
+  u15:{9:["stick"]}
+};
+function photoHtml(names,alt){
+  return '<div class="photos nospeak'+(names.length>1?' two':'')+'">'+names.map(function(n){
+    return '<img src="img/'+n+'.webp" width="800" height="600" loading="lazy" decoding="async" alt="'+esc(alt)+'">';
+  }).join("")+'</div>';
+}
+function photoAlt(body,i){
+  var nx=body[i+1];
+  if(nx&&(nx.t==="key"||nx.t==="warn")&&nx.h)return nx.h;
+  for(var j=i;j>=0;j--){if(body[j].t==="h")return body[j].x;}
+  return "";
+}
+function blocks(body,uid){
+  var P=(uid&&PHOTOS[uid])||{};
+  return body.map(function(b,i){
+    var h=blockHtml(b);
+    if(P[i])h+=photoHtml(P[i],photoAlt(body,i));
+    return h;
+  }).join("");
+}
+function blockHtml(b){
+  return [b].map(function(b){
     switch(b.t){
       case "h":return '<h2>'+esc(b.x)+'</h2>';
       case "p":return '<p>'+esc(b.x)+'</p>';
@@ -921,7 +961,7 @@ function unitView(id){
     :'<div class="speakbar"><p class="note">'+T("noSpeech")+'</p></div>';
   return '<button type="button" class="back" data-tab="learn">'+ic("left")+T("back")+'</button>'+
     '<header class="art-h"><h1>'+esc(u.title)+'</h1><p>'+T("unitMeta",{i:idx+1,n:UNIT_META.length})+'</p></header>'+bar+
-    '<article class="article">'+blocks(u.body)+'</article>'+unitSrc(id)+
+    '<article class="article">'+blocks(u.body,id)+'</article>'+unitSrc(id)+
     '<div class="pager">'+
     (prev?'<button type="button" class="btn ghost" data-unit="'+prev.id+'">'+ic("left")+T("prev")+'</button>':'')+
     (next?'<button type="button" class="btn" data-unit="'+next.id+'">'+T("next")+ic("right")+'</button>'

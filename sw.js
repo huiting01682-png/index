@@ -1,7 +1,7 @@
 // 腦中風 PAC 衛教：離線快取。每次更新內容，請把 VERSION 改成新的字串。
-const VERSION = "v16-1151014";
+const VERSION = "v17-1151017";
 const CACHE = "pac-edu-" + VERSION;
-const ASSETS = ["./", "index.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", "icons/apple-touch-icon.png"];
+const ASSETS = ["./", "index.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", "icons/apple-touch-icon.png", "img/ankle.webp", "img/bathroom.webp", "img/bedside.webp", "img/bp.webp", "img/bridge.webp", "img/call119.webp", "img/cane.webp", "img/cards.webp", "img/caregiver.webp", "img/feeding.webp", "img/heelraise.webp", "img/home.webp", "img/ngtube.webp", "img/nightpath.webp", "img/posBack.webp", "img/posSit.webp", "img/posStrong.webp", "img/posWeak.webp", "img/sitstand.webp", "img/stairs.webp", "img/stick.webp", "img/team.webp", "img/towel.webp", "img/turning.webp", "img/walker.webp", "img/wheelchair.webp"];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
 });
