@@ -564,6 +564,10 @@ img.pg{display:block;width:100%;height:auto;max-width:6.4rem;aspect-ratio:1;obje
 .angle3d .angwrap{position:relative;max-width:12rem;margin-inline:auto}
 .angle3d img.pg{max-width:12rem}
 .angle3d .angtag{position:absolute;right:4px;top:8px;background:var(--primary);color:var(--on-primary);font-weight:800;border-radius:999px;padding:2px 10px;font-size:.95em}
+/* 上方設定列：往下捲時自動收起，往上捲或回到頂端時再出現，不擋內容 */
+.bar{transition:transform .25s ease}
+.bar.hide{transform:translateY(calc(-100% - 12px))}
+@media (prefers-reduced-motion: reduce){.bar{transition:none}}
 
 .sos a.tel{text-decoration:none}
 </style>
@@ -1568,6 +1572,14 @@ document.addEventListener("input",function(e){
   if(e.target.id==="res-q"){S.resQ=e.target.value;paintRes();}
 });
 window.addEventListener("hashchange",function(){fromHash();render();});
+/* 設定列自動收起 */
+(function(){var bar=document.querySelector(".bar");if(!bar)return;var last=window.pageYOffset||0,tick=false;
+  function upd(){tick=false;var y=window.pageYOffset||0;
+    if(y<120||y<last-6)bar.classList.remove("hide");else if(y>last+6)bar.classList.add("hide");
+    if(Math.abs(y-last)>6)last=y;}
+  window.addEventListener("scroll",function(){if(!tick){tick=true;requestAnimationFrame(upd);}},{passive:true});
+  bar.addEventListener("focusin",function(){bar.classList.remove("hide");});
+})();
 window.addEventListener("pagehide",function(){if(synth){try{synth.cancel();}catch(e){}}});
 
 fromHash();paintChrome();render();
