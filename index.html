@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="腦中風 PAC 衛教｜三軍總醫院松山分院">
 <meta property="og:description" content="給病人、家屬與看護的急性後期照護衛教，五種語言、可朗讀、可離線使用。">
-<meta property="og:image" content="https://huiting01682-png.github.io/index/img/og.jpg?v=v53-1151018">
+<meta property="og:image" content="https://huiting01682-png.github.io/index/img/og.jpg?v=v54-1151018">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:url" content="https://huiting01682-png.github.io/index/">
 <meta name="twitter:card" content="summary_large_image">
@@ -748,6 +748,8 @@ details.grp > .list .unit{box-shadow:none;border:1px solid var(--line)}
 @keyframes growstep{0%{opacity:0;transform:scale(.96)}3%{opacity:1;transform:scale(1)}16%{opacity:1}20%{opacity:0}100%{opacity:0}}
 @keyframes growbloom{0%,62%{opacity:0;transform:scale(.92)}66%{opacity:1;transform:scale(1.06)}70%{transform:scale(1)}96%{opacity:1}100%{opacity:0}}
 @media (prefers-reduced-motion:reduce){.todaytree.growing img.g{animation:none!important;opacity:0}.todaytree.growing img.g5{opacity:1}}
+/* 挑重點卡併入衛教單元 */
+.sec-h + .focuscard, .intro + .focuscard{margin:0 0 12px;border:2px solid var(--primary-soft)}
 
 .sos a.tel{text-decoration:none}
 </style>
@@ -1335,6 +1337,7 @@ function groupedList(){var open=load("pac.grp",-1);
   return '<p class="grphint">'+esc(L.ui.groupHint)+'</p><div class="grps">'+UNIT_GROUPS.map(function(g,k){var t=L.ui.unitGroups[k];
     return '<details class="grp g-'+g.tone+'" data-grp="'+k+'"'+(open===k?' open':'')+'><summary><span class="tile t-'+g.tone+'"><img src="pics/i-'+g.img+'.webp" width="320" height="320" alt=""></span><span class="grpt"><b>'+esc(t.h)+'</b><small>'+esc(t.s)+'</small></span><span class="grpn">'+esc(L.ui.groupCount.replace("{n}",g.ids.length))+'</span><span class="grpchev" aria-hidden="true">'+ic("right")+'</span></summary><div class="list">'+g.ids.map(unitBtn).join("")+'</div></details>';}).join("")+'</div>';}
 function unitIndex(id){for(var k=0;k<UNIT_META.length;k++){if(UNIT_META[k].id===id)return k;}return 0;}
+function focusCard(){return '<button type="button" class="rescard focuscard" data-tab="focus"><span class="tile t-orange">'+ic("check")+'</span><span><b>'+esc(L.ui.focusTitle)+'</b><small>'+esc(S.focus.length?L.ui.focusHomeOn.replace("{n}",S.focus.length).replace("{m}",focusUnits().length):L.ui.focusHomeSub)+'</small></span><span class="go">'+ic("right")+'</span></button>';}
 function unitList(){
   var picks=focusUnits();
   if(picks.length){
@@ -1352,10 +1355,9 @@ function homeView(){
     '<button type="button" class="today" data-tab="check"><span class="todaytree growing">'+growHtml()+'<i class="leaf f1" aria-hidden="true"></i><i class="leaf f3" aria-hidden="true"></i></span><span class="meter"><b>'+T("todayTitle")+'</b><span class="nobr">'+T("todayDone",{n:done,m:n})+'</span><span class="treedays">'+TR("days",{n:treeDays()})+'</span>'+
     '<span class="track"><i style="width:'+pct+'%"></i></span></span>'+ic("right")+'</button>'+
     (isStandalone()?'':'<button type="button" class="rescard instcard" data-tab="install"><span class="tile t-blue"><img src="icons/icon-192.png" width="192" height="192" alt=""></span><span><b>'+esc(L.install.homeCard)+'</b><small>'+esc(L.install.homeSub)+'</small></span><span class="go">'+ic("right")+'</span></button>')+
-    '<button type="button" class="rescard focuscard" data-tab="focus"><span class="tile t-orange">'+ic("check")+'</span><span><b>'+esc(L.ui.focusTitle)+'</b><small>'+esc(S.focus.length?L.ui.focusHomeOn.replace("{n}",S.focus.length).replace("{m}",focusUnits().length):L.ui.focusHomeSub)+'</small></span><span class="go">'+ic("right")+'</span></button>'+
     '<button type="button" class="rescard" data-tab="res"><span class="tile t-teal">'+ic("pin")+'</span><span><b>'+esc(L.res.ui.homeCard)+'</b><small>'+esc(L.res.ui.homeCardSub)+'</small></span><span class="go">'+ic("right")+'</span></button>'+
     '<button type="button" class="rescard safecard" data-tab="safety"><span class="tile t-green"><img src="pics/i-house.webp" width="320" height="320" alt=""></span><span><b>'+esc(L.safety.ui.homeCard)+'</b><small>'+esc(L.safety.ui.homeCardSub)+'</small></span><span class="go">'+ic("right")+'</span></button>'+
-    '<section><h2 class="sec-h">'+T("unitsHeading")+'</h2>'+unitList()+'</section>'+
+    '<section><h2 class="sec-h">'+T("unitsHeading")+'</h2>'+focusCard()+unitList()+'</section>'+
     '<section class="sos">'+sosHtml("h2")+'</section>'+
     '<section class="about"><h2>'+T("aboutTitle")+'</h2><ul>'+L.ui.about.map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+
     '</ul>'+privacyHtml()+'<button type="button" class="rescard srccard" data-tab="src"><span class="tile t-blue">'+ic("book")+'</span><span><b>'+esc(L.ui.srcHomeCard)+'</b><small>'+esc(L.ui.srcHomeSub)+'</small></span><span class="go">'+ic("right")+'</span></button></section>';
@@ -1378,7 +1380,7 @@ function unitSrc(id){
     '<button type="button" class="linkbtn" data-tab="src">'+esc(L.ui.srcGo)+ic("right")+'</button></aside>';
 }
 function learnView(){
-  return '<section class="intro"><h1>'+T("learnTitle")+'</h1><p>'+T("learnIntro",{n:UNIT_META.length})+'</p></section>'+unitList();
+  return '<section class="intro"><h1>'+T("learnTitle")+'</h1><p>'+T("learnIntro",{n:UNIT_META.length})+'</p></section>'+focusCard()+unitList();
 }
 function unitView(id){
   var idx=unitIndex(id),u=L.units[idx],np=NAV.indexOf(id),prev=np>0?{id:NAV[np-1]}:null,next=np<NAV.length-1?{id:NAV[np+1]}:null;
