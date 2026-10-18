@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="腦中風 PAC 衛教｜三軍總醫院松山分院">
 <meta property="og:description" content="給病人、家屬與看護的急性後期照護衛教，五種語言、可朗讀、可離線使用。">
-<meta property="og:image" content="https://huiting01682-png.github.io/index/img/og.jpg?v=v52-1151018">
+<meta property="og:image" content="https://huiting01682-png.github.io/index/img/og.jpg?v=v53-1151018">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:url" content="https://huiting01682-png.github.io/index/">
 <meta name="twitter:card" content="summary_large_image">
@@ -738,6 +738,16 @@ details.grp > .list .unit{box-shadow:none;border:1px solid var(--line)}
 .iclpic.num.dot{background:var(--primary-soft);color:var(--primary)}
 .iclpic.num.dot svg{width:22px;height:22px}
 .warn .iclpic.num.dot{background:var(--alert-soft);color:var(--alert)}
+/* 首頁小樹長大動畫：10 秒一輪，每階段約 1.6 秒，開花停留較久 */
+.todaytree.growing img.g{position:absolute;left:2px;top:2px;opacity:0;animation:growstep 10s ease-in-out infinite}
+.todaytree.growing img.g1{animation-delay:0s}
+.todaytree.growing img.g2{animation-delay:1.6s}
+.todaytree.growing img.g3{animation-delay:3.2s}
+.todaytree.growing img.g4{animation-delay:4.8s}
+.todaytree.growing img.g5{animation:growbloom 10s ease-in-out infinite}
+@keyframes growstep{0%{opacity:0;transform:scale(.96)}3%{opacity:1;transform:scale(1)}16%{opacity:1}20%{opacity:0}100%{opacity:0}}
+@keyframes growbloom{0%,62%{opacity:0;transform:scale(.92)}66%{opacity:1;transform:scale(1.06)}70%{transform:scale(1)}96%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.todaytree.growing img.g{animation:none!important;opacity:0}.todaytree.growing img.g5{opacity:1}}
 
 .sos a.tel{text-decoration:none}
 </style>
@@ -1339,7 +1349,7 @@ function homeView(){
   var n=L.daily.length,done=S.daily.length,pct=Math.round(done/n*100);
   return '<section class="intro"><div class="eyebrow"><span>'+T("brand")+'</span><span class="chip">'+T("trial")+'</span></div>'+
     '<h1>'+T("homeTitle")+' <span class="h1when">'+T("homeWhen")+'</span></h1><p>'+T("homeIntro")+'</p></section>'+'<img class="hero" src="img/banner.webp" width="1200" height="675" alt="'+esc(HOSP.banner)+'">'+fig("journey")+
-    '<button type="button" class="today" data-tab="check"><span class="todaytree"><img src="pics/i-'+TREE_IMG[treeStage(treeDays())]+'.webp" width="320" height="320" alt=""><i class="leaf f1" aria-hidden="true"></i><i class="leaf f3" aria-hidden="true"></i></span><span class="meter"><b>'+T("todayTitle")+'</b><span class="nobr">'+T("todayDone",{n:done,m:n})+'</span><span class="treedays">'+TR("days",{n:treeDays()})+'</span>'+
+    '<button type="button" class="today" data-tab="check"><span class="todaytree growing">'+growHtml()+'<i class="leaf f1" aria-hidden="true"></i><i class="leaf f3" aria-hidden="true"></i></span><span class="meter"><b>'+T("todayTitle")+'</b><span class="nobr">'+T("todayDone",{n:done,m:n})+'</span><span class="treedays">'+TR("days",{n:treeDays()})+'</span>'+
     '<span class="track"><i style="width:'+pct+'%"></i></span></span>'+ic("right")+'</button>'+
     (isStandalone()?'':'<button type="button" class="rescard instcard" data-tab="install"><span class="tile t-blue"><img src="icons/icon-192.png" width="192" height="192" alt=""></span><span><b>'+esc(L.install.homeCard)+'</b><small>'+esc(L.install.homeSub)+'</small></span><span class="go">'+ic("right")+'</span></button>')+
     '<button type="button" class="rescard focuscard" data-tab="focus"><span class="tile t-orange">'+ic("check")+'</span><span><b>'+esc(L.ui.focusTitle)+'</b><small>'+esc(S.focus.length?L.ui.focusHomeOn.replace("{n}",S.focus.length).replace("{m}",focusUnits().length):L.ui.focusHomeSub)+'</small></span><span class="go">'+ic("right")+'</span></button>'+
@@ -1519,6 +1529,8 @@ function treeDays(){var n=0,seen={};
   if(treeOk(S.daily))n++;return n;}
 function treeStage(d){var s=0;for(var i=0;i<TREE_AT.length;i++)if(d>=TREE_AT[i])s=i;return s;}
 function TR(k,o){return esc(o?fmt(L.tree[k],o):L.tree[k]);}
+/* 首頁小樹：種子→發芽→新葉→花苞→開花，循環播放，讓病人看到持續照顧的希望 */
+function growHtml(){return TREE_IMG.map(function(n,i){return '<img class="g g'+(i+1)+'" src="pics/i-'+n+'.webp" width="320" height="320" alt=""'+(i?' aria-hidden="true"':'')+'>';}).join("");}
 function treeHtml(){var d=treeDays(),st=treeStage(d),next=TREE_AT[st+1],lo=TREE_AT[st],pct=next?Math.round((d-lo)/(next-lo)*100):100,done=treeOk(S.daily),miss=[6,7].filter(function(k){return S.daily.indexOf(k)<0;}).map(function(k){return L.daily[k];});if(S.daily.indexOf(0)<0&&S.daily.indexOf(10)<0)miss.push(L.tree.rehabOr);
   return '<section class="tree" id="tree"><div class="treepic st'+st+'"><img src="pics/i-'+TREE_IMG[st]+'.webp" width="320" height="320" alt="">'+TREE_LEAVES+'</div>'+
     '<div class="treeinfo"><h2>'+TR("title")+'</h2><p class="treestage">'+esc(L.tree.stages[st])+'</p>'+
