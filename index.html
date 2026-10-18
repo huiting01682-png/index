@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="腦中風 PAC 衛教｜三軍總醫院松山分院">
 <meta property="og:description" content="給病人、家屬與看護的急性後期照護衛教，五種語言、可朗讀、可離線使用。">
-<meta property="og:image" content="https://huiting01682-png.github.io/index/img/og.jpg?v=v43-1151018">
+<meta property="og:image" content="https://huiting01682-png.github.io/index/img/og.jpg?v=v44-1151018">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:url" content="https://huiting01682-png.github.io/index/">
 <meta name="twitter:card" content="summary_large_image">
@@ -910,7 +910,7 @@ function focusView(){
   var ui=L.ui,picks=focusUnits();
   return '<button type="button" class="back" data-tab="home">'+ic("left")+T("tabHome")+'</button>'+
     '<section class="intro"><h1>'+esc(ui.focusTitle)+'</h1><p>'+esc(ui.focusIntro)+'</p></section>'+
-    '<ul class="checks list">'+ui.focusConds.map(function(t,i){
+    '<ul class="checks list">'+[11,12].concat(ui.focusConds.map(function(_,i){return i;}).filter(function(i){return i<11;})).map(function(i){var t=ui.focusConds[i];
       return '<li><label for="fc-'+i+'"><input type="checkbox" id="fc-'+i+'" data-fc="'+i+'"'+(S.focus.indexOf(i)>-1?" checked":"")+'><span>'+esc(t)+'</span></label></li>';
     }).join("")+'</ul>'+
     '<section id="focus-out">'+focusOut(picks)+'</section>';
