@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="腦中風 PAC 衛教｜三軍總醫院松山分院">
 <meta property="og:description" content="給病人、家屬與看護的急性後期照護衛教，五種語言、可朗讀、可離線使用。">
-<meta property="og:image" content="https://huiting01682-png.github.io/index/img/og.jpg?v=v34-1151018">
+<meta property="og:image" content="https://huiting01682-png.github.io/index/img/og.jpg?v=v35-1151018">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:url" content="https://huiting01682-png.github.io/index/">
 <meta name="twitter:card" content="summary_large_image">
@@ -1663,15 +1663,20 @@ function render(keepScroll){
   try{var h=S.tab==="learn"&&S.unit?S.unit:S.tab;if(location.hash!=="#"+h)history.replaceState(null,"","#"+h);}catch(e){}
 }
 /* 動畫：捲到畫面中才播放，離開就暫停；設定「減少動態」的人不自動播放，改成可點按播放 */
-var vidObs=null;
+var vidObs=null,vidPre=null;
 function wireVideos(){
   var vs=document.querySelectorAll(".photos video");if(!vs.length)return;
   var still=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(still||!("IntersectionObserver" in window)){vs.forEach(function(v){v.controls=true;});return;}
-  if(vidObs)vidObs.disconnect();
+  if(still||!("IntersectionObserver" in window)){vs.forEach(function(v){v.controls=true;v.preload="metadata";});return;}
+  if(vidObs)vidObs.disconnect();if(vidPre)vidPre.disconnect();
+  /* 提早下載：影片離畫面還有一段距離就先載入，捲到時可以直接順順地播 */
+  vidPre=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var v=e.target;if(v.preload!=="auto"){v.preload="auto";try{v.load();}catch(x){}}vidPre.unobserve(v);}});},{rootMargin:"600px 0px"});
   vidObs=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;
-    if(e.isIntersecting){v.preload="auto";var p=v.play();if(p&&p.catch)p.catch(function(){v.controls=true;});}else{v.pause();}});},{threshold:.5});
-  vs.forEach(function(v){vidObs.observe(v);});
+    if(e.isIntersecting){var go=function(){var p=v.play();if(p&&p.catch)p.catch(function(){v.controls=true;});};
+      if(v.readyState>=3)go();else{v.addEventListener("canplaythrough",function h(){v.removeEventListener("canplaythrough",h);if(v.dataset.vis==="1")go();});}
+      v.dataset.vis="1";}
+    else{v.dataset.vis="0";v.pause();}});},{threshold:.5});
+  vs.forEach(function(v){vidPre.observe(v);vidObs.observe(v);});
 }
 function go(tab,unit){S.tab=tab;S.unit=unit||null;render();}
 function fromHash(){
