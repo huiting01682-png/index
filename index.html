@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="腦中風 PAC 衛教｜三軍總醫院松山分院">
 <meta property="og:description" content="給病人、家屬與看護的急性後期照護衛教，五種語言、可朗讀、可離線使用。">
-<meta property="og:image" content="https://huiting01682-png.github.io/index/img/og.jpg?v=v54-1151018">
+<meta property="og:image" content="https://huiting01682-png.github.io/index/img/og.jpg?v=v55-1151018">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:url" content="https://huiting01682-png.github.io/index/">
 <meta name="twitter:card" content="summary_large_image">
@@ -718,10 +718,10 @@ ul.lisub li::marker{color:var(--primary)}
 .grps{display:flex;flex-direction:column;gap:12px}
 details.grp{border-radius:var(--r);background:var(--surface);box-shadow:var(--shadow);border:2px solid transparent;overflow:hidden}
 details.grp[open]{border-color:var(--primary-soft)}
-details.grp summary{list-style:none;display:flex;align-items:center;gap:14px;padding:14px 14px 14px 12px;cursor:pointer;min-height:84px;scroll-margin-top:90px}
-details.grp summary::-webkit-details-marker{display:none}
-details.grp summary .tile{flex:0 0 64px;width:64px;height:64px}
-details.grp summary .tile img{width:100%;height:100%;object-fit:contain}
+details.grp > summary{list-style:none;display:flex;align-items:center;gap:14px;padding:14px 14px 14px 12px;cursor:pointer;min-height:84px;scroll-margin-top:90px}
+details.grp > summary::-webkit-details-marker{display:none}
+details.grp > summary .tile{flex:0 0 64px;width:64px;height:64px}
+details.grp > summary .tile img{width:100%;height:100%;object-fit:contain}
 .grpt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
 .grpt b{font-size:1.12em;color:var(--ink);text-wrap:balance}
 .grpt small{color:var(--muted);line-height:1.45;text-wrap:pretty}
@@ -750,6 +750,13 @@ details.grp > .list .unit{box-shadow:none;border:1px solid var(--line)}
 @media (prefers-reduced-motion:reduce){.todaytree.growing img.g{animation:none!important;opacity:0}.todaytree.growing img.g5{opacity:1}}
 /* 挑重點卡併入衛教單元 */
 .sec-h + .focuscard, .intro + .focuscard{margin:0 0 12px;border:2px solid var(--primary-soft)}
+/* 資源分類（可展開） */
+details.rgrp > .rlist{padding:0 10px 8px}
+details.rgrp > .rlist .rcard{box-shadow:none;border:1px solid var(--line)}
+details.rgrp .grpt b{font-size:1.15em}
+#res-list > .grps{margin-top:12px}
+details.rgrp .rcard .rchips{display:none}
+@media (max-width:380px){details.rgrp .grpn{display:inline-block}}
 
 .sos a.tel{text-decoration:none}
 </style>
@@ -1459,7 +1466,7 @@ function resHay(i){
 function resMatches(){
   var q=norm(S.resQ),out=[];
   L.res.items.forEach(function(it,i){
-    if(S.resCat!=="all"&&it.cats.indexOf(S.resCat)<0)return;
+    if(!q&&S.resCat!=="all"&&it.cats.indexOf(S.resCat)<0)return;
     if(q&&resHay(i).indexOf(q)<0)return;
     out.push(i);
   });
@@ -1489,32 +1496,39 @@ function resCard(i){
     '<a class="rlink" href="'+esc(it.url)+'" target="_blank" rel="noopener">'+ic("link")+RU("web")+'</a>'+
     '</div></details>';
 }
+/* 資源依類別分組、可展開（同衛教單元做法）；有輸入關鍵字時改成直接列出搜尋結果 */
+var RES_ICON={medical:"hospital",care:"visit",food:"bowl",clothing:"walker",housing:"house",transport:"wheelchair",money:"money",caregiver:"group"};
+var RES_TONE={medical:"pink",care:"purple",food:"orange",clothing:"teal",housing:"green",transport:"blue",money:"orange",caregiver:"sky"};
+function resGroupsHtml(){
+  return '<div class="grps">'+L.res.order.map(function(c){
+    var ids=[];L.res.items.forEach(function(it,i){if(it.cats.indexOf(c)>-1)ids.push(i);});
+    return '<details class="grp rgrp" data-rcat="'+c+'"'+(S.resCat===c?' open':'')+'><summary><span class="tile t-'+RES_TONE[c]+'"><img src="pics/i-'+RES_ICON[c]+'.webp" width="320" height="320" alt=""></span><span class="grpt"><b>'+esc(L.res.cats[c])+'</b></span><span class="grpn">'+esc(fmt(L.res.ui.count,{n:ids.length}))+'</span><span class="grpchev" aria-hidden="true">'+ic("right")+'</span></summary><div class="rlist">'+ids.map(resCard).join("")+'</div></details>';
+  }).join("")+'</div>';
+}
 function resListHtml(){
+  if(!S.resQ)return resGroupsHtml();
   var m=resMatches();
   if(!m.length)return '<p class="rnone">'+RU("none")+'</p>';
   return m.map(resCard).join("");
 }
 function resView(){
-  var opts='<option value="all">'+RU("catAll")+'</option>'+L.res.order.map(function(c){
-    return '<option value="'+c+'"'+(S.resCat===c?' selected':'')+'>'+esc(L.res.cats[c])+'</option>';}).join("");
   return '<section class="intro"><h1>'+RU("title")+'</h1><p>'+RU("intro")+'</p></section>'+
     '<div class="rfilter" role="search">'+
       '<label class="rq" for="res-q"><span class="vh">'+RU("searchLabel")+'</span>'+ic("search")+
         '<input type="search" id="res-q" autocomplete="off" placeholder="'+RU("searchPh")+'" value="'+esc(S.resQ)+'">'+
         '<button type="button" class="rclear" data-act="res-clear"'+(S.resQ?'':' hidden')+'>'+RU("clear")+'</button></label>'+
-      '<label class="rc" for="res-cat"><span>'+RU("catLabel")+'</span><select id="res-cat">'+opts+'</select></label>'+
     '</div>'+
-    '<p class="rcount" id="res-count" role="status">'+RU("count",{n:resMatches().length})+'</p>'+
-    '<p class="hint">'+RU("tip1999")+'</p>'+
-    mapSectionHtml()+'<h2 class="sec-h">'+RU("listTitle")+'</h2>'+
+    '<p class="rcount" id="res-count" role="status"'+(S.resQ?'':' hidden')+'>'+RU("count",{n:resMatches().length})+'</p>'+
     '<div class="rlist" id="res-list">'+resListHtml()+'</div>'+
+    '<p class="hint">'+RU("tip1999")+'</p>'+
+    mapSectionHtml()+
     '<p class="hint">'+RU("checked")+'</p>';
 }
 function paintRes(){
   var l=document.getElementById("res-list"),c=document.getElementById("res-count"),x=view.querySelector(".rclear");
   if(!l)return;
   l.innerHTML=resListHtml();
-  c.textContent=fmt(L.res.ui.count,{n:resMatches().length});
+  c.textContent=fmt(L.res.ui.count,{n:resMatches().length});c.hidden=!S.resQ;
   if(x)x.hidden=!S.resQ;
 }
 
@@ -1854,6 +1868,7 @@ function fromHash(){
 
 /* ---------- 事件 ---------- */
 document.addEventListener("toggle",function(e){var d=e.target;if(!d.classList||!d.classList.contains("grp"))return;
+  if(d.classList.contains("rgrp")){if(d.open){document.querySelectorAll("details.rgrp[open]").forEach(function(o){if(o!==d)o.open=false;});S.resCat=d.dataset.rcat;setTimeout(function(){d.scrollIntoView({behavior:"smooth",block:"start"});},60);}else if(!document.querySelector("details.rgrp[open]"))S.resCat="all";return;}
   if(d.open){document.querySelectorAll("details.grp[open]").forEach(function(o){if(o!==d)o.open=false;});save("pac.grp",+d.dataset.grp);setTimeout(function(){d.scrollIntoView({behavior:"smooth",block:"start"});},60);}
   else if(!document.querySelector("details.grp[open]"))save("pac.grp",-1);},true);
 document.addEventListener("click",function(e){
@@ -1898,7 +1913,6 @@ document.addEventListener("change",function(e){
     S.lang=t.value;L=PACKS[S.lang];save("pac.lang",S.lang);
     paintChrome();render(true);return;
   }
-  if(t.id==="res-cat"){S.resCat=t.value;paintRes();return;}
   if(t.dataset&&t.dataset.sp&&t.files&&t.files[0]){var sid=t.dataset.sp;
     putPhoto(sid,t.files[0]).then(function(){render(true);var el=document.getElementById("si-"+sid);if(el&&el.scrollIntoView)el.scrollIntoView({block:"center"});}).catch(function(){alert(L.safety.ui.photoFail);});return;}
   if(t.id==="rate"){S.rate=t.value;save("pac.rate",S.rate);if(sp.on)startSpeak();return;}
