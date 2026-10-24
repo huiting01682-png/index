@@ -109,7 +109,7 @@ const DATA={"zh":{"ui":{"title":"阿明伯回家了","sub":"一個中風家庭�
 const LANGS=[["zh","中文","zh-TW"],["en","English","en-US"],["id","Bahasa Indonesia","id-ID"],["vi","Tiếng Việt","vi-VN"],["th","ภาษาไทย","th-TH"]];
 const SAY={zh:[["119","一一九"],["1966","一九六六"],["1925","一九二五"],["722","七二二"],["185/100","一百八十五、一百"],["180/120","一百八十、一百二十"],["PAC","P A C"],["/","、"]]};
 let lang=(()=>{const q=new URLSearchParams(location.search).get("lang");if(q&&DATA[q])return q;try{const s=localStorage.getItem("pac.book.lang")||(JSON.parse(localStorage.getItem("pac.lang")||"null"));if(s&&DATA[s])return s}catch(e){}return "zh"})();
-let cur=0,seen={},answered={},firstTry={},reading=false;
+let APPURL="index.html#train",cur=0,seen={},answered={},firstTry={},reading=false;
 const $=s=>document.querySelector(s);
 const D=()=>DATA[lang]||DATA.zh;
 const P=i=>{const z=DATA.zh.pages[i],l=(DATA[lang]||{}).pages;return Object.assign({},z,l&&l[i]?l[i]:{},{img:z.img,cover:z.cover,end:z.end,spots:(z.spots||[]).map((s,k)=>Object.assign({},s,{t:l&&l[i]&&l[i].spots?l[i].spots[k].t:s.t})),q:z.q?{t:(l&&l[i]&&l[i].q?l[i].q.t:z.q.t),o:z.q.o.map((o,k)=>Object.assign({},o,l&&l[i]&&l[i].q?{t:l[i].q.o[k].t,fb:l[i].q.o[k].fb}:{}))}:null})};
@@ -140,7 +140,7 @@ function render(dir){
   h+=`<p class="story">${esc(p.text)}</p>`;
   if(p.spots&&p.spots.length){const n=Object.keys(seen[cur]||{}).length;h+=`<p class="hint">${n?`<b>${esc(fmt(U("found"),{n,m:p.spots.length}))}</b>`:esc(U("tapHint"))}</p>`}
   if(p.q){const a=answered[cur];h+=`<div class="q"><h2>${esc(p.q.t)}</h2>`;p.q.o.forEach((o,k)=>{let c="";if(a&&a.k===k)c=o.ok?" good":" bad";h+=`<button class="opt${c}" data-opt="${k}" type="button">${esc(o.t)}</button>`});if(a){const o=p.q.o[a.k];h+=`<div class="fb ${o.ok?"good":"bad"}" role="status"><b>${esc(o.ok?U("right"):U("wrong"))}</b>${esc(o.fb)}</div>`}h+=`</div>`}
-  if(p.end){const sc=Object.values(firstTry).filter(Boolean).length;h+=`<div class="remember"><h3>${esc(U("remember"))}</h3><ul>${p.remember.map(r=>`<li>${esc(r)}</li>`).join("")}</ul></div><p class="score" style="text-align:center">${esc(fmt(U("score"),{n:sc,m:QN}))}</p><div class="endbtns"><button class="big ghost" data-go="0" type="button">↺ ${esc(U("again"))}</button><a class="big" href="index.html#train">${esc(U("toApp"))} ›</a></div><p class="note" style="text-align:center">${esc(U("disclaimer"))}</p>`}
+  if(p.end){const sc=Object.values(firstTry).filter(Boolean).length;h+=`<div class="remember"><h3>${esc(U("remember"))}</h3><ul>${p.remember.map(r=>`<li>${esc(r)}</li>`).join("")}</ul></div><p class="score" style="text-align:center">${esc(fmt(U("score"),{n:sc,m:QN}))}</p><div class="endbtns"><button class="big ghost" data-go="0" type="button">↺ ${esc(U("again"))}</button><a class="big" href="${APPURL}" target="_top">${esc(U("toApp"))} ›</a></div><p class="note" style="text-align:center">${esc(U("disclaimer"))}</p>`}
  }
  el.innerHTML=h;
  if(old&&dir){old.className="page "+(dir>0?"out-left":"out-right");setTimeout(()=>old.remove(),450);st.appendChild(el)}else{st.innerHTML="";st.appendChild(el)}
@@ -168,6 +168,7 @@ sel.onchange=()=>{lang=sel.value;try{localStorage.setItem("pac.book.lang",lang)}
 $("#langLbl").textContent=U("lang");
 if("speechSynthesis" in window)speechSynthesis.onvoiceschanged=()=>{};
 render(0);
+fetch("index.html",{method:"HEAD"}).then(r=>{if(!r.ok)throw 0}).catch(()=>{APPURL="https://huiting01682-png.github.io/index/#train"});
 </script>
 </body>
 </html>
