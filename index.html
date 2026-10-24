@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="腦中風 PAC 衛教｜三軍總醫院松山分院">
 <meta property="og:description" content="給病人、家屬與看護的急性後期照護衛教，五種語言、可朗讀、可離線使用。">
-<meta property="og:image" content="https://huiting01682-png.github.io/index/img/og.jpg?v=v80-1151024">
+<meta property="og:image" content="https://huiting01682-png.github.io/index/img/og.jpg?v=v81-1151024">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:url" content="https://huiting01682-png.github.io/index/">
 <meta name="twitter:card" content="summary_large_image">
@@ -1579,7 +1579,7 @@ function homeView(){
     '<span class="track"><i style="width:'+pct+'%"></i></span></span>'+ic("right")+'</button>'+
     (isStandalone()?'':'<button type="button" class="rescard instcard" data-tab="install"><span class="tile t-blue"><img src="icons/icon-192.png" width="192" height="192" alt=""></span><span><b>'+esc(L.install.homeCard)+'</b><small>'+esc(L.install.homeSub)+'</small></span><span class="go">'+ic("right")+'</span></button>')+
     '<button type="button" class="rescard" data-tab="res"><span class="tile t-teal">'+ic("pin")+'</span><span><b>'+esc(L.res.ui.homeCard)+'</b><small>'+esc(L.res.ui.homeCardSub)+'</small></span><span class="go">'+ic("right")+'</span></button>'+
-    trainCard()+gameCard()+bookCard()+'<button type="button" class="rescard safecard" data-tab="safety"><span class="tile t-green"><img src="pics/i-house.webp" width="320" height="320" alt=""></span><span><b>'+esc(L.safety.ui.homeCard)+'</b><small>'+esc(L.safety.ui.homeCardSub)+'</small></span><span class="go">'+ic("right")+'</span></button>'+
+    trainCard()+townCard()+gameCard()+bookCard()+'<button type="button" class="rescard safecard" data-tab="safety"><span class="tile t-green"><img src="pics/i-house.webp" width="320" height="320" alt=""></span><span><b>'+esc(L.safety.ui.homeCard)+'</b><small>'+esc(L.safety.ui.homeCardSub)+'</small></span><span class="go">'+ic("right")+'</span></button>'+
     '<section><h2 class="sec-h">'+T("unitsHeading")+'</h2>'+focusCard()+unitList()+'</section>'+
     '<section class="sos">'+sosHtml("h2")+triageCard()+'</section>'+
     '<section class="about"><h2>'+T("aboutTitle")+'</h2><ul>'+L.ui.about.map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+
@@ -2130,6 +2130,7 @@ function onbCard(){return PROF?'<button type="button" class="rescard onbcard on"
 function triageCard(){return '<button type="button" class="rescard tricard" data-tab="triage"><span class="tile t-red">'+ic("phone")+'</span><span><b>'+TT("triageH")+'</b><small>'+TT("triageSub")+'</small></span><span class="go">'+ic("right")+'</span></button>';}
 var BOOK_TX={zh:["互動繪本：阿明伯回家了","一個家庭的照顧故事・點圖、選擇、朗讀"],en:["Picture book: Grandpa Ming Comes Home","A family's care story – tap, choose, listen"],id:["Buku cerita: Kakek Ming Pulang","Kisah keluarga – ketuk, pilih, dengarkan"],vi:["Truyện tranh: Ông Minh về nhà","Câu chuyện gia đình – chạm, chọn, nghe đọc"],th:["หนังสือภาพ: คุณปู่หมิงกลับบ้าน","เรื่องราวครอบครัว – แตะ เลือก ฟัง"]};
 function bookCard(){var b=BOOK_TX[S.lang]||BOOK_TX.zh;return '<a class="rescard bookcard" href="book.html?lang='+(BOOK_TX[S.lang]?S.lang:"zh")+'"><span class="tile t-blue"><img src="img/home.webp" width="800" height="600" alt="" style="object-fit:cover"></span><span><b>'+esc(b[0])+'</b><small>'+esc(b[1])+'</small></span><span class="go">'+ic("right")+'</span></a>';}
+function townCard(){return '<a class="rescard bookcard gamecard" href="town.html"><span class="tile t-blue"><img src="img/home.webp" width="800" height="600" alt="" style="object-fit:cover"></span><span><b>3D 小鎮：阿明伯的小鎮</b><small>在小鎮走來走去照顧阿明伯・五金行、藥局、公園、長照站、PAC 病房</small></span><span class="go">'+ic("right")+'</span></a>';}
 function gameCard(){return '<a class="rescard bookcard gamecard" href="game.html"><span class="tile t-blue"><img src="img/home.webp" width="800" height="600" alt="" style="object-fit:cover"></span><span><b>闖關遊戲：回家第一週</b><small>7 天照顧挑戰・選對選錯會影響阿明伯和你的體力</small></span><span class="go">'+ic("right")+'</span></a>';}
 function trainCard(){return '<button type="button" class="rescard traincard" data-tab="train"><span class="tile t-teal"><img src="pics/i-pt.webp" width="320" height="320" alt=""></span><span><b>'+TT("trainTitle")+'</b><small>'+esc(fmt(TD().ui.scenCount,{n:TD().scen.length,k:scenDoneN()}))+'・'+esc(fmt(TD().ui.skillCount,{k:skillPassed(),n:TD().skills.length}))+'</small></span><span class="go">'+ic("right")+'</span></button>';}
 /* 個人化入口 */
@@ -2166,7 +2167,7 @@ function certCard(){var k=skillPassed(),n=TD().skills.length;
 function toolsHtml(){var u=TD().ui;function b(tab,ic2,h,s,cls){return '<button type="button" class="rescard toolcard '+(cls||"")+'" data-tab="'+tab+'"><span class="tile">'+ic2+'</span><span><b>'+esc(h)+'</b><small>'+esc(s)+'</small></span><span class="go">'+ic("right")+'</span></button>';}
   return '<section><h2 class="sec-h">'+TT("toolsH")+'</h2><p class="hint">'+TT("toolsSub")+'</p>'+b("gate",'<img src="pics/i-wheelchair.webp" width="320" height="320" alt="">',u.gateH,u.gateSub,"t-teal")+b("turn",'<img src="pics/i-turn2.webp" width="320" height="320" alt="">',u.turnH,u.turnSub,"t-blue")+b("bp",'<img src="pics/i-bpcuff.webp" width="320" height="320" alt="">',u.bpH,u.bpSub,"t-pink")+'</section>';}
 function trainView(){
-  return '<section class="intro"><h1>'+TT("trainTitle")+'</h1><p>'+TT("trainIntro")+'</p></section>'+langNote()+onbCard()+(PROF?today3Html():'')+'<section><h2 class="sec-h">'+TT("stepsSecH")+'</h2><p class="hint">'+TT("stepsSecSub")+'</p>'+stepsTiles(Object.keys(TD().steps||{}))+'</section>'+gameCard()+bookCard()+
+  return '<section class="intro"><h1>'+TT("trainTitle")+'</h1><p>'+TT("trainIntro")+'</p></section>'+langNote()+onbCard()+(PROF?today3Html():'')+'<section><h2 class="sec-h">'+TT("stepsSecH")+'</h2><p class="hint">'+TT("stepsSecSub")+'</p>'+stepsTiles(Object.keys(TD().steps||{}))+'</section>'+townCard()+gameCard()+bookCard()+
     '<section><h2 class="sec-h">'+TT("scenH")+'</h2><p class="hint">'+TT("scenSub")+'・'+esc(fmt(TD().ui.scenCount,{n:TD().scen.length,k:scenDoneN()}))+'</p><div class="scenlist">'+scenOrder().map(scenCard).join("")+'</div></section>'+
     '<section><h2 class="sec-h">'+TT("skillH")+'</h2><p class="hint">'+TT("skillSub")+'</p><div class="sklist">'+TD().skills.map(skillRow).join("")+'</div>'+certCard()+'</section>'+
     triageCard()+toolsHtml()+

@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>阿明伯的小鎮</title>
+<meta name="description" content="腦中風照顧者 3D 小鎮闖關遊戲：出院回家第一週">
+<meta name="theme-color" content="#2E7FE0">
+<style>
+
+@font-face{font-family:"GameHuninn";src:url(fonts/game-sub.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Nunito";src:url(fonts/nunito-latin-800.woff2) format("woff2");font-weight:600 900;font-display:swap;unicode-range:U+0000-00FF}
+:root{--bg:#FFF7EA;--surface:#FFFFFF;--surface-2:#FFF1DA;--ink:#123A73;--text:#2B2F3A;--muted:#5D6472;--line:#F0DEC2;--primary:#1F6FD1;--ok:#14866D;--ok-soft:#DDF5EC;--alert:#D6334B;--alert-soft:#FFE8EB;--warn:#B86E00;--warn-soft:#FFF0D2;--weak:#E8590C;--sky1:#5DB7FF;--sky2:#2E7FE0;--h:#E8495F;--e:#F08C00;--s:#14866D;--shadow:0 2px 0 rgba(18,58,115,.06),0 10px 24px -8px rgba(18,58,115,.22);--r:22px;
+ --font:"Nunito","GameHuninn","PingFang TC","Microsoft JhengHei","Noto Sans TC",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root{--bg:#160F09;--surface:#241910;--surface-2:#2E2015;--ink:#FFD9A6;--text:#F5E3CC;--muted:#CDB08E;--line:#4A3420;--primary:#FFB45C;--ok:#7BD9B8;--ok-soft:#173A2E;--alert:#FF8A9A;--alert-soft:#3D1A20;--warn:#FFC266;--warn-soft:#3A2A10}}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:20px;line-height:1.6;overflow-x:hidden}
+button{font:inherit;color:inherit}
+.hud{position:sticky;top:0;z-index:5;background:linear-gradient(180deg,var(--sky1),var(--sky2));color:#fff;padding:calc(env(safe-area-inset-top) + 8px) 14px 10px;box-shadow:var(--shadow)}
+.hrow{display:flex;align-items:center;gap:8px;max-width:720px;margin:0 auto}
+.daypill{background:#fff;color:#1F6FD1;font-weight:800;border-radius:999px;padding:3px 12px;font-size:17px;white-space:nowrap}
+.daypill.boss{background:#FFE6A8;color:#7A4A00}
+.when{font-weight:700;font-size:17px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.snd{background:rgba(255,255,255,.22);border:1.5px solid rgba(255,255,255,.6);color:#fff;border-radius:12px;padding:2px 10px;font-size:16px;cursor:pointer}
+.bars{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:720px;margin:8px auto 0}
+.bar{font-size:16px;font-weight:700;position:relative}
+.bar .tr{height:12px;border-radius:8px;background:rgba(255,255,255,.35);overflow:hidden;margin-top:2px}
+.bar .tr i{display:block;height:100%;border-radius:8px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.bar.h i{background:#FF8FA0}.bar.e i{background:#FFC24D}.bar.s i{background:#7EE0B8}
+.bar.low .tr{animation:blink 1s infinite}@keyframes blink{50%{background:rgba(255,80,80,.6)}}
+.bar b{float:right;font-size:16px}
+.fx{position:absolute;right:0;top:-4px;font-size:16px;font-weight:800;background:#fff;border-radius:10px;padding:0 8px;animation:fx 1.6s forwards;pointer-events:none}
+.fx.up{color:var(--ok)}.fx.dn{color:var(--alert)}
+@keyframes fx{0%{opacity:0;transform:translateY(8px)}15%{opacity:1;transform:none}80%{opacity:1}100%{opacity:0;transform:translateY(-14px)}}
+main{max-width:720px;margin:0 auto;padding:16px 16px 40px;position:relative;overflow:hidden}
+.page{animation:inR .42s cubic-bezier(.2,.8,.2,1) both}
+@keyframes inR{from{transform:translateX(100%);opacity:.3}to{transform:none;opacity:1}}
+.out{position:absolute;left:16px;right:16px;top:16px;animation:outL .42s cubic-bezier(.2,.8,.2,1) both;pointer-events:none}
+@keyframes outL{to{transform:translateX(-100%);opacity:.2}}
+@media (prefers-reduced-motion:reduce){.page,.out{animation:none!important}.out{display:none}}
+.pic{position:relative;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);aspect-ratio:4/3;background:var(--surface-2)}
+.pic img{display:block;width:100%;height:100%;object-fit:cover}
+.tag{position:absolute;left:12px;top:12px;background:rgba(18,58,115,.85);color:#fff;font-size:16px;font-weight:700;border-radius:999px;padding:2px 12px}
+h2{font-size:24px;color:var(--ink);margin:14px 4px 4px}
+.txt{font-size:21px;font-weight:600;margin:6px 4px}
+.note{margin:12px 0 0;padding:10px 14px;border-radius:14px;font-size:18px;font-weight:600}
+.note.up{background:var(--ok-soft);color:var(--ok)}.note.dn{background:var(--alert-soft);color:var(--alert)}
+.opt{display:block;width:100%;text-align:left;margin:12px 0 0;padding:14px 16px;border-radius:16px;border:2px solid var(--line);background:var(--surface);font-size:19px;font-weight:600;cursor:pointer;min-height:58px;box-shadow:0 3px 0 var(--line)}
+.opt:active{transform:translateY(2px);box-shadow:none}
+.opt.good{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.opt.bad{background:var(--alert-soft);border-color:var(--alert);color:var(--alert)}
+.opt.okk{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
+.opt.dim{opacity:.45}
+.opt:disabled{cursor:default}
+.fb{margin-top:14px;padding:14px 16px;border-radius:16px;font-size:19px;font-weight:600}
+.fb b{display:block;font-size:21px}
+.fb.good{background:var(--ok-soft);color:var(--ok)}.fb.bad{background:var(--alert-soft);color:var(--alert)}.fb.okk{background:var(--warn-soft);color:var(--warn)}
+.fb .ans{display:block;margin-top:8px;color:var(--text);font-weight:600}
+.big{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:60px;margin-top:18px;border-radius:999px;border:0;background:var(--primary);color:#fff;font-size:21px;font-weight:800;cursor:pointer;box-shadow:0 4px 0 #1553A3;text-decoration:none}
+.big.ghost{background:var(--surface);color:var(--primary);border:2px solid var(--line);box-shadow:0 3px 0 var(--line)}
+.big:disabled{opacity:.4;cursor:default}
+.card{background:var(--surface);border-radius:var(--r);box-shadow:var(--shadow);padding:16px 18px;margin-top:16px}
+.card h3{margin:0 0 6px;color:var(--ok);font-size:20px}
+.card ul{margin:0;padding-left:1.2em}.card li{margin:6px 0;font-size:19px}
+.legend{display:grid;gap:10px;margin-top:12px}
+.legend div{display:flex;align-items:center;gap:10px;background:var(--surface);border-radius:16px;padding:10px 14px;box-shadow:var(--shadow);font-size:18px}
+.legend i{width:16px;height:40px;border-radius:8px;flex:none}
+.legend b{display:block;font-size:19px}
+.shop{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.item{position:relative;background:var(--surface);border:3px solid var(--line);border-radius:18px;padding:10px;text-align:center;cursor:pointer;font-size:18px;font-weight:700;line-height:1.35;min-height:150px}
+.item img{width:72px;height:72px;display:block;margin:0 auto 6px}
+.item small{display:block;color:var(--s);font-size:16px;margin-top:4px}
+.item[aria-pressed="true"]{border-color:var(--ok);background:var(--ok-soft)}
+.item[aria-pressed="true"]::after{content:"✓";position:absolute;right:8px;top:6px;width:30px;height:30px;border-radius:50%;background:var(--ok);color:#fff;font-size:18px;display:grid;place-items:center}
+.cnt{text-align:center;font-weight:800;color:var(--primary);margin-top:10px}
+.daycard{text-align:center;padding:40px 0 10px}
+.daycard .num{font-size:64px;font-weight:900;color:var(--primary);line-height:1}
+.daycard .sub{font-size:22px;color:var(--muted);margin-top:6px}
+.week{display:flex;justify-content:center;gap:6px;margin-top:20px}
+.week span{width:34px;height:34px;border-radius:50%;background:var(--line);display:grid;place-items:center;font-size:16px;font-weight:800;color:var(--muted)}
+.week span.done{background:var(--ok);color:#fff}.week span.now{background:var(--primary);color:#fff;transform:scale(1.15)}
+.title{text-align:center}
+.title h1{font-size:40px;color:var(--ink);margin:18px 0 0;line-height:1.2}
+.title .sub{font-size:22px;color:var(--weak);font-weight:800}
+.badge{text-align:center;padding:10px 0}
+.badge .medal{width:120px;height:120px;border-radius:50%;margin:0 auto;background:radial-gradient(circle at 35% 30%,#FFE9A8,#F0B429 60%,#C98A0E);display:grid;place-items:center;font-size:56px;box-shadow:0 8px 20px rgba(201,138,14,.4);animation:pop .6s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes pop{from{transform:scale(.2)}to{transform:none}}
+.badge h2{font-size:30px;text-align:center}
+.stat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.stat div{background:var(--surface);border-radius:16px;padding:10px;text-align:center;box-shadow:var(--shadow);font-size:16px}
+.stat b{display:block;font-size:28px}
+.aibox{margin-top:14px}
+.aitog{display:none;width:100%;min-height:54px;border-radius:16px;border:2px dashed var(--primary);background:transparent;color:var(--primary);font-size:18px;font-weight:700;cursor:pointer}
+.hasai .aitog{display:block}
+.aiform{margin-top:10px}
+.aiform textarea{width:100%;font:inherit;font-size:19px;padding:12px;border-radius:14px;border:2px solid var(--line);background:var(--surface);color:var(--text);resize:vertical}
+.aist{color:var(--primary);font-weight:700;font-size:17px;margin:8px 4px 0;min-height:1em}
+.mine{background:var(--surface-2);border-radius:14px;padding:10px 14px;font-weight:600;margin-top:12px}
+.chat{display:flex;flex-direction:column;gap:10px;margin:12px 0}
+.bub{max-width:86%;padding:10px 14px;border-radius:18px;font-size:19px;font-weight:600;line-height:1.5}
+.bub b{display:block;font-size:15px;opacity:.75}
+.bub.them{align-self:flex-start;background:var(--surface);box-shadow:var(--shadow);border-top-left-radius:6px}
+.bub.me{align-self:flex-end;background:var(--primary);color:#fff;border-top-right-radius:6px}
+.aibadge{display:none;margin:10px auto 0;width:max-content;background:#E2EEFF;color:#1F6FD1;border-radius:999px;padding:4px 14px;font-size:16px;font-weight:700}
+.hasai .aibadge{display:block}
+.foot{font-size:15px;color:var(--muted);text-align:center;margin-top:18px}
+
+html,body{height:100%;overflow:hidden;touch-action:none}
+body{overscroll-behavior:none}
+#world{position:fixed;inset:0;display:block;width:100vw;height:100vh;touch-action:none}
+.hud{position:fixed;left:0;right:0;top:0}
+.task{max-width:720px;margin:8px auto 0;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.95);color:#123A73;border-radius:14px;padding:6px 12px;font-size:17px;font-weight:800;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.task span{flex:1;min-width:0}
+.task .bdg{flex:none;background:#FFE6A8;color:#7A4A00;border-radius:999px;padding:0 10px;font-size:16px;border:0;cursor:pointer}
+#labels{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.lb{position:absolute;transform:translate(-50%,-100%);white-space:nowrap;font-weight:800;pointer-events:none}
+.lb.bld{background:rgba(255,255,255,.92);color:#123A73;border-radius:12px;padding:2px 10px;font-size:16px;box-shadow:0 2px 6px rgba(0,0,0,.18)}
+.lb.nm{color:#fff;font-size:14px;text-shadow:0 1px 3px rgba(0,0,0,.8)}
+.lb.bang{width:38px;height:38px;border-radius:50%;background:#FFB020;color:#5A3300;font-size:24px;display:grid;place-items:center;border:3px solid #fff;box-shadow:0 3px 8px rgba(0,0,0,.3);animation:bob 1s ease-in-out infinite}
+@keyframes bob{50%{margin-top:-8px}}
+.lb.say{background:#fff;color:#2B2F3A;border-radius:14px;padding:6px 12px;font-size:16px;font-weight:700;max-width:230px;white-space:normal;box-shadow:0 3px 10px rgba(0,0,0,.25);animation:popin .25s ease-out}
+.lb.say::after{content:"";position:absolute;left:50%;bottom:-8px;margin-left:-8px;border:8px solid transparent;border-bottom:0;border-top-color:#fff}
+@keyframes popin{from{transform:translate(-50%,-90%) scale(.6);opacity:0}}
+#arrow{position:fixed;width:54px;height:54px;margin:-27px 0 0 -27px;border-radius:50%;background:#FFB020;border:3px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,.3);display:none;place-items:center;pointer-events:none;z-index:4}
+#arrow i{display:block;width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:18px solid #5A3300}
+#arrow b{position:absolute;top:56px;left:50%;transform:translateX(-50%);white-space:nowrap;background:rgba(18,58,115,.9);color:#fff;font-size:15px;border-radius:10px;padding:1px 8px}
+#act{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:4;min-height:60px;padding:0 28px;border-radius:999px;border:4px solid #fff;background:#FF9F1C;color:#fff;font-size:21px;font-weight:900;box-shadow:0 5px 0 #C46F00,0 10px 24px rgba(0,0,0,.25);cursor:pointer;display:none;white-space:nowrap;animation:bob 1.2s ease-in-out infinite}
+#hint{position:fixed;left:50%;bottom:calc(26px + env(safe-area-inset-bottom));transform:translateX(-50%);background:rgba(18,58,115,.85);color:#fff;border-radius:999px;padding:6px 16px;font-size:16px;z-index:3;pointer-events:none;transition:opacity .6s;white-space:nowrap}
+#sheet{position:fixed;left:0;right:0;bottom:0;z-index:6;max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--bg);border-radius:26px 26px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,.35);transform:translateY(105%);transition:transform .45s cubic-bezier(.2,.8,.2,1);touch-action:pan-y}
+#sheet.open{transform:none}
+#sheet.full{top:0;max-height:none;border-radius:0}
+#sheet .grab{width:48px;height:5px;border-radius:3px;background:var(--line);margin:10px auto 0}
+#sheet main{padding-bottom:calc(30px + env(safe-area-inset-bottom))}
+#dim{position:fixed;inset:0;background:rgba(10,20,40,.35);z-index:5;opacity:0;pointer-events:none;transition:opacity .4s}
+#dim.on{opacity:1;pointer-events:auto}
+.toast2{position:fixed;left:50%;top:150px;transform:translateX(-50%);z-index:7;background:#fff;color:#7A4A00;border:3px solid #FFB020;border-radius:18px;padding:10px 18px;font-size:18px;font-weight:800;box-shadow:0 6px 18px rgba(0,0,0,.25);animation:popin .3s ease-out;white-space:nowrap}
+.bgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.bgrid div{background:var(--surface);border-radius:16px;padding:10px 6px;text-align:center;font-size:15px;font-weight:700;box-shadow:var(--shadow);opacity:.35}
+.bgrid div.got{opacity:1}
+.bgrid div i{display:block;font-style:normal;font-size:30px}
+#fallback{display:none;position:fixed;inset:0;background:var(--bg);z-index:9;padding:30px 20px;text-align:center;font-size:20px}
+</style>
+</head>
+<body>
+<canvas id="world"></canvas>
+<div id="labels"></div>
+<div id="arrow"><i></i><b></b></div>
+<header class="hud" id="hud" hidden>
+ <div class="hrow"><span class="daypill" id="dp"></span><span class="when" id="wh"></span><button class="snd" id="snd" type="button" aria-pressed="true"></button></div>
+ <div class="bars" id="bars"></div>
+ <div class="task" id="task" hidden><span id="taskTxt"></span><button class="bdg" id="bdg" type="button"></button></div>
+</header>
+<div id="hint"></div>
+<button id="act" type="button"></button>
+<div id="dim"></div>
+<div id="sheet" aria-live="polite"><div class="grab"></div><main><div id="stage"></div></main></div>
+<div id="fallback">這支手機的瀏覽器無法顯示 3D 畫面。<br><br><a class="big" href="game.html">改玩圖文版「回家第一週」</a></div>
+<script src="vendor/three.min.js"></script>
+<script>
+
+const G={"ui":{"title":"阿明伯的小鎮","sub":"回家第一週・照顧者大冒險","intro":["阿明伯在 PAC 病房住了六週，今天出院回家。","你是女兒小慧，接下來七天要在小鎮裡跑來跑去照顧他：五金行、藥局、公園、長照站、PAC 病房。","每個選擇都會影響三件事：","點地面就能走路；頭上有「！」的人有事找你。走到旁邊按「說話」。"],"bars":{"h":"阿明伯狀態","e":"我的體力","s":"居家安全"},"short":{"h":"阿明伯","e":"體力","s":"安全"},"endLow":"不過這一週，阿明伯的狀況一直往下掉：嗆到、跌倒、血壓都沒處理好。在家照顧的每個小選擇，都會累積成大差別。","barTip":{"h":"選對就會變好，選錯會變差","e":"照顧很耗體力，太累容易出錯","s":"第一天的居家布置決定"},"start":"開始挑戰","next":"繼續","day":"第 {d} 天","boss":"最終關卡","pickN":"已選 {n}／{m}","pickDone":"布置好了","lesson":"這一關學到","tired":"你太累了，手忙腳亂，阿明伯也受到影響。記得找人輪替。","dayEnd":"第 {d} 天結束","sleep":"睡一覺，體力恢復一點。","endT":"第一週結束","endBoss":"救護車很快把阿明伯送到醫院。因為你及時撥 119、記下發作時間，醫師馬上處理，情況穩定下來。","firstRight":"第一次就選對 {n}／{m} 題","titles":[[85,70,"安全照顧達人","你已經是家裡最可靠的照顧者。"],[65,50,"穩穩上手的照顧者","大部分都做對了，再把答錯的幾題練熟。"],[0,0,"新手照顧者","第一次照顧本來就難。到 APP 把答錯的情境再練一次。"]],"review":"再複習這幾關","replay":"再玩一次","toApp":"到 APP 情境模擬練習","right":"做得好","wrong":"這樣有風險","ok":"還可以更好","disclaimer":"本遊戲為衛教參考，實際照護請依您的醫療團隊指導。","safeT":"平安無事","fallT":"糟了！","sound":"音效","aiOn":"AI 自由作答已開啟","aiOwn":"用自己的話回答（AI 評分）","aiPh":"例如：先讓他坐好，再……","aiSend":"送出給 AI 評分","aiThink":"AI 正在看你的回答…","aiShort":"多寫幾個字再送出","aiStd":"標準做法","aiRole":"AI 角色對話","aiSay":"說出口","aiFin":"結束對話，看評分","aiMe":"小慧（你）","aiMax":"已經聊了 4 句，按「結束對話，看評分」","aiOff":"這裡無法使用 AI，請用選項作答。","aiBusy":"AI 目前太忙，請稍後再試，或先用選項作答。","aiLogin":"請重新登入 Claude 後再試。","aiErr":"AI 暫時連不上，請再試一次或用選項作答。","talkTo":"和 {n} 說話","goTo":"下一步：到{l}找{n}","goHome":"今天任務完成！回家休息","restT":"回家休息","cont":"繼續上次進度","newGame":"重新開始","badges":"照顧徽章","out":"出門 ›","badgeGot":"得到徽章：{t}","help":"點地面走路・鍵盤方向鍵也可以","walkHint":"點一下地面，小慧就會走過去"},"shop":{"t":"阿明伯今天出院！回家前，社工師給你一張「居家安全清單」。預算有限，先選 3 樣最想做的。","pick":3,"items":[{"id":"light","pic":"i-lamp","t":"走道、床邊裝夜燈","s":20},{"id":"rail","pic":"i-rail","t":"浴室、馬桶旁裝扶手","s":20},{"id":"mat","pic":"i-mat","t":"浴室鋪防滑墊","s":15},{"id":"path","pic":"i-path","t":"收走地毯、電線、雜物","s":15},{"id":"commode","pic":"i-commode","t":"床邊便盆椅","s":10},{"id":"pillbox","pic":"i-pills","t":"分格藥盒（早、中、晚）","s":5}],"after":"布置好了。這些準備，接下來幾天會派上用場。"},"days":[{"d":1,"ev":[{"when":"早上","type":"shop","loc":"hw","npc":"boss","gp":"home","pre":"阿明伯今天出院！先到五金行，把回家要用的東西買齊。"},{"when":"晚上","type":"q","q":{"img":"fd3","title":"回家第一頓晚餐","ref":"","n":[{"t":"第一次在家吃晚餐。阿明伯坐在沙發上，身體有點往後靠。","o":[{"t":"先扶他坐直 90 度、背後墊好，下巴微微往下收","k":"good","fb":"對。坐直、頭微低，食物比較不會跑進氣管。","go":1},{"t":"他累了，讓他半躺著吃就好","k":"bad","fb":"半躺著吃，食物容易跑進氣管。要坐直再吃。"}]},{"t":"你拿起湯匙準備餵粥。要怎麼餵？","o":[{"t":"坐在他有力的那一側、和他眼睛同高，一小茶匙從有力側放進嘴裡","k":"good","fb":"對。小口、從有力側，吞完再下一口。","go":2},{"t":"站著從上面餵，比較順手","k":"bad","fb":"站著餵他要抬頭，抬頭時最容易嗆到。"},{"t":"一大口，快點吃完","k":"bad","fb":"一口太多容易嗆到。"}]},{"t":"吃完了，他說想躺一下。","o":[{"t":"先坐著休息 30 分鐘，檢查無力那邊的臉頰內有沒有卡食物，再刷牙","k":"good","fb":"對。無力側常卡食物，吃完馬上躺容易逆流嗆到。","go":-1},{"t":"吃飽了就扶他去躺","k":"bad","fb":"吃完馬上躺平，食物容易逆流嗆到。"}]}],"lesson":["坐直 90 度、下巴微收","坐在有力側、眼睛同高、小口餵","吞完再下一口；咳嗽或聲音變濕就停","吃完坐 30 分鐘、清潔口腔"]},"loc":"home","npc":"grandpa","gp":"home"}]},{"d":2,"ev":[{"when":"早上","type":"q","q":{"img":"scbp","title":"量到血壓 185","n":[{"t":"早上量血壓 185/100。他說沒有哪裡不舒服。","o":[{"t":"讓他坐著休息幾分鐘，再量一次","k":"good","fb":"對。剛活動完或緊張都會讓血壓暫時高。","go":1},{"t":"馬上多給一顆降血壓藥","k":"bad","fb":"不可以自己加藥，血壓降太快反而危險。"},{"t":"他常常這樣，不理它","k":"bad","fb":"180 以上一定要處理，不能不理。"}]},{"t":"休息後再量，182/98。今天的藥他已經吃了，還是沒有不舒服。","o":[{"t":"當天打電話給醫院或診所，照指示做","k":"good","fb":"對。180/120 以上休息後還是高，當天就要聯絡醫師。","go":-1},{"t":"一直量到正常為止","k":"ok","fb":"量很多次數字不會自己掉下來，要有行動。"}]}],"lesson":["180/120 以上：先休息再量","還是高：當天聯絡醫師，不自己加藥","說話不清、嘴歪、手腳無力：立刻撥 119，記下時間"],"ref":"bp"},"loc":"home","npc":"grandpa","gp":"home"},{"when":"半夜 2 點","type":"q","q":{"img":"scnight","title":"半夜要上廁所","n":[{"t":"半夜 2 點，他說要上廁所。家裡只有你一個人。","o":[{"t":"開燈，先讓他坐在床邊 30 秒，穿好鞋","k":"good","fb":"對。先坐再站，不會頭暈；燈開了才看得到路。","go":1},{"t":"怕吵醒別人，不開燈直接扶他起來","k":"bad","fb":"暗處是最容易跌倒的地方。"},{"t":"叫他自己慢慢走，你在後面看","k":"bad","fb":"半夜頭暈又走不穩，要有人扶著。"}]},{"t":"他坐在床邊了。站起來的時候有點晃。","o":[{"t":"站著再數 30 秒，你站在無力的那一側，手扶他的腰","k":"good","fb":"對。站 30 秒讓血壓穩定，站無力側才扶得住。","go":2},{"t":"拉他無力那隻手，幫他站穩","k":"bad","fb":"拉無力的手會傷到肩膀，而且扶不住。"}]},{"t":"走到廁所門口了。","o":[{"t":"讓他扶扶手，你在無力側，慢慢轉身坐下","k":"good","fb":"對。轉身是最容易跌的動作，要慢。","go":-1},{"t":"你先進去掀馬桶蓋，讓他自己站一下","k":"bad","fb":"不要留他一個人站著，就算只有幾秒。"}]}],"lesson":["坐 30 秒、站 30 秒，再走","開燈、穿鞋，照顧者站無力側扶腰","不拉無力的手，不留他一個人站","常半夜上廁所，可以問治療師要不要用床邊便盆椅"],"ref":"night"},"flag":{"light":["你裝的夜燈亮著，走道看得很清楚。",4],"!light":["走道很暗，他差點踢到椅子腳。如果有夜燈就好了。",-6],"commode":["你想起床邊有便盆椅，不必走去廁所，更安全。",3]},"loc":"home","npc":"grandpa","gp":"home"}]},{"d":3,"ev":[{"when":"中午","type":"q","q":{"img":"scchoke","title":"吃到一半嗆咳","ref":"choke","n":[{"t":"中午吃到一半，他突然用力咳嗽，臉漲紅，但還能出聲、能說「卡到了」。","o":[{"t":"停止餵食，讓他身體往前傾，鼓勵他自己用力咳","k":"good","fb":"對。還能咳、能說話，表示氣道沒有完全堵住，自己咳最有效。","go":1},{"t":"趕快用力拍背","k":"bad","fb":"還能咳的時候拍背，反而可能讓東西卡得更深。"},{"t":"給他喝一大口水沖下去","k":"bad","fb":"喝水可能嗆進肺裡。"}]},{"t":"咳了幾下，咳出一小塊肉，呼吸恢復了。接下來呢？","o":[{"t":"休息一下，接下來幾天注意有沒有發燒、一直咳、喘；有就就醫","k":"good","fb":"對。嗆到後幾天內發燒、咳嗽、喘，可能是吸入性肺炎。","go":2},{"t":"沒事了，繼續把飯吃完","k":"ok","fb":"先休息，確定他呼吸平順、願意再吃，再慢慢小口吃。"}]},{"t":"如果哪一天，他咳不出聲、說不出話、兩手抓著脖子呢？","o":[{"t":"拍背 5 下、壓肚子 5 下輪流做，請人撥 119","k":"good","fb":"對。咳不出聲就是完全堵住，要馬上做哈姆立克法；沒反應就改做 CPR。","go":-1},{"t":"一樣鼓勵他自己咳","k":"bad","fb":"咳不出聲時不能等，要馬上拍背、壓肚子並撥 119。"}]}],"lesson":["還能咳、能說話：往前傾、自己咳，不要拍背","咳不出聲、不能說話：拍背 5 下、壓肚子 5 下輪流做，撥 119","沒反應：CPR","嗆到後幾天發燒、咳嗽：就醫"],"pre":"天氣很好，你們推著輪椅到公園野餐。"},"loc":"park","npc":"grandpa","gp":"park"},{"when":"晚上","type":"q","q":{"img":"scskin","title":"翻身時發現一塊紅","n":[{"t":"翻身時發現尾椎有一塊紅紅的，大約硬幣那麼大，沒有破皮。","o":[{"t":"用手指輕壓一下，看會不會變白","k":"good","fb":"對。壓了不變白，就是壓傷的開始。","go":1},{"t":"用力搓一搓，促進血液循環","k":"bad","fb":"搓會讓受傷的皮膚更糟。"},{"t":"貼個 OK 繃","k":"ok","fb":"貼了看不到變化，問題也還在：那一塊一直被壓到。"}]},{"t":"壓了不變白。","o":[{"t":"這一側先不要壓到，翻身勤一點，告訴護理師","k":"good","fb":"對。減壓是最重要的，要讓專業人員看。","go":2},{"t":"沒破皮，先觀察幾天","k":"bad","fb":"壓傷幾天內就會破，早處理才不會變成傷口。"}]},{"t":"接下來每天要怎麼做？","o":[{"t":"每次翻身都檢查骨頭突出的地方，保持皮膚乾爽，吃夠蛋白質","k":"good","fb":"對。檢查、乾爽、營養，三件事一起做。","go":-1},{"t":"買個氣墊床就不用翻身了","k":"bad","fb":"氣墊床能幫忙，但還是要翻身、要檢查。"}]}],"lesson":["壓紅不變白＝壓傷開始","不搓、不壓那一側、翻身勤一點","每次翻身檢查屁股、腳跟、肩膀","告訴護理師或回診時說"],"ref":"skin"},"loc":"home","npc":"grandpa","gp":"home"}]},{"d":4,"ev":[{"when":"早上","type":"q","q":{"img":"sctransfer","title":"從床移到輪椅","n":[{"t":"要把他從床移到輪椅。輪椅放哪裡？","o":[{"t":"放在有力的那一側，斜 45 度，煞車拉好，腳踏板收起來","k":"good","fb":"對。往有力側轉，他自己的腳才使得上力。","go":1},{"t":"放在正對面，坐下去最方便","k":"bad","fb":"正對面要轉 180 度，最容易跌。"},{"t":"放在無力那一側，那邊比較需要幫忙","k":"bad","fb":"要讓有力的手腳帶動，不是往無力側倒。"}]},{"t":"他坐在床邊，腳踩地，準備站。你怎麼站？","o":[{"t":"面對他，你的膝蓋頂住他無力側的膝蓋，手扶他的腰或腰帶","k":"good","fb":"對。頂住膝蓋，無力的腳才不會軟掉。","go":2},{"t":"拉他兩隻手往上拉","k":"bad","fb":"拉手會傷肩膀，而且他站起來你就扶不住。"}]},{"t":"站起來了。","o":[{"t":"數 1、2、3，一起往有力側小步轉，慢慢坐下，再放腳踏板","k":"good","fb":"對。小步轉、慢慢坐，坐好再放腳踏板。","go":-1},{"t":"快速轉過去坐下，省力","k":"bad","fb":"快就容易失去平衡，兩個人一起跌。"}]}],"lesson":["輪椅放有力側、斜 45 度","煞車拉、腳踏板收、鞋穿好","膝蓋頂膝蓋、扶腰不拉手","數 1、2、3 一起動，小步轉"],"ref":"transfer","pre":"今天回 PAC 病房複診。治療師說：「來，示範一次怎麼從床移到輪椅。」"},"loc":"hosp","npc":"pt","gp":"hosp"},{"when":"晚上 9 點","type":"q","q":{"img":"scmed","title":"發現早上的藥忘了吃","n":[{"t":"晚上 9 點，發現早上那一包藥忘了吃。","o":[{"t":"看藥袋上的說明，不確定就打電話問藥局或醫院","k":"good","fb":"對。不同的藥漏吃的處理不一樣，問最保險。","go":1},{"t":"早上的和晚上的一起吃","k":"bad","fb":"一次吃兩倍的量可能太多，尤其是抗凝血劑和降血壓藥。"},{"t":"反正漏一次沒關係","k":"ok","fb":"偶爾漏一次通常不會怎樣，但要問過，也要想辦法不再漏。"}]},{"t":"以後怎麼不再漏？","o":[{"t":"用分格藥盒分早中晚，吃完在每日檢查表打勾","k":"good","fb":"對。看得到就不會忘。","go":-1},{"t":"靠記憶就好","k":"bad","fb":"中風後記憶力常變差，要靠工具。"}]}],"lesson":["漏吃：看藥袋或打電話問，不自己補雙倍","分格藥盒＋每日打勾","抗凝血劑漏吃或吃錯，一定要問"],"ref":"med","pre":"你拿著藥袋，跑到巷口藥局問藥師。"},"flag":{"pillbox":["分格藥盒裡「早」那格還是滿的，你一眼就發現了。",3]},"loc":"pharm","npc":"pharmacist","gp":"home"}]},{"d":5,"ev":[{"when":"早上","type":"q","q":{"img":"sccomm","title":"聽不懂他要什麼","n":[{"t":"阿公一直指著桌子，講不清楚，越來越急。","o":[{"t":"拿圖卡或手機圖片讓他指：水、廁所、痛、冷、熱","k":"good","fb":"對。說不出來的人，常常還能指。","go":1},{"t":"一直問「什麼？你說什麼？」","k":"bad","fb":"一直追問會讓他更急、更說不出來。"},{"t":"隨便猜一樣東西拿給他","k":"ok","fb":"猜對了好，猜錯會更生氣。用圖卡比較準。"}]},{"t":"他指了「痛」。","o":[{"t":"請他指身體哪裡痛，記下來，告訴家人或護理師","k":"good","fb":"對。痛在哪裡、多久了，醫護人員要知道。","go":-1},{"t":"拿一顆止痛藥給他","k":"bad","fb":"不可以自己給藥，有些痛要先找原因。"}]}],"lesson":["用圖卡、手機圖片讓他指","問是非題：「是水嗎？」點頭搖頭就好","不追問、不猜太久","痛要記下部位，告訴醫護"],"ref":"comm","pre":"白天由看護 Siti 推阿明伯到公園曬太陽，你過去看看。"},"loc":"park","npc":"siti","gp":"park"},{"when":"下午","type":"q","q":{"img":"st3","title":"下樓去公園","ref":"","pre":"家在公寓二樓，沒有電梯。治療師說阿明伯可以練樓梯了，今天天氣好，你們要下樓去公園。","n":[{"t":"出門前要先確認什麼？","o":[{"t":"扶手牢固、樓梯有燈沒雜物，他穿好防滑包腳跟的鞋，精神好不頭暈","k":"good","fb":"對。四項都確認了再走樓梯。","go":1},{"t":"穿拖鞋就好，反正很近","k":"bad","fb":"拖鞋容易滑脫、絆倒。要穿防滑、包腳跟的鞋。"}]},{"t":"準備下樓了。你站在哪裡？他先動哪隻腳？","o":[{"t":"你在他前方低一階、無力的那一側；他有力的手扶扶手，無力的腳先下","k":"good","fb":"對。口訣「下樓無力先」，你在前方低一階才擋得住。","go":2},{"t":"你在他後面拉著他的手，他有力的腳先下","k":"bad","fb":"下樓要無力的腳先下；你要在前方低一階，扶腰不拉手。"}]},{"t":"散步完要上樓回家了。這次呢？","o":[{"t":"你在他後方低一階、無力側扶腰；有力的腳先上，無力的腳跟上，一次一階","k":"good","fb":"對。口訣「上樓有力先，下樓無力先」。","go":-1},{"t":"無力的腳先上去，比較有練到","k":"bad","fb":"無力的腳撐不住身體。上樓要有力的腳先上。"}]}],"lesson":["上樓有力先，下樓無力先","照顧者站無力側：上樓在後方低一階，下樓在前方低一階","有力的手扶扶手，你扶腰或腰帶，不拉手","一次一階，累了就在平台休息"]},"flag":{"!path":["樓梯口堆著回收物，你先搬開才能走。",-3]},"loc":"home","npc":"grandpa","gp":"home"}]},{"d":6,"ev":[{"when":"早上","type":"q","q":{"img":"caregiver","title":"照顧者也累了","ref":"","n":[{"t":"第六天早上，你發現自己整晚沒睡好，腰很痠，看到藥袋就想哭。","o":[{"t":"撥 1966 長照專線問喘息服務，也跟哥哥阿傑排好輪班","k":"good","fb":"對。照顧是長期的，有人輪替才走得久。喘息服務可以讓照顧者休息。","go":1,"e":40},{"t":"再撐一下，不想麻煩別人","k":"bad","fb":"硬撐到倒下，阿明伯也會沒人照顧。累了要說出來。","e":-10},{"t":"喝杯咖啡，繼續做","k":"ok","fb":"可以撐一時，但問題還在。需要有人輪替。","e":5}]},{"t":"阿傑說：「我週末可以來，但我不會照顧。」","o":[{"t":"帶他一起看 APP 的步驟卡，先從陪散步、量血壓開始","k":"good","fb":"對。分工從簡單的開始，家人越多人會，你越輕鬆。","go":-1,"e":10},{"t":"算了，還是我自己來比較快","k":"ok","fb":"一開始教比較慢，但之後你就有幫手了。"}]}],"lesson":["累了要說出來，家人輪流照顧","撥 1966 長照專線，問喘息服務","教家人從簡單的事開始分工"],"pre":"你來到長照站，社工師看你臉色很差。"},"loc":"care","npc":"social","gp":"home"},{"when":"中午","type":"bath","need":["rail","mat"],"safe":"洗完澡，阿明伯扶著扶手、踩在防滑墊上，平安走出浴室。你第一天的準備，保護了他。","q":{"img":"scfall","title":"他跌坐在地上","n":[{"t":"洗完澡走出浴室時，地上濕滑，他滑了一跤，跌坐在地上，說屁股很痛。","o":[{"t":"先不要拉他起來。問他哪裡痛、腳能不能動","k":"good","fb":"對。先確認有沒有骨折，再決定要不要移動。","go":1},{"t":"趕快把他拉起來","k":"bad","fb":"骨折時硬拉會更傷。"}]},{"t":"他說髖部很痛，腳不能動，撞到頭了。","o":[{"t":"不要移動他，撥 119，陪著他保暖","k":"good","fb":"對。髖部痛不能動可能是骨折；撞到頭也要就醫。","go":2},{"t":"扶他到沙發休息看看","k":"bad","fb":"骨折的人移動會更嚴重。"}]},{"t":"這次跌倒之後？","o":[{"t":"回診時告訴醫師跌倒的事，檢查家裡的地墊、燈光、動線","k":"good","fb":"對。跌過一次的人更容易再跌，要找出原因。","go":-1},{"t":"沒事就不用說了","k":"bad","fb":"醫師要知道才能調整藥或復健計畫。"}]}],"lesson":["跌倒先不要拉，先問痛不痛、能不能動","很痛、不能動、撞到頭：不移動，撥 119","沒受傷：側翻、跪起、扶穩固的椅子慢慢站","回診一定要說"],"ref":"fall"},"loc":"home","npc":"grandpa","gp":"home"},{"when":"晚上","type":"talk","q":{"img":"scmood","title":"他說「活著沒意思」","n":[{"t":"他看著窗外說：「這樣活著有什麼意思。」","o":[{"t":"坐下來聽他說，問他是不是常常這樣想","k":"good","fb":"對。願意說出來，就是求救的開始。","go":1},{"t":"「不要亂講，你要想開一點。」","k":"bad","fb":"否定他的感受，他以後就不會再說了。"},{"t":"趕快轉移話題","k":"ok","fb":"避開不會讓念頭消失，反而少了一次了解他的機會。"}]},{"t":"他說：「有時候想一走了之。」","o":[{"t":"問他有沒有想過怎麼做。有具體想法就立刻告訴醫護人員或撥 1925；有立即危險撥 119","k":"good","fb":"對。問清楚不會「提醒」他，反而能知道危不危險。","go":2},{"t":"答應他不告訴別人","k":"bad","fb":"這種事不能保密，要讓專業人員知道。"}]},{"t":"之後幾個星期，你可以怎麼做？","o":[{"t":"回診時告訴醫師，陪他做心情溫度計，讓他做得到的事自己做","k":"good","fb":"對。中風後憂鬱很常見，可以治療；有事做、被需要，心情會慢慢好。","go":-1},{"t":"什麼都幫他做好，讓他不要累","k":"bad","fb":"什麼都不用做，反而更覺得自己沒用。"}]}],"lesson":["先聽，不否定","有想傷害自己：告訴醫護人員或撥 1925，有立即危險撥 119","不保密、不獨自承擔","回診時告訴醫師"],"ref":"mood"},"talk":{"title":"和爸爸聊聊","who":"阿明伯","open":"這樣活著，有什麼意思。","intro":"吃完晚飯，阿明伯看著窗外不說話。這一關由 AI 扮演阿明伯，請你用自己的話和他聊（最多 4 句）。","ph":"你想對爸爸說什麼？","max":4,"rules":"你在一個腦中風照護衛教遊戲裡扮演「阿明伯」：72 歲，中風後右側無力，出院回家第六天，心情低落，覺得自己拖累家人。用台灣口語、短句回應女兒小慧，每次 1 到 2 句、30 字以內。不要提供任何傷害自己的方法或細節，也不要描述具體計畫。如果小慧認真聽、問你的感受，你會慢慢說出「有時候想一走了之」，被問到時說只是想想、沒有計畫；如果小慧說教、否定你或轉移話題，你就沉默或說「算了，不說了」。只輸出阿明伯說的話，不要旁白。","rubric":["先坐下來聽，不否定他的感受","問他是不是常常這樣想","聽到想一走了之時，問清楚有沒有想傷害自己","不答應保密，要讓醫護人員知道；有想傷害自己撥 1925，有立即危險撥 119","回診時告訴醫師，中風後憂鬱很常見、可以治療"]},"loc":"home","npc":"grandpa","gp":"home"}]},{"d":7,"boss":true,"ev":[{"when":"早上","type":"q","q":{"img":"scfast","title":"突然講話不清楚","n":[{"t":"吃早餐時，他突然講話含糊，嘴角有點歪。","o":[{"t":"請他微笑、舉起雙手、說一句話。有一項不對就撥 119","k":"good","fb":"對。這是 FAST 檢查：臉、手、說話、時間。","go":1},{"t":"可能是沒睡好，等等看","k":"bad","fb":"再中風的警訊不能等，打通血管的治療有時間限制。"},{"t":"先給他吃一顆平常的藥","k":"bad","fb":"出現警訊時不要給任何東西吃，先撥 119。"}]},{"t":"他右手舉不起來。你撥了 119。等救護車的時候要做什麼？","o":[{"t":"讓他安全坐著或側躺，不給吃喝，把藥袋和健保卡準備好，記下發作時間","k":"good","fb":"對。救護人員會問發作時間，這決定能不能做打通血管的治療。","go":-1},{"t":"給他喝點水，讓他清醒一點","k":"bad","fb":"吞嚥可能已經受影響，喝水會嗆到。"}]}],"lesson":["臉歪、手舉不起、說話不清：立刻撥 119","記下發作時間","不給吃喝、不自己開車","藥袋和健保卡帶著"],"ref":"fast","pre":"最後一天早上，你們在公園吃早餐。"},"loc":"park","npc":"grandpa","gp":"park"}]}],"start":{"h":60,"e":80,"s":20},"locs":{"hosp":{"x":-24,"z":-7,"w":8,"d":5,"h":3.6,"wall":"#F4F8FB","roof":"#3C84C0","label":"🏥 PAC 復健病房"},"care":{"x":-12,"z":-7,"w":6,"d":4.6,"h":3.0,"wall":"#FFE9B8","roof":"#E0A21B","label":"🤝 長照站"},"home":{"x":0,"z":-7,"w":7,"d":5,"h":3.2,"wall":"#FFF1DA","roof":"#C8553D","label":"🏠 阿明伯的家"},"pharm":{"x":12,"z":-7,"w":5.5,"d":4.4,"h":2.9,"wall":"#E4F6EC","roof":"#3E9E6A","label":"💊 社區藥局"},"hw":{"x":23,"z":-7,"w":5.5,"d":4.4,"h":2.9,"wall":"#E2EEFF","roof":"#1F6FD1","label":"🔨 五金行"},"park":{"x":2,"z":9,"label":"🌳 河濱公園"}},"npcs":{"grandpa":{"name":"阿明伯","kind":"grandpa","idle":["今天天氣真好。","有你們在，我比較安心。"]},"mom":{"name":"媽媽","kind":"mom","loc":"home","dx":2.4,"idle":["你爸今天精神不錯。","累了要說，我們輪流。"]},"pt":{"name":"治療師","kind":"pt","loc":"hosp","dx":1.5,"idle":["上樓有力先，下樓無力先！","扶腰或腰帶，不要拉無力的手。"]},"social":{"name":"社工師","kind":"social","loc":"care","dx":1.2,"idle":["照顧累了，可以撥 1966 問喘息服務。","長照服務可以來這裡問。"]},"pharmacist":{"name":"藥師","kind":"pharmacist","loc":"pharm","dx":1.0,"idle":["藥袋上有寫用法，看不懂就來問我。","分格藥盒，早中晚不會漏。"]},"boss":{"name":"五金行老闆","kind":"boss","loc":"hw","dx":1.0,"idle":["夜燈、扶手、防滑墊，我們都有。","裝扶手要鎖在牆裡的骨架上才穩。"]},"siti":{"name":"看護 Siti","kind":"siti","loc":"park","px":-2.6,"pz":1.0,"idle":["我用圖卡跟阿公溝通。","Terima kasih！謝謝你們教我。"]},"auntie":{"name":"鄰居阿姨","kind":"auntie","wander":[-6,6,12,15],"idle":["吃清淡一點，少鹽，血壓比較穩。","中風後要按時吃藥，不要自己停藥喔。"]},"jogger":{"name":"慢跑阿伯","kind":"jogger","wander":[-26,26,0.8,0.8],"idle":["每天動一動，累了就休息。","臉歪、手沒力、講話不清楚，馬上撥 119！"]},"kid":{"name":"小朋友","kind":"kid","wander":[-4,10,5,13],"idle":["阿公說量血壓要記 722！","推輪椅之前要先拉煞車！"]}}};const U=G.ui;
+const $=s=>document.querySelector(s);
+const C=s=>document.getElementById("stage").lastElementChild.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt=(s,o)=>s.replace(/\{(\w+)\}/g,(_,k)=>o[k]);
+const EFF={good:{h:2,e:-4},okk:{h:-3,e:-5},bad:{h:-8,e:-6}};
+let S,sound=true;
+try{sound=localStorage.getItem("pac.game.snd")!=="0"}catch(e){}
+function reset(){S={st:{...G.start},flags:{},di:0,ei:0,ni:0,first:0,total:0,missed:[],done:false}}
+/* sound */
+let ac;function beep(ok){if(!sound)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();const seq=ok?[[660,0],[880,.12]]:[[300,0],[220,.15]];seq.forEach(([f,t])=>{const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;o.type="triangle";g.gain.setValueAtTime(.18,ac.currentTime+t);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+t+.25);o.connect(g).connect(ac.destination);o.start(ac.currentTime+t);o.stop(ac.currentTime+t+.3)})}catch(e){}}
+$("#snd").onclick=()=>{sound=!sound;try{localStorage.setItem("pac.game.snd",sound?"1":"0")}catch(e){}hudSnd()};
+function hudSnd(){$("#snd").textContent=(sound?"🔊 ":"🔇 ")+U.sound;$("#snd").setAttribute("aria-pressed",sound)}
+/* hud */
+function bars(){$("#bars").innerHTML=["h","e","s"].map(k=>`<div class="bar ${k}${S.st[k]<30?" low":""}" id="b${k}">${esc(U.short[k])}<b>${S.st[k]}</b><div class="tr"><i style="width:${S.st[k]}%"></i></div></div>`).join("")}
+function change(d){const shown=[];for(const k of ["h","e","s"]){if(!d[k])continue;const v=Math.max(0,Math.min(100,S.st[k]+d[k]));const real=v-S.st[k];S.st[k]=v;if(real)shown.push([k,real])}bars();shown.forEach(([k,v])=>{const b=$("#b"+k);if(!b)return;const f=document.createElement("span");f.className="fx "+(v>0?"up":"dn");f.textContent=(v>0?"+":"")+v;b.appendChild(f)})}
+function hud(day,when){$("#hud").hidden=false;$("#dp").textContent=day.boss?U.boss:fmt(U.day,{d:day.d});$("#dp").className="daypill"+(day.boss?" boss":"");$("#wh").textContent=when||"";bars();hudSnd()}
+/* page */
+function show(h){const st=$("#stage");while(st.children.length>1)st.firstElementChild.remove();const old=st.firstElementChild;const el=document.createElement("section");el.className="page";el.innerHTML=h;if(old){old.className="out";setTimeout(()=>old.remove(),450)}st.appendChild(el);window.scrollTo({top:0,behavior:"smooth"});return el}
+function titleScreen(){reset();$("#hud").hidden=true;show(`<div class="title"><div class="pic"><img src="img/home.webp" alt="" width="800" height="600"></div><h1>${esc(U.title)}</h1><div class="sub">${esc(U.sub)}</div><div class="aibadge">🤖 ${esc(U.aiOn)}</div></div>
+ <div class="card">${U.intro.slice(0,3).map(t=>`<p style="margin:4px 0">${esc(t)}</p>`).join("")}</div>
+ <div class="legend">${["h","e","s"].map(k=>`<div><i style="background:var(--${k})"></i><span><b>${esc(U.bars[k])}</b>${esc(U.barTip[k])}</span></div>`).join("")}</div>
+ <p style="margin:14px 4px 0">${esc(U.intro[3])}</p>
+ <button class="big" id="go" type="button">${esc(U.start)} ›</button><p class="foot">${esc(U.disclaimer)}</p>`);C("#go").onclick=dayCard}
+function dayCard(){const day=G.days[S.di];hud(day,"");
+ show(`<div class="daycard"><div class="num">${esc(day.boss?U.boss:fmt(U.day,{d:day.d}))}</div><div class="sub">${day.ev.map(e=>esc(e.when)).join("・")}</div>
+ <div class="week">${G.days.map((d,i)=>`<span class="${i<S.di?"done":i===S.di?"now":""}">${i<S.di?"✓":d.d}</span>`).join("")}</div></div>
+ <button class="big" id="go" type="button">${esc(U.next)} ›</button>`);C("#go").onclick=()=>{S.ei=0;event()}}
+function event(){const day=G.days[S.di],ev=day.ev[S.ei];hud(day,ev.when);S.ni=0;S.notes=null;
+ if(ev.type==="shop")return shop();
+ if(ev.type==="bath"){if(ev.need.every(f=>S.flags[f])){show(`<div class="pic"><img src="img/bathroom.webp" alt=""><span class="tag">${esc(ev.when)}</span></div><h2>${esc(U.safeT)}</h2><p class="txt">${esc(ev.safe)}</p><button class="big" id="go" type="button">${esc(U.next)} ›</button>`);setTimeout(()=>{change({h:5});beep(true)},350);C("#go").onclick=nextEv;return}
+  S.q=ev.q;S.bath=true;return node()}
+ if(ev.type==="talk"){S.bath=false;if(AI)return talk(ev);S.q=ev.q;return node()}
+ S.q=ev.q;S.bath=false;
+ const notes=[];for(const [k,v] of Object.entries(ev.flag||{})){const neg=k[0]==="!",f=neg?k.slice(1):k;if(neg?!S.flags[f]:S.flags[f])notes.push(v)}
+ S.notes=notes;node()}
+function node(){const q=S.q,n=q.n[S.ni],day=G.days[S.di],ev=day.ev[S.ei];
+ let h=`<div class="pic"><img src="img/${q.img}.webp" alt="" width="800" height="600"><span class="tag">${esc(ev.when)}</span></div><h2>${esc(S.bath&&S.ni===0?U.fallT+" "+q.title:q.title)}</h2>`;
+ if(S.ni===0&&q.pre)h+=`<p class="txt">${esc(q.pre)}</p>`;
+ if(S.ni===0&&S.notes)h+=S.notes.map(([t,v])=>`<p class="note ${v>0?"up":"dn"}">${esc(t)}</p>`).join("");
+ h+=`<p class="txt">${esc(n.t)}</p>`+n.o.map((o,k)=>`<button class="opt" data-k="${k}" type="button">${esc(o.t)}</button>`).join("")+`<div id="fbx"></div>`;
+ const el=show(h);
+ if(S.ni===0&&S.notes&&S.notes.length)setTimeout(()=>change({h:S.notes.reduce((a,[,v])=>a+v,0)}),400);
+ el.querySelectorAll(".opt").forEach(b=>b.onclick=()=>choose(+b.dataset.k,el));aiBox(el)}
+function choose(k,el){const n=S.q.n[S.ni],o=n.o[k],cls=o.k==="good"?"good":o.k==="ok"?"okk":"bad";
+ const gi=n.o.findIndex(x=>x.k==="good");
+ el.querySelectorAll(".opt").forEach((b,i)=>{b.disabled=true;if(i===k)b.classList.add(cls);else if(i===gi&&cls!=="good")b.classList.add("good");else b.classList.add("dim")});
+ const ai=el.querySelector(".aibox");if(ai)ai.remove();
+ score(el,cls,o.fb,o.e)}
+function score(el,cls,fbText,eOverride,isAI){const n=S.q.n[S.ni],gi=n.o.findIndex(x=>x.k==="good"),g=n.o[gi];
+ S.total++;if(cls==="good")S.first++;else if(S.q.lesson&&!S.missed.find(m=>m.t===S.q.title))S.missed.push({t:S.q.title,l:S.q.lesson,ref:S.q.ref});
+ const d={...EFF[cls]};if(eOverride!==undefined)d.e=eOverride;let tired=false;if(cls!=="good"&&S.st.e<30){d.h-=3;tired=true}
+ beep(cls==="good");change(d);
+ const lab=(isAI?"🤖 ":"")+(cls==="good"?U.right:cls==="okk"?U.ok:U.wrong);
+ el.querySelector("#fbx").innerHTML=`<div class="fb ${cls}" role="status"><b>${esc(lab)}</b>${esc(fbText)}${cls!=="good"||isAI?`<span class="ans">✔ ${esc(isAI?U.aiStd+"："+g.t:g.t)}</span>`:""}${tired?`<span class="ans">⚠ ${esc(U.tired)}</span>`:""}</div><button class="big" id="go" type="button">${esc(U.next)} ›</button>`;
+ el.querySelector("#fbx").scrollIntoView({behavior:"smooth",block:"nearest"});
+ const nx=g.go;C("#go").onclick=()=>{if(nx>0&&nx<S.q.n.length){S.ni=nx;node()}else lesson()}}
+/* ---------- AI 自由作答與角色對話（只在 claude.ai 版本可用） ---------- */
+let AI=null;
+try{if(window.claude&&claude.use)claude.use("sample").then(s=>{AI=s;document.body.classList.toggle("hasai",!!s)}).catch(()=>{})}catch(e){}
+function aiOff(e){const code=e&&e.code;if(["not_granted","sampling_disabled","not_declared","capability_disabled","capability_removed"].includes(code)){AI=null;document.body.classList.remove("hasai");return U.aiOff}
+ if(code==="rate_limited")return U.aiBusy;if(code==="session_expired")return U.aiLogin;return U.aiErr}
+function aiBox(el){if(!AI)return;const n=S.q.n[S.ni];const box=document.createElement("div");box.className="aibox";
+ box.innerHTML=`<button class="aitog" type="button">✍️ ${esc(U.aiOwn)}</button><div class="aiform" hidden><textarea maxlength="200" rows="3" placeholder="${esc(U.aiPh)}"></textarea><button class="big" type="button">${esc(U.aiSend)}</button><p class="aist" role="status"></p></div>`;
+ el.querySelector("#fbx").before(box);
+ const tog=box.querySelector(".aitog"),form=box.querySelector(".aiform"),ta=box.querySelector("textarea"),send=box.querySelector(".big"),st=box.querySelector(".aist");
+ tog.onclick=()=>{form.hidden=!form.hidden;if(!form.hidden)ta.focus()};
+ send.onclick=async()=>{const ans=ta.value.trim();if(ans.length<2){st.textContent=U.aiShort;return}
+  send.disabled=true;ta.disabled=true;el.querySelectorAll(".opt").forEach(b=>b.disabled=true);st.textContent="🤖 "+U.aiThink;
+  const good=n.o.find(o=>o.k==="good"),bads=n.o.filter(o=>o.k!=="good");
+  const prompt=`你是腦中風照護衛教遊戲的評分員，玩家是病人的家屬或看護。
+只能依照下面的「標準做法」「錯誤做法」「重點」評分，不要加入任何其他醫療建議，也不要建議藥物劑量。
+情境：${n.t}
+標準做法：${good.t}（${good.fb}）
+錯誤或不夠好的做法：${bads.map(o=>o.t+"（"+o.fb+"）").join("；")}
+這一關的重點：${S.q.lesson.join("；")}
+玩家用自己的話回答：「${ans}」
+判斷規則：good＝有做到標準做法的關鍵動作，而且沒有危險做法；ok＝方向對但漏掉關鍵動作；bad＝有危險做法、和情境無關、或完全沒提到關鍵動作。
+只回傳 JSON：{"verdict":"good|ok|bad","feedback":"繁體中文、台灣用語、40 字以內，先說做對的地方，再說漏掉或危險的地方"}`;
+  try{const r=await AI.json(prompt,{modelTier:"default"});const v=String(r&&r.verdict);const cls=v==="good"?"good":v==="ok"?"okk":"bad";
+   box.querySelector(".aitog").remove();st.textContent="";const mine=document.createElement("p");mine.className="mine";mine.textContent="你："+ans;form.replaceWith(mine);
+   el.querySelectorAll(".opt").forEach(b=>b.classList.add("dim"));score(el,cls,String(r&&r.feedback||""),undefined,true)}
+  catch(e){st.textContent=aiOff(e);send.disabled=false;ta.disabled=false;el.querySelectorAll(".opt").forEach(b=>b.disabled=false);if(!AI)box.remove()}}}
+function talk(ev){const T=ev.talk,q=ev.q;S.q=q;const turns=[];let n=0;
+ const el=show(`<div class="pic"><img src="img/${q.img}.webp" alt="" width="800" height="600"><span class="tag">${esc(ev.when)}・🤖 ${esc(U.aiRole)}</span></div><h2>${esc(T.title)}</h2><p class="txt">${esc(T.intro)}</p>
+ <div class="chat" id="chat"><div class="bub them"><b>${esc(T.who)}</b>${esc(T.open)}</div></div>
+ <div class="aiform"><textarea maxlength="120" rows="2" placeholder="${esc(T.ph)}"></textarea><button class="big" id="say" type="button">${esc(U.aiSay)}</button><button class="big ghost" id="fin" type="button" disabled>${esc(U.aiFin)}</button><p class="aist" role="status"></p></div><div id="fbx"></div>`);
+ const chat=el.querySelector("#chat"),ta=el.querySelector("textarea"),say=el.querySelector("#say"),fin=el.querySelector("#fin"),st=el.querySelector(".aist");
+ const add=(cls,who,txt)=>{const b=document.createElement("div");b.className="bub "+cls;const w=document.createElement("b");w.textContent=who;b.append(w,document.createTextNode(txt));chat.append(b);b.scrollIntoView({behavior:"smooth",block:"nearest"});return b};
+ const fallback=()=>{st.textContent=U.aiOff;setTimeout(()=>{S.q=q;S.notes=null;node()},1600)};
+ say.onclick=async()=>{const msg=ta.value.trim();if(!msg)return;ta.value="";say.disabled=true;fin.disabled=true;add("me",U.aiMe,msg);n++;
+  turns.push({role:"user",content:(turns.length?"":T.rules+"\n\n對話開始時你已經說了：「"+T.open+"」\n\n")+"小慧說："+msg});
+  const b=add("them",T.who,"…");const ctl=new AbortController();
+  try{const r=await AI(turns,{modelTier:"quick",cache:false,signal:ctl.signal,onText:({text})=>{b.lastChild.textContent=text}});
+   turns.push({role:"assistant",content:r.text});b.lastChild.textContent=r.text}
+  catch(e){b.remove();turns.pop();n--;st.textContent=aiOff(e);if(!AI)return fallback()}
+  say.disabled=n>=T.max;fin.disabled=n<1;if(n>=T.max){ta.disabled=true;st.textContent=U.aiMax}};
+ fin.onclick=async()=>{fin.disabled=true;say.disabled=true;ta.disabled=true;st.textContent="🤖 "+U.aiThink;
+  const script=turns.map(t=>t.role==="user"?t.content.split("小慧說：").pop().replace(/^/,"小慧："):T.who+"："+t.content).join("\n");
+  const prompt=`你是腦中風照護衛教遊戲的評分員。下面是家屬「小慧」和中風後心情低落的父親「阿明伯」的對話。
+只能依照「評分重點」評分，不要加入其他醫療建議。
+評分重點：${T.rubric.join("；")}
+對話：
+阿明伯：${T.open}
+${script}
+判斷：good＝做到大部分重點而且沒有否定、說教或答應保密；ok＝有傾聽但漏掉重要的一步（例如沒有問清楚他是不是想傷害自己、沒有說要告訴醫護人員）；bad＝否定、說教、轉移話題或答應保密。
+只回傳 JSON：{"verdict":"good|ok|bad","feedback":"繁體中文、台灣用語、60 字以內，先說做對的，再說可以更好的地方"}`;
+  try{const r=await AI.json(prompt,{modelTier:"default"});const v=String(r&&r.verdict),cls=v==="good"?"good":v==="ok"?"okk":"bad";st.textContent="";el.querySelector(".aiform").hidden=true;
+   S.total++;if(cls==="good")S.first++;else if(!S.missed.find(m=>m.t===q.title))S.missed.push({t:q.title,l:q.lesson,ref:q.ref});
+   beep(cls==="good");change({...EFF[cls]});
+   el.querySelector("#fbx").innerHTML=`<div class="fb ${cls}" role="status"><b>🤖 ${esc(cls==="good"?U.right:cls==="okk"?U.ok:U.wrong)}</b>${esc(String(r&&r.feedback||""))}</div><button class="big" id="go" type="button">${esc(U.next)} ›</button>`;
+   C("#go").onclick=lesson}
+  catch(e){st.textContent=aiOff(e);fin.disabled=false;if(!AI)fallback()}}}
+function lesson(){const q=S.q;show(`<div class="card"><h3>📘 ${esc(U.lesson)}：${esc(q.title)}</h3><ul>${q.lesson.map(l=>`<li>${esc(l)}</li>`).join("")}</ul></div><button class="big" id="go" type="button">${esc(U.next)} ›</button>`);C("#go").onclick=nextEv}
+function nextEv(){const day=G.days[S.di];S.ei++;if(S.ei<day.ev.length)return event();
+ if(day.boss)return ending();
+ show(`<div class="daycard"><div class="num" style="font-size:44px">${esc(fmt(U.dayEnd,{d:day.d}))}</div><div class="sub">🌙 ${esc(U.sleep)}</div></div><button class="big" id="go" type="button">${esc(U.next)} ›</button>`);
+ setTimeout(()=>change({e:4}),400);C("#go").onclick=()=>{S.di++;dayCard()}}
+function shop(){const sh=G.shop,day=G.days[S.di];
+ const el=show(`<div class="pic"><img src="img/home.webp" alt=""><span class="tag">${esc(day.ev[S.ei].when)}</span></div><p class="txt">${esc(sh.t)}</p><div class="shop">${sh.items.map((it,i)=>`<button class="item" data-i="${i}" aria-pressed="false" type="button"><img src="pics/${it.pic}.webp" alt="" width="72" height="72">${esc(it.t)}<small>${esc(U.bars.s)} +${it.s}</small></button>`).join("")}</div><div class="cnt" id="cnt"></div><button class="big" id="go" type="button" disabled>${esc(U.pickDone)} ✓</button>`);
+ const sel=new Set();const upd=()=>{C("#cnt").textContent=fmt(U.pickN,{n:sel.size,m:sh.pick});C("#go").disabled=sel.size!==sh.pick};upd();
+ el.querySelectorAll(".item").forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(sel.has(i))sel.delete(i);else{if(sel.size>=sh.pick)return;sel.add(i)}b.setAttribute("aria-pressed",sel.has(i));upd()});
+ C("#go").onclick=()=>{let s=0;sel.forEach(i=>{S.flags[sh.items[i].id]=1;s+=sh.items[i].s});change({s});beep(true);
+  show(`<div class="pic"><img src="img/home.webp" alt=""></div><p class="txt">${esc(sh.after)}</p><div class="card"><ul>${[...sel].map(i=>`<li>${esc(sh.items[i].t)}</li>`).join("")}</ul></div><button class="big" id="go" type="button">${esc(U.next)} ›</button>`);C("#go").onclick=nextEv}}
+function ending(){const pct=Math.round(S.first/S.total*100),h=S.st.h;const t=U.titles.find(x=>pct>=x[0]&&h>=x[1]);$("#wh").textContent="";
+ const icon=t===U.titles[0]?"🏆":t===U.titles[1]?"🌟":"🌱";
+ show(`<div class="pic"><img src="img/team.webp" alt=""></div><p class="txt">${esc(U.endBoss)}</p>${h<30?`<p class="note dn">${esc(U.endLow)}</p>`:""}
+ <div class="badge"><div class="medal">${icon}</div><h2>${esc(t[2])}</h2><p style="text-align:center;margin:0">${esc(t[3])}</p></div>
+ <p style="text-align:center;font-weight:800;color:var(--primary)">${esc(fmt(U.firstRight,{n:S.first,m:S.total}))}</p>
+ <div class="stat">${["h","e","s"].map(k=>`<div><b style="color:var(--${k})">${S.st[k]}</b>${esc(U.bars[k])}</div>`).join("")}</div>
+ ${S.missed.length?`<div class="card"><h3>${esc(U.review)}</h3><ul>${S.missed.map(m=>`<li><b>${esc(m.t)}</b>：${esc(m.l[0])}</li>`).join("")}</ul></div>`:""}
+ <a class="big" id="toApp" href="index.html#scen" target="_top">${esc(U.toApp)} ›</a><button class="big ghost" id="again" type="button">↺ ${esc(U.replay)}</button><p class="foot">${esc(U.disclaimer)}</p>`);
+ beep(true);C("#again").onclick=titleScreen;
+ fetch("index.html",{method:"HEAD"}).then(r=>{if(!r.ok)throw 0}).catch(()=>{C("#toApp").href="https://huiting01682-png.github.io/index/#scen"})}
+
+/* ===================== 小鎮：介面接手 ===================== */
+const L=G.locs,NP=G.npcs;
+const sheet=$("#sheet"),dim=$("#dim");
+function openSheet(full){sheet.classList.add("open");sheet.classList.toggle("full",!!full);dim.classList.add("on");$("#act").style.display="none";INPUT=false}
+function closeSheet(){sheet.classList.remove("open","full");dim.classList.remove("on");INPUT=true}
+function show(h,full){const st=$("#stage");while(st.children.length>1)st.firstElementChild.remove();const old=st.firstElementChild;const el=document.createElement("section");el.className="page";el.innerHTML=h;if(old){old.className="out";setTimeout(()=>old.remove(),450)}st.appendChild(el);openSheet(full||show.full);sheet.scrollTo({top:0,behavior:"smooth"});return el}
+function save(){try{localStorage.setItem("pac.town.save",JSON.stringify(S))}catch(e){}}
+function loadSave(){try{const s=JSON.parse(localStorage.getItem("pac.town.save")||"null");if(s&&s.st&&s.di!==undefined)return s}catch(e){}return null}
+function clearSave(){try{localStorage.removeItem("pac.town.save")}catch(e){}}
+function titleScreen(){reset();S.badges=[];S.phase="title";$("#hud").hidden=true;placeWorld();show.full=true;const sv=loadSave();
+ show(`<div class="title"><div class="pic"><img src="img/home.webp" alt="" width="800" height="600"></div><h1>${esc(U.title)}</h1><div class="sub">${esc(U.sub)}</div><div class="aibadge">🤖 ${esc(U.aiOn)}</div></div>
+ <div class="card">${U.intro.slice(0,3).map(t=>`<p style="margin:4px 0">${esc(t)}</p>`).join("")}</div>
+ <div class="legend">${["h","e","s"].map(k=>`<div><i style="background:var(--${k})"></i><span><b>${esc(U.bars[k])}</b>${esc(U.barTip[k])}</span></div>`).join("")}</div>
+ <p style="margin:14px 4px 0">${esc(U.intro[3])}</p>
+ ${sv?`<button class="big" id="cont" type="button">${esc(U.cont)}（${esc(fmt(U.day,{d:G.days[sv.di].d}))}）›</button><button class="big ghost" id="go" type="button">${esc(U.newGame)}</button>`:`<button class="big" id="go" type="button">${esc(U.start)} ›</button>`}
+ <p class="foot">${esc(U.disclaimer)}</p>`,true);show.full=false;
+ C("#go").onclick=()=>{clearSave();reset();S.badges=[];dayCard()};
+ if(sv)C("#cont").onclick=()=>{S=sv;S.badges=S.badges||[];if(S.phase==="rest"){startTask();return}dayCard()}}
+function dayCard(){const day=G.days[S.di];S.ei=0;S.phase="day";hud(day,day.ev[0].when);setTime(day.ev[0].when);placeWorld();
+ show(`<div class="daycard"><div class="num">${esc(day.boss?U.boss:fmt(U.day,{d:day.d}))}</div><div class="sub">${day.ev.map(e=>esc(e.when)+"："+esc(L[e.loc].label)).join("<br>")}</div>
+ <div class="week">${G.days.map((d,i)=>`<span class="${i<S.di?"done":i===S.di?"now":""}">${i<S.di?"✓":d.d}</span>`).join("")}</div></div>
+ <button class="big" id="go" type="button">${esc(U.out)}</button>`);C("#go").onclick=()=>{closeSheet();startTask()}}
+function startTask(){const day=G.days[S.di];$("#hud").hidden=false;bars();hudSnd();
+ if(S.phase==="rest"){setTime("晚上");TASK={loc:"home",npc:"mom",rest:true};$("#wh").textContent="晚上";}
+ else{const ev=day.ev[S.ei];S.phase="task";TASK={loc:ev.loc,npc:ev.npc};hud(day,ev.when);setTime(ev.when);}
+ placeWorld();updTask();save()}
+function updTask(){const n=NP[TASK.npc];$("#task").hidden=false;$("#taskTxt").textContent="📍 "+(TASK.rest?U.goHome:fmt(U.goTo,{l:L[TASK.loc].label.replace(/^\S+\s/,""),n:n.name}));$("#bdg").textContent="🏅 "+(S.badges||[]).length}
+$("#bdg").onclick=()=>{const all=[];G.days.forEach(d=>d.ev.forEach(e=>{const t=e.type==="shop"?"居家布置":e.q.title;all.push(t)}));
+ show(`<h2>🏅 ${esc(U.badges)}</h2><div class="bgrid">${all.map(t=>`<div class="${(S.badges||[]).includes(t)?"got":""}"><i>${(S.badges||[]).includes(t)?"🏅":"🔒"}</i>${esc(t)}</div>`).join("")}</div><button class="big" id="go" type="button">${esc(U.close||"關閉")}</button>`);C("#go").onclick=closeSheet};
+function nextEv(){const day=G.days[S.di],ev=day.ev[S.ei];const t=ev.type==="shop"?"居家布置":ev.q.title;
+ if(!S.badges.includes(t)){S.badges.push(t);toast2(fmt(U.badgeGot,{t}))}
+ closeSheet();S.ei++;
+ if(S.ei<day.ev.length){startTask();return}
+ if(day.boss){TASK=null;save();setTimeout(()=>{clearSave();ending()},900);return}
+ S.phase="rest";startTask()}
+function restDay(){const day=G.days[S.di];
+ show(`<div class="daycard"><div class="num" style="font-size:44px">${esc(fmt(U.dayEnd,{d:day.d}))}</div><div class="sub">🌙 ${esc(U.sleep)}</div></div><button class="big" id="go" type="button">${esc(U.next)} ›</button>`);
+ setTimeout(()=>change({e:4}),400);C("#go").onclick=()=>{S.di++;S.phase="day";save();dayCard()}}
+function shop(){const sh=G.shop,day=G.days[S.di],ev=day.ev[S.ei];
+ const el=show(`<div class="pic"><img src="img/home.webp" alt=""><span class="tag">${esc(ev.when)}・${esc(L.hw.label)}</span></div>${ev.pre?`<p class="txt">${esc(ev.pre)}</p>`:""}<p class="txt">${esc(sh.t)}</p><div class="shop">${sh.items.map((it,i)=>`<button class="item" data-i="${i}" aria-pressed="false" type="button"><img src="pics/${it.pic}.webp" alt="" width="72" height="72">${esc(it.t)}<small>${esc(U.bars.s)} +${it.s}</small></button>`).join("")}</div><div class="cnt" id="cnt"></div><button class="big" id="go" type="button" disabled>${esc(U.pickDone)} ✓</button>`);
+ const sel=new Set();const upd=()=>{C("#cnt").textContent=fmt(U.pickN,{n:sel.size,m:sh.pick});C("#go").disabled=sel.size!==sh.pick};upd();
+ el.querySelectorAll(".item").forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(sel.has(i))sel.delete(i);else{if(sel.size>=sh.pick)return;sel.add(i)}b.setAttribute("aria-pressed",sel.has(i));upd()});
+ C("#go").onclick=()=>{let s=0;sel.forEach(i=>{S.flags[sh.items[i].id]=1;s+=sh.items[i].s});change({s});beep(true);homeItems();
+  show(`<div class="pic"><img src="img/home.webp" alt=""></div><p class="txt">${esc(sh.after)}</p><div class="card"><ul>${[...sel].map(i=>`<li>${esc(sh.items[i].t)}</li>`).join("")}</ul></div><button class="big" id="go" type="button">${esc(U.next)} ›</button>`);C("#go").onclick=nextEv}}
+const _ending=ending;
+ending=function(){show.full=true;$("#task").hidden=true;_ending();show.full=false;C("#again").onclick=()=>{closeSheet();titleScreen()}};
+function toast2(t){const d=document.createElement("div");d.className="toast2";d.textContent="🏅 "+t;document.body.append(d);setTimeout(()=>d.remove(),2400)}
+function interact(){if(!TASK)return;$("#act").style.display="none";
+ if(TASK.rest){restDay();return}
+ S.phase="task";event()}
+
+/* ===================== 3D 世界 ===================== */
+let INPUT=false,TASK=null;
+if(!window.THREE){$("#fallback").style.display="block"}
+const R=window.THREE?new THREE.WebGLRenderer({canvas:$("#world"),antialias:true}):null;
+let scene,cam,hemi,sun,player,people={},colliders=[],labels=[],wins=[],lamps=[],homeLamps=null,target=null,ring,clock;
+const keys={};
+function mat(c,o){return new THREE.MeshLambertMaterial(Object.assign({color:c},o||{}))}
+function box(w,h,d,c,x,y,z,o){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat(c,o));m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;return m}
+function label(text,cls,obj,dy){const e=document.createElement("div");e.className="lb "+cls;e.textContent=text;$("#labels").append(e);const l={e,obj,dy:dy||0,show:true};labels.push(l);return l}
+function build(){
+ R.setPixelRatio(Math.min(2,window.devicePixelRatio||1));R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap;
+ scene=new THREE.Scene();scene.background=new THREE.Color("#9FD8FF");scene.fog=new THREE.Fog("#9FD8FF",30,70);
+ cam=new THREE.PerspectiveCamera(42,1,.1,200);
+ hemi=new THREE.HemisphereLight("#ffffff","#5E8F4A",.6);scene.add(hemi);
+ sun=new THREE.DirectionalLight("#fff4e0",.62);sun.position.set(-12,24,14);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);
+ const sc=sun.shadow.camera;sc.left=-24;sc.right=24;sc.top=24;sc.bottom=-24;sc.far=80;scene.add(sun);scene.add(sun.target);
+ // 地面、道路、公園
+ const g=new THREE.Mesh(new THREE.PlaneGeometry(90,60),mat("#78BE5A"));g.rotation.x=-Math.PI/2;g.receiveShadow=true;g.name="ground";scene.add(g);
+ scene.add(box(70,.06,3.4,"#D9C49A",0,.03,0));
+ scene.add(box(60,.08,.25,"#FFFFFF",0,.05,-1.8));scene.add(box(60,.08,.25,"#FFFFFF",0,.05,1.8));
+ for(const k of ["hosp","care","home","pharm","hw"]){const b=L[k],f=b.z+b.d/2,len=-1.7-f;scene.add(box(1.6,.07,len,"#EAD7B0",b.x,.035,f+len/2))}
+ const P=L.park;
+ const pond=new THREE.Mesh(new THREE.CylinderGeometry(3,3,.1,28),mat("#5DB7FF",{emissive:"#1a4a80",emissiveIntensity:.15}));pond.position.set(P.x+7,.05,P.z+2);scene.add(pond);colliders.push({c:[P.x+7,P.z+2],r:3.3});
+ const fl=["#FF8FA0","#FFC24D","#FFFFFF","#C59BFF"];
+ for(let i=0;i<40;i++){const x=P.x-12+Math.random()*24,z=P.z-4+Math.random()*10;if(Math.hypot(x-P.x-7,z-P.z-2)<3.8)continue;scene.add(box(.18,.25,.18,fl[i%4],x,.12,z))}
+ const tree=(x,z,s)=>{s=s||1;const t=new THREE.Group();t.add(box(.4*s,1.4*s,.4*s,"#8B5A2B",0,.7*s,0));const f=new THREE.Mesh(new THREE.IcosahedronGeometry(1.25*s,0),mat("#4FA35A",{flatShading:true}));f.position.y=2.1*s;f.castShadow=true;t.add(f);t.position.set(x,0,z);scene.add(t);colliders.push({c:[x,z],r:.5*s})};
+ [[-8,6],[-10,12],[-4,14],[8,14],[14,12],[16,5],[-14,4],[-20,8],[-26,12],[20,11],[27,4],[-28,3],[6,4.5]].forEach(([x,z],i)=>tree(P.x+x-2,z,.8+(i%3)*.2));
+ [[-30,-6],[-31,-10],[30,-5],[31,-10],[-6,-11],[6,-11],[-18,-11],[18,-11]].forEach(([x,z])=>tree(x,z,1.1));
+ const bench=(x,z)=>{const b=new THREE.Group();b.add(box(1.8,.12,.6,"#B07A45",0,.5,0));b.add(box(1.8,.5,.1,"#B07A45",0,.8,-.28));b.add(box(.1,.5,.5,"#555",-.8,.25,0));b.add(box(.1,.5,.5,"#555",.8,.25,0));b.position.set(x,0,z);scene.add(b);colliders.push({b:[x-.9,z-.35,x+.9,z+.35]})};
+ bench(P.x-4,P.z);bench(P.x+1,P.z+5);
+ // 路燈
+ [-18,-6,6,18].forEach(x=>{scene.add(box(.18,3,.18,"#55606E",x,1.5,2.4));const h=new THREE.Mesh(new THREE.SphereGeometry(.32,10,8),mat("#FFF3C4",{emissive:"#FFD36B",emissiveIntensity:0}));h.position.set(x,3.1,2.4);scene.add(h);const pl=new THREE.PointLight("#FFD36B",0,12,1.6);pl.position.set(x,2.8,2.4);scene.add(pl);lamps.push({h,pl});colliders.push({c:[x,2.4],r:.3})});
+ // 建築
+ for(const k of ["hosp","care","home","pharm","hw"]){const b=L[k],gr=new THREE.Group();
+  gr.add(box(b.w,b.h,b.d,b.wall,0,b.h/2,0));
+  const roof=new THREE.Mesh(new THREE.ConeGeometry(Math.max(b.w,b.d)*.78,1.9,4),mat(b.roof,{flatShading:true}));roof.rotation.y=Math.PI/4;roof.scale.set(b.w/Math.max(b.w,b.d)*1.0,1,b.d/Math.max(b.w,b.d)*1.0);roof.position.y=b.h+.95;roof.castShadow=true;gr.add(roof);
+  gr.add(box(1.2,2,.12,"#7A4A2A",0,1,b.d/2+.04));
+  [-1,1].forEach(s=>{const w=box(1.1,.9,.1,"#BFE3FF",s*(b.w/2-1.2),b.h*.6,b.d/2+.05,{emissive:"#FFC85A",emissiveIntensity:0});gr.add(w);wins.push(w)});
+  if(k==="home"){gr.add(box(2.2,.25,.8,"#C9B79C",0,.12,b.d/2+.5));gr.add(box(1.6,.25,.5,"#C9B79C",0,.37,b.d/2+.25))}
+  if(k==="hosp"){gr.add(box(b.w+.4,.5,1.2,"#3C84C0",0,2.4,b.d/2+.5))}
+  if(k==="pharm"||k==="hw"){const aw=box(b.w,.12,1.1,k==="pharm"?"#3E9E6A":"#1F6FD1",0,2.35,b.d/2+.5);aw.rotation.x=.25;gr.add(aw)}
+  gr.position.set(b.x,0,b.z);scene.add(gr);colliders.push({b:[b.x-b.w/2,b.z-b.d/2,b.x+b.w/2,b.z+b.d/2]});
+  const anchor=new THREE.Object3D();anchor.position.set(b.x,b.h+2.3,b.z);scene.add(anchor);label(b.label,"bld",anchor)}
+ const pa=new THREE.Object3D();pa.position.set(P.x-8,1.6,P.z+3);scene.add(pa);label(P.label,"bld",pa);
+ // 角色
+ player=person({shirt:"#14A3A3",pants:"#2B3A55",hair:"#2B1B12",pony:true});scene.add(player);player.position.set(0,0,-2.8);
+ for(const [id,n] of Object.entries(NP)){const p=person(LOOK[n.kind]);p.userData.id=id;scene.add(p);people[id]=p;
+  p.userData.nm=label(n.name,"nm",p,2.0);p.userData.bang=label("！","bang",p,2.6);p.userData.say=null;
+  if(n.wander){p.position.set(n.wander[0]+Math.random()*(n.wander[1]-n.wander[0]),0,n.wander[2]+Math.random()*(n.wander[3]-n.wander[2]))}}
+ ring=new THREE.Mesh(new THREE.TorusGeometry(.9,.08,8,32),mat("#FFB020",{emissive:"#FFB020",emissiveIntensity:.6}));ring.rotation.x=-Math.PI/2;ring.position.y=.06;scene.add(ring);
+ clock=new THREE.Clock();resize();addEventListener("resize",resize);
+}
+const LOOK={grandpa:{shirt:"#7FA7D9",pants:"#5D6472",hair:"#D9D9D9",chair:true,weak:"#E8590C",skin:"#F2C9A0"},mom:{shirt:"#E8708A",pants:"#3F4A5A",hair:"#3A2A20",bun:true},
+ pt:{shirt:"#2BB3A0",pants:"#2BB3A0",hair:"#1E1E1E"},social:{shirt:"#9B7BD8",pants:"#3F3F55",hair:"#4A2E1E",bun:true},pharmacist:{shirt:"#FFFFFF",pants:"#4A6FA5",hair:"#222"},
+ boss:{shirt:"#E0A21B",pants:"#5B4636",hair:"#333",cap:"#C8553D"},siti:{shirt:"#F29E4C",pants:"#5B6C8F",hair:"#6C4F9E",hijab:true},
+ auntie:{shirt:"#C66BA8",pants:"#544",hair:"#5A3A2A",bun:true},jogger:{shirt:"#FF6B5B",pants:"#2E3A59",hair:"#BBB",cap:"#1F6FD1"},kid:{shirt:"#FFD23F",pants:"#3B82C4",hair:"#2A1A10",small:true}};
+function person(o){const g=new THREE.Group(),s=o.small?.7:1,sk=o.skin||"#F6CFA8";
+ const legL=new THREE.Group(),legR=new THREE.Group();legL.add(box(.22,.6,.24,o.pants,0,-.3,0));legR.add(box(.22,.6,.24,o.pants,0,-.3,0));legL.position.set(-.14,.62,0);legR.position.set(.14,.62,0);
+ const body=box(.62,.66,.36,o.shirt,0,.95,0);
+ const armL=new THREE.Group(),armR=new THREE.Group();armL.add(box(.18,.58,.2,o.shirt,0,-.26,0));armR.add(box(.18,.58,.2,o.weak||o.shirt,0,-.26,0));armL.position.set(.41,1.25,0);armR.position.set(-.41,1.25,0);
+ armL.add(box(.16,.12,.18,sk,0,-.6,0));armR.add(box(.16,.12,.18,sk,0,-.6,0));
+ const head=box(.52,.5,.48,sk,0,1.55,0);
+ const hair=o.hijab?box(.6,.58,.56,o.hair,0,1.6,-.03):box(.56,.18,.52,o.hair,0,1.84,-.02);
+ g.add(legL,legR,body,armL,armR,head,hair);
+ if(!o.hijab){g.add(box(.56,.36,.12,o.hair,0,1.62,-.22))}
+ [-.12,.12].forEach(x=>g.add(box(.07,.08,.02,"#222",x,1.57,.25)));
+ if(o.pony)g.add(box(.18,.4,.18,o.hair,0,1.6,-.36));
+ if(o.bun)g.add(box(.24,.22,.22,o.hair,0,1.95,-.15));
+ if(o.cap){g.add(box(.6,.14,.56,o.cap,0,1.9,0));g.add(box(.5,.05,.3,o.cap,0,1.84,.36))}
+ if(o.chair){// 輪椅坐姿
+  legL.rotation.x=legR.rotation.x=-Math.PI/2;legL.position.y=legR.position.y=.62;body.position.y=.95;
+  const ch=new THREE.Group();ch.add(box(.8,.08,.7,"#3A3F4A",0,.52,0));ch.add(box(.8,.7,.08,"#3A3F4A",0,.9,-.36));
+  [-.46,.46].forEach(x=>{const w=new THREE.Mesh(new THREE.TorusGeometry(.42,.05,6,18),mat("#2B2F3A"));w.rotation.y=Math.PI/2;w.position.set(x,.44,-.05);w.castShadow=true;ch.add(w)});
+  [-.3,.3].forEach(x=>ch.add(box(.08,.16,.16,"#2B2F3A",x,.08,.42)));ch.add(box(.7,.05,.25,"#3A3F4A",0,.12,.6));g.add(ch);
+  [legL,legR,body,armL,armR,head,hair].forEach(m=>m.position.y-=.1);g.children.filter(c=>c!==ch&&![legL,legR,body,armL,armR,head,hair].includes(c)).forEach(c=>c.position.y-=.1)}
+ g.scale.setScalar(s);g.userData.parts={legL,legR,armL,armR,chair:!!o.chair};return g}
+function resize(){const w=innerWidth,h=innerHeight;R.setSize(w,h,false);cam.aspect=w/h;cam.fov=w<h?46:38;cam.updateProjectionMatrix()}
+/* 場景配置：依目前任務擺放人物 */
+function spot(loc,dx,dz){const b=L[loc];if(loc==="park")return [b.x+(dx||0),b.z+(dz||0)];return [b.x+(dx||0),b.z+b.d/2+1.5+(dz||0)]}
+function placeWorld(){if(!scene)return;const ev=(S&&G.days[S.di]&&S.phase!=="title")?G.days[S.di].ev[S.ei]:null;
+ const gp=S&&S.phase==="rest"?"home":(ev?ev.gp:"home");
+ const gpos=gp==="park"?spot("park",-4,.9):spot(gp,gp==="hosp"?-1.6:-1.2,0);people.grandpa.position.set(gpos[0],0,gpos[1]);people.grandpa.rotation.y=0;
+ for(const [id,n] of Object.entries(NP)){if(n.wander||id==="grandpa")continue;const p=people[id];const pos=n.loc==="park"?spot("park",n.px,n.pz):spot(n.loc,n.dx,0);p.position.set(pos[0],0,pos[1]);p.rotation.y=0}
+ homeItems()}
+function homeItems(){if(!scene)return;if(homeLamps){scene.remove(homeLamps);homeLamps=null}
+ if(S&&S.flags&&S.flags.light){homeLamps=new THREE.Group();const b=L.home;[-2.2,2.2].forEach(x=>{homeLamps.add(box(.12,.9,.12,"#555",b.x+x,.45,b.z+b.d/2+.9));const h=new THREE.Mesh(new THREE.SphereGeometry(.18,8,6),mat("#FFF3C4",{emissive:"#FFD36B",emissiveIntensity:isNight()?1:.1}));h.position.set(b.x+x,.95,b.z+b.d/2+.9);homeLamps.add(h)});
+  if(isNight()){const pl=new THREE.PointLight("#FFD36B",1.2,8,1.5);pl.position.set(b.x,1.5,b.z+b.d/2+1.5);homeLamps.add(pl)}scene.add(homeLamps)}}
+let NOW="早上";const isNight=()=>/晚上|半夜/.test(NOW);
+function setTime(w){NOW=w||"早上";if(!scene)return;const night=/半夜/.test(NOW),eve=/晚上/.test(NOW),aft=/下午/.test(NOW);
+ const sky=night?"#152238":eve?"#F2A65A":aft?"#BFE3FF":"#9FD8FF";scene.background.set(sky);scene.fog.color.set(sky);
+ hemi.intensity=night?.25:eve?.45:.6;hemi.color.set(night?"#8FA8D8":"#ffffff");sun.intensity=night?.1:eve?.4:.62;sun.color.set(night?"#9FB4FF":eve?"#FFB070":"#FFF4E0");
+ const lit=night||eve;wins.forEach(w=>w.material.emissiveIntensity=lit?.9:0);lamps.forEach(l=>{l.h.material.emissiveIntensity=lit?1:0;l.pl.intensity=lit?(night?1.1:.6):0});homeItems()}
+/* 輸入 */
+const ray=window.THREE?new THREE.Raycaster():null,mv=window.THREE?new THREE.Vector2():null;
+let downAt=null;
+$("#world").addEventListener("pointerdown",e=>{downAt=[e.clientX,e.clientY,performance.now()]});
+$("#world").addEventListener("pointerup",e=>{if(!downAt||!INPUT)return;const [x,y,t]=downAt;downAt=null;if(Math.hypot(e.clientX-x,e.clientY-y)>12||performance.now()-t>600)return;
+ mv.set(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1);ray.setFromCamera(mv,cam);
+ // 點到人：走過去
+ const meshes=[];Object.values(people).forEach(p=>p.traverse(m=>{if(m.isMesh){m.userData.owner=p.userData.id;meshes.push(m)}}));
+ const hp=ray.intersectObjects(meshes,false)[0];
+ if(hp){const id=hp.object.userData.owner,p=people[id];target={x:p.position.x,z:p.position.z+1.3,talk:id};hideHint();return}
+ const hit=ray.intersectObject(scene.getObjectByName("ground"))[0];if(hit){target={x:hit.point.x,z:hit.point.z};hideHint()}});
+addEventListener("keydown",e=>{keys[e.key]=true});addEventListener("keyup",e=>{keys[e.key]=false});
+function hideHint(){$("#hint").style.opacity=0}
+/* 碰撞 */
+function blocked(x,z,self){if(x<-34||x>34||z<-12||z>16)return true;for(const c of colliders){if(c.b){if(x>c.b[0]-.35&&x<c.b[2]+.35&&z>c.b[1]-.35&&z<c.b[3]+.35)return true}else if(Math.hypot(x-c.c[0],z-c.c[1])<c.r+.35)return true}
+ for(const [id,p] of Object.entries(people)){if(p!==self&&Math.hypot(x-p.position.x,z-p.position.z)<.6)return true}if(self&&self!==player&&Math.hypot(x-player.position.x,z-player.position.z)<.6)return true;return false}
+function step(o,dx,dz){const nx=o.position.x+dx,nz=o.position.z+dz;if(!blocked(nx,nz,o)){o.position.x=nx;o.position.z=nz;return true}
+ if(!blocked(nx,o.position.z,o)){o.position.x=nx;return true}if(!blocked(o.position.x,nz,o)){o.position.z=nz;return true}return false}
+function anim(p,moving,t){const u=p.userData.parts;if(!u||u.chair)return;const a=moving?Math.sin(t*10)*.6:0;u.legL.rotation.x=a;u.legR.rotation.x=-a;u.armL.rotation.x=-a*.8;u.armR.rotation.x=a*.8}
+function say(id,text){const p=people[id];if(p.userData.say){p.userData.say.e.remove();labels.splice(labels.indexOf(p.userData.say),1)}const l=label(text,"say",p,2.7);p.userData.say=l;clearTimeout(p.userData.st);p.userData.st=setTimeout(()=>{l.e.remove();labels.splice(labels.indexOf(l),1);p.userData.say=null},3200)}
+const v3=window.THREE?new THREE.Vector3():null;let stuck=0;
+function loop(){requestAnimationFrame(loop);const dt=Math.min(.05,clock.getDelta()),t=clock.elapsedTime;
+ // 玩家移動
+ let dx=0,dz=0;if(INPUT){if(keys.ArrowLeft||keys.a)dx-=1;if(keys.ArrowRight||keys.d)dx+=1;if(keys.ArrowUp||keys.w)dz-=1;if(keys.ArrowDown||keys.s)dz+=1}
+ if(dx||dz){target=null}else if(target&&INPUT){const ex=target.x-player.position.x,ez=target.z-player.position.z,d=Math.hypot(ex,ez);
+  if(d<.25||(target.talk&&Math.hypot(people[target.talk].position.x-player.position.x,people[target.talk].position.z-player.position.z)<1.6)){const tk=target.talk;target=null;if(tk)arrive(tk)}else{dx=ex/d;dz=ez/d}}
+ const moving=!!(dx||dz);if(moving){const l=Math.hypot(dx,dz),sp=5.2*dt;if(!step(player,dx/l*sp,dz/l*sp)){if(++stuck>20){target=null;stuck=0}}else stuck=0;player.rotation.y=Math.atan2(dx,dz)}
+ anim(player,moving,t);
+ // 路人閒逛
+ for(const [id,n] of Object.entries(NP)){if(!n.wander)continue;const p=people[id],u=p.userData;
+  if(!u.goal||Math.hypot(u.goal[0]-p.position.x,u.goal[1]-p.position.z)<.3||u.wait>0){if(!u.goal||Math.hypot(u.goal[0]-p.position.x,u.goal[1]-p.position.z)<.3){u.wait=(u.wait||0)>0?u.wait-dt:2+Math.random()*3;if(u.wait<=0||!u.goal)u.goal=[n.wander[0]+Math.random()*(n.wander[1]-n.wander[0]),n.wander[2]+Math.random()*(n.wander[3]-n.wander[2])];anim(p,false,t);continue}}
+  const ex=u.goal[0]-p.position.x,ez=u.goal[1]-p.position.z,d=Math.hypot(ex,ez),sp=(id==="jogger"?3.2:1.6)*dt;
+  if(!step(p,ex/d*sp,ez/d*sp))u.goal=null;else{p.rotation.y=Math.atan2(ex,ez);anim(p,true,t*(id==="jogger"?1.5:1))}}
+ // 鏡頭
+ const off=innerWidth<innerHeight?[0,19,21]:[0,14,16];v3.set(player.position.x+off[0],off[1],player.position.z+off[2]);cam.position.lerp(v3,.08);cam.lookAt(player.position.x,0,player.position.z-2.5);
+ sun.position.set(player.position.x-12,24,player.position.z+14);sun.target.position.set(player.position.x,0,player.position.z);
+ // 任務標記
+ let near=false;
+ for(const [id,p] of Object.entries(people)){const act=TASK&&TASK.npc===id&&S.phase!=="title";p.userData.bang.show=!!act;
+  if(act){ring.position.x=p.position.x;ring.position.z=p.position.z;ring.scale.setScalar(1+Math.sin(t*4)*.12);ring.visible=true;
+   if(INPUT&&Math.hypot(p.position.x-player.position.x,p.position.z-player.position.z)<2.4)near=true}}
+ if(!TASK||S.phase==="title")ring.visible=false;
+ const act=$("#act");if(near&&INPUT){act.textContent=TASK.rest?"🏠 "+U.restT:"💬 "+fmt(U.talkTo,{n:NP[TASK.npc].name});act.style.display="block"}else if(INPUT)act.style.display="none";
+ R.render(scene,cam);
+ // HTML 標籤位置
+ for(const l of labels){if(!l.show){l.e.style.display="none";continue}l.obj.getWorldPosition(v3);v3.y+=l.dy;v3.project(cam);
+  if(v3.z>1||v3.x<-1.2||v3.x>1.2||v3.y<-1.2||v3.y>1.2){l.e.style.display="none";continue}l.e.style.display="";l.e.style.left=((v3.x+1)/2*innerWidth)+"px";l.e.style.top=((1-v3.y)/2*innerHeight)+"px"}
+ // 畫面外指示箭頭
+ const ar=$("#arrow");if(TASK&&INPUT&&S.phase!=="title"){const p=people[TASK.npc];p.getWorldPosition(v3);v3.y+=1;v3.project(cam);const sx=(v3.x+1)/2*innerWidth,sy=(1-v3.y)/2*innerHeight;
+  const m=60,top=170;if(v3.z>1||sx<m||sx>innerWidth-m||sy<top||sy>innerHeight-m){const cx=innerWidth/2,cy=innerHeight/2;let ax=sx-cx,ay=sy-cy;if(v3.z>1){ax=-ax;ay=-ay}const k=Math.min((innerWidth/2-m)/Math.abs(ax||1e-6),(innerHeight/2-m-40)/Math.abs(ay||1e-6));
+   ar.style.display="grid";ar.style.left=(cx+ax*k)+"px";ar.style.top=Math.max(top,cy+ay*k)+"px";ar.querySelector("i").style.transform=`rotate(${Math.atan2(ay,ax)+Math.PI/2}rad)`;ar.querySelector("b").textContent=TASK.rest?L.home.label:L[TASK.loc].label}else ar.style.display="none"}else ar.style.display="none";
+}
+function arrive(id){const n=NP[id],p=people[id];p.rotation.y=Math.atan2(player.position.x-p.position.x,player.position.z-p.position.z);player.rotation.y=Math.atan2(p.position.x-player.position.x,p.position.z-player.position.z);
+ if(TASK&&TASK.npc===id){interact();return}
+ say(id,n.idle[Math.floor(Math.random()*n.idle.length)])}
+$("#act").onclick=()=>interact();
+$("#hint").textContent=U.walkHint;
+if(R){build();INPUT=false;loop();titleScreen()}
+</script>
+</body>
+</html>
